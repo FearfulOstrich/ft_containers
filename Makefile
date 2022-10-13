@@ -14,7 +14,7 @@ FLAGS	=	-Wall -Wextra -Werror -std=c++98 -g3
 
 ## Sources
 
-SRCDIR	=
+SRCDIR	=	src/
 
 SRCFILE	=	main_pair.cpp
 
