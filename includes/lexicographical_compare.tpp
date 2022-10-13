@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:12:36 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/13 12:31:48 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/10/13 14:09:55 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define LEXICOGRAPHICAL_COMPARE_TPP
 
 template< typename InputIt1, typename InputIt2 >
-	bool	lexicographical_compare( InputIt1 first1, InputIt1 last1,/
-									InputIt2 first2, InputIt2 last2 )
+bool	lexicographical_compare( InputIt1 first1, InputIt1 last1,\
+								InputIt2 first2, InputIt2 last2 )
 {
 	for ( ; ( first1 != last1 ) && ( first2 != last2 ); first1++, first2++ )
 	{
