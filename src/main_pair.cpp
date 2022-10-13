@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 19:04:25 by antoine           #+#    #+#             */
-/*   Updated: 2022/10/13 12:02:01 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/10/13 15:40:45 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 
 int main()
 {
+#if STL
+	std::cout << "Using STL" << std::endl;
+#else
+	std::cout << "Using ft" << std::endl;
+#endif
 	ft::pair<int, char>	p1(0, '0');
 	std::cout << "my pair: " << "(" << p1.first << ", " << p1.second <<\
 		 ")" << std::endl;
