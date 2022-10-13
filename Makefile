@@ -26,9 +26,13 @@ DEPS		=	$(wildcard $(INCL_DIR)*.*pp)
 
 ## Objects
 
-OBJDIR	=	obj/
+OBJDIR		=	obj/
 
-OBJ		=	$(addprefix $(OBJDIR), $(SRC:.cpp=.o))
+OBJ			=	$(subst $(SRCDIR), $(OBJDIR), $(SRC:.cpp=.o))
+
+OBJSTLDIR	=	obj_stl/
+
+OBJSTL		=	$(subst $(SRCDIR), $(OBJSTLDIR), $(SRC:.cpp=.o))
 
 #==============================================================================#
 #..............................................................................#
@@ -36,14 +40,21 @@ OBJ		=	$(addprefix $(OBJDIR), $(SRC:.cpp=.o))
 #..............................................................................#
 #==============================================================================#
 
-all			:	$(NAME)
+all			:	$(NAME) $(NAME)_STL
 
 $(NAME)		:	$(OBJ)
 				$(CC) $(OBJ) -o $(NAME)
 
 $(OBJDIR)%.o:	$(SRCDIR)%.cpp Makefile $(DEPS)
 				mkdir -p $(OBJDIR)
-				$(CC) $(FLAGS) -c $< -o $@ -D STL=1
+				$(CC) $(FLAGS) -c $< -o $@ -D STL=0 -I $(INCL_DIR)
+
+$(OBJSTLDIR)%.o:	$(SRCDIR)%.cpp Makefile $(DEPS)
+					mkdir -p $(OBJSTLDIR)
+					$(CC) $(FLAGS) -c $< -o $@ -D STL=1 -I $(INCL_DIR)
+
+$(NAME)_STL	:	$(OBJSTL)
+				$(CC) $(OBJSTL) -o $(NAME)_STL
 
 clean		:
 				rm -rf $(OBJ)
