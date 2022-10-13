@@ -16,7 +16,7 @@ FLAGS	=	-Wall -Wextra -Werror -std=c++98 -g3
 
 SRCDIR	=	src/
 
-SRCFILE	=	main_pair.cpp
+SRCFILE	=	main_equal.cpp
 
 SRC		=	$(addprefix $(SRCDIR), $(SRCFILE))
 
