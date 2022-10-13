@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:21:16 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/12 17:24:22 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/10/13 11:34:28 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 template< typename T1, typename T2 >
 pair< T1, T2 >::pair( void )
+	: first()
+	, second()
 {
 	return ;
 }
@@ -27,7 +29,8 @@ pair< T1, T2 >::pair( const T1& x, const T2& y )
 	return ;
 }
 
-template< typename T1, typename T2, typename U1, typename U2 >
+template< typename T1, typename T2 >
+template< typename U1, typename U2 >
 pair< T1, T2 >::pair( const pair< U1, U2 >& other )
 	: first( other.first )
 	, second( other.second )
