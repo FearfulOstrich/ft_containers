@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 11:55:14 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/17 17:28:03 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/10/18 13:00:24 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,17 @@ namespace ft
 	{
 	public:
 		// Typedefs
-		typedef Iter										iterator_type;
-		typedef iterator_traits< Iter >::iterator_category	iterator_category;
-		typedef iterator_traits< Iter >::value_type			value_type;
-		typedef iterator_traits< Iter >::difference_type	difference_type;
-		typedef iterator_traits< Iter >::pointer			pointer;
-		typedef iterator_traits< Iter >::reference			reference;
+		typedef Iter	iterator_type;
+		typedef typename iterator_traits< iterator_type >::\
+				iterator_category	iterator_category;
+		typedef typename iterator_traits< iterator_type >::\
+				value_type			value_type;
+		typedef typename iterator_traits< iterator_type >::\
+				difference_type		difference_type;
+		typedef typename iterator_traits< iterator_type >::\
+				pointer				pointer;
+		typedef typename iterator_traits< iterator_type >::\
+				reference			reference;
 	
 		//	Constructors
 		reverse_iterator( void );
@@ -42,11 +47,11 @@ namespace ft
 		iterator_type	base( void ) const;
 
 		//	Operator overloads
-		//		Reference operator
+		//		Reference & pointer operators
 		reference	operator*( void ) const;
 		pointer		operator->( void ) const;
 		//		Indexing operator
-					operator[]( difference_type n ) const;
+		reference	operator[]( difference_type n ) const;
 		//		Arithmetic operators
 		reverse_iterator&	operator++( void );
 		reverse_iterator&	operator--( void );
@@ -66,22 +71,22 @@ namespace ft
 	//		Comparison operators
 	template< typename Iterator1, typename Iterator2 >
 	bool	operator==( const reverse_iterator< Iterator1 >& lhs,\
-						const reverse_iterator< Iterrator2 >& rhs );
+						const reverse_iterator< Iterator2 >& rhs );
 	template< typename Iterator1, typename Iterator2 >
 	bool	operator!=( const reverse_iterator< Iterator1 >& lhs,\
-						const reverse_iterator< Iterrator2 >& rhs );
+						const reverse_iterator< Iterator2 >& rhs );
 	template< typename Iterator1, typename Iterator2 >
 	bool	operator<( const reverse_iterator< Iterator1 >& lhs,\
-						const reverse_iterator< Iterrator2 >& rhs );
+						const reverse_iterator< Iterator2 >& rhs );
 	template< typename Iterator1, typename Iterator2 >
 	bool	operator<=( const reverse_iterator< Iterator1 >& lhs,\
-						const reverse_iterator< Iterrator2 >& rhs );
+						const reverse_iterator< Iterator2 >& rhs );
 	template< typename Iterator1, typename Iterator2 >
 	bool	operator>( const reverse_iterator< Iterator1 >& lhs,\
-						const reverse_iterator< Iterrator2 >& rhs );
+						const reverse_iterator< Iterator2 >& rhs );
 	template< typename Iterator1, typename Iterator2 >
 	bool	operator>=( const reverse_iterator< Iterator1 >& lhs,\
-						const reverse_iterator< Iterrator2 >& rhs );	
+						const reverse_iterator< Iterator2 >& rhs );	
 	//		Arithmetic operators
 	template< typename Iter >
 	reverse_iterator< Iter >	operator+(\

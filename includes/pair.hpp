@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:13:16 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/17 14:00:07 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/10/19 10:02:21 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,32 @@ namespace ft
 		pair( const pair< U1, U2 >& other );
 		
 		// operator overloads
-		pair&	operator=( const pair& other );	
+		pair&	operator=( const pair& other );
 	};
 
+	//	Non-member functions
+	//		Create pair from instances
 	template< typename T1, typename T2 >
 	pair< T1, T2 > make_pair( T1 t, T2 u );
+
+	//		Comparison operators
+	template< typename T1, typename T2 >
+	bool	operator==( const pair< T1, T2 >& lhs, const pair< T1, T2 >& rhs );
+
+	template< typename T1, typename T2 >
+	bool	operator!=( const pair< T1, T2 >& lhs, const pair< T1, T2 >& rhs );
+
+	template< typename T1, typename T2 >
+	bool	operator<( const pair< T1, T2 >& lhs, const pair< T1, T2 >& rhs );
+
+	template< typename T1, typename T2 >
+	bool	operator<=( const pair< T1, T2 >& lhs, const pair< T1, T2 >& rhs );
+
+	template< typename T1, typename T2 >
+	bool	operator>( const pair< T1, T2 >& lhs, const pair< T1, T2 >& rhs );
+
+	template< typename T1, typename T2 >
+	bool	operator>=( const pair< T1, T2 >& lhs, const pair< T1, T2 >& rhs );
 
 	# include "pair.tpp"
 

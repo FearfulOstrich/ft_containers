@@ -6,16 +6,16 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 11:16:01 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/17 11:52:23 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/10/18 12:40:09 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ITERATOR_TRAITS_HPP
 # define ITERATOR_TRAITS_HPP
 
-# include < cstddef >
+# include <cstddef>
 
-typename ft
+namespace ft
 {
 
 	struct input_iterator_tag { };
@@ -28,12 +28,12 @@ typename ft
 	struct iterator_traits
 	{
 		// Typedefs
-		typedef T						Iter;
-		typedef Iter::difference_type	difference_type;
-		typedef Iter::value_type		value_type;
-		typedef Iter::pointer			pointer;
-		typedef Iter::reference			reference;
-		typedef Iter::iterator_category	iterator_category;
+		typedef T	Iter;
+		typedef typename Iter::difference_type		difference_type;
+		typedef typename Iter::value_type			value_type;
+		typedef typename Iter::pointer				pointer;
+		typedef typename Iter::reference			reference;
+		typedef typename Iter::iterator_category	iterator_category;
 	};
 
 	template< typename T >

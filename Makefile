@@ -10,13 +10,13 @@ NAME	=	containers
 
 CC		=	c++
 
-FLAGS	=	-Wall -Wextra -Werror -g3 #-std=c++98 -g3
+FLAGS	=	-Wall -Wextra -Werror -g3 -std=c++98 -g3
 
 ## Sources
 
 SRCDIR	=	src/
 
-SRCFILE	=	main_is_integral.cpp
+SRCFILE	=	main_pair.cpp
 
 SRC		=	$(addprefix $(SRCDIR), $(SRCFILE))
 
@@ -42,12 +42,12 @@ OBJSTL		=	$(subst $(SRCDIR), $(OBJSTLDIR), $(SRC:.cpp=.o))
 
 all			:	$(NAME) $(NAME)_STL
 
-$(NAME)		:	$(OBJ)
-				$(CC) $(OBJ) -o $(NAME)
-
 $(OBJDIR)%.o:	$(SRCDIR)%.cpp Makefile $(DEPS)
 				mkdir -p $(OBJDIR)
 				$(CC) $(FLAGS) -c $< -o $@ -D STL=0 -I $(INCL_DIR)
+
+$(NAME)		:	$(OBJ)
+				$(CC) $(OBJ) -o $(NAME)
 
 $(OBJSTLDIR)%.o:	$(SRCDIR)%.cpp Makefile $(DEPS)
 					mkdir -p $(OBJSTLDIR)
