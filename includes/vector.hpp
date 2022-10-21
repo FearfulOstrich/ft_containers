@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/19 15:47:35 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/10/20 11:26:20 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,20 @@ namespace ft
 		//		4. insert elements from iterator.
 		template< class InputIt >
 		iterator	insert( const_iterator pos, InputIt first, InputIt last );
-		
+		//		1. Erase element at pos.
+		iterator	erase( iterator pos );
+		//		2. Erase elements from range.
+		iterator	erase( iterator first, iterator last );
+		//		1. Append element to end of container.
+		void	push_back( const T& value );
+		//		1. Remove last element.
+		void	pop_back( void );
+		//		1. Resize and if needed fill with default.
+		void	resize( size_type count );
+		//		2. Resize and if needed fill with value.
+		void	resize( size_type count, const value_type& value );
+		//		1. Exchange content of both containers.
+		void	swap( vector& other );
 	};
 }
 
