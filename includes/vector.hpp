@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/20 11:26:20 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/10/21 16:51:39 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ namespace ft
 	template< typename T >
 	class vector
 	{
+	
+	public:
 		//	Typedefs
 		typedef T										value_type;
 		typedef std::allocator< T >						allocator_type;
@@ -38,6 +40,16 @@ namespace ft
 		typedef typename ft::\
 					reverse_iterator< const_iterator >	const_reverse_iterator;
 
+	private:
+		pointer			_array; // underlying table of elements.
+		size_type		_size; // Number of elements in the table.
+		size_type		_capacity; // Capacity of the table (allocated mem).
+		allocator_type	_allocator; // Allocator to allocate memory.
+
+		// Find next capacity cap
+		size_t	_next_capacity( void );
+		
+	public:
 		//	Constructors
 		//		1. default empty constructor.
 		vector( void );
@@ -45,8 +57,8 @@ namespace ft
 		vector( const allocator_type& alloc );
 		//		3. Construct with count value.
 		vector(	size_type count,
-				const T& value = T( ),
-				typename const allocator_type& alloc = allocator_type( ) );
+				const_reference value = T( ),
+				typename const allocator_type& alloc = std::allocator< T >( ) );
 		//		5. Construct from content of range.
 		template< class InputIt >
 		vector( InputIt first, InputIt last, const allocator_type& alloc );
@@ -56,8 +68,8 @@ namespace ft
 		//	Destructor
 		virtual ~vector( void );
 
-		//	Assignation operators
-		//		operator =
+		//	Assignation functions
+		//		assignation operator =
 		vector&	operator=( const vector& other );
 		//		1. assign count elements by value
 		void	assign( size_type count, const T& value );
@@ -86,19 +98,19 @@ namespace ft
 		//		2. Access back element const.
 		const_reference	back( ) const;
 		//		1. Access non-const underlying object.
-		T*			data( void );
+		T*				data( void );
 		//		2. Access const underlying object.
-		const T*	data( void ) const;
+		const T*		data( void ) const;
 
 		//	Iterator functions.
 		//		1. Iterator begin element.
-		iterator		begin( void );
+		iterator				begin( void );
 		//		2. const iterator begin element.
-		const_iterator	begin( void ) const;
+		const_iterator			begin( void ) const;
 		//		1. Iterator end element.
-		iterator		end( void );
+		iterator				end( void );
 		//		2. const iterator end element.
-		const_iterator	end( void ) const;
+		const_iterator			end( void ) const;
 		//		1. Reverse iterator begin element.
 		reverse_iterator		rbegin( void );
 		//		2. const reverse iterator begin element.
@@ -146,6 +158,9 @@ namespace ft
 		//		1. Exchange content of both containers.
 		void	swap( vector& other );
 	};
+
+	# include "vector.tpp"
+
 }
 
 #endif
