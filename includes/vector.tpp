@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.tpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:59:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/21 16:50:52 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/10/25 22:15:57 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ Set _size and _capacity to 0.
 */
 template< typename T >
 vector< T >::vector( void )
-	: _array( NULL )
-	, _size( 0 )
+	: _allocator( std::allocator< T >() )
 	, _capacity( 0 )
-	, _allocator( std::allocator< T >() )
+	, _size( 0 )
+	, _array( NULL )
 {
 	return ;
 }
@@ -47,10 +47,10 @@ Set _size and _capacity to 0.
 */
 template< typename T >
 vector< T >::vector( const allocator_type& alloc )
-	: _array( NULL )
-	, _size( 0 )
+	: _allocator( alloc )
 	, _capacity( 0 )
-	, _allocator( alloc )
+	, _size( 0 )
+	, _array( NULL )
 {
 	return ;
 }
@@ -64,10 +64,10 @@ Set _capacity and _size to `count`
 template< typename T >
 vector< T >::vector(	typename vector< T >::size_type count,
 						typename vector< T >::const_reference value,
-						typename const allocator_type& alloc )
-	: _size( count )
-	, _capacity( _req_capacity( count ) )
-	, _allocator( alloc )
+						const allocator_type& alloc )
+	: _allocator( alloc )
+	, _capacity( count )
+	, _size( count )
 	, _array( _allocator.allocate( _capacity ) )
 {
 	this->assign( count, value );
@@ -83,9 +83,9 @@ Set _capacity and _size to `last - first` (ptrdiff_t -> size_t) !!!!!
 template< typename T >
 template< class InputIt >
 vector< T >::vector( InputIt first, InputIt last, const allocator_type& alloc )
-	: _size( last - first )
-	, _capacity( _req_capacity( _size ) )
-	, _allocator( alloc )
+	: _allocator( alloc )
+	, _capacity( _size )
+	, _size( last - first )
 	, _array( _allocator.allocate( _capacity ) )
 {
 	this->assign( first, last );
@@ -96,10 +96,10 @@ vector< T >::vector( InputIt first, InputIt last, const allocator_type& alloc )
 Copy constructor.
 */
 template< typename T >
-vector( const vector& other )
-	: _size( other._size )
+vector< T >::vector( const vector< T >& other )
+	: _allocator( other._allocator )
 	, _capacity( other._capacity )
-	, _allocator( other._allocator )
+	, _size( other._size )
 	, _array( _allocator.allocate( _capacity ) )
 {
 	return ;
@@ -115,7 +115,7 @@ Vector destructor.
 template< typename T >
 vector< T >::~vector( void )
 {
-	_allocator.deallocate( _array );
+	_allocator.deallocate( _array, _capacity );
 	return ;
 }
 
@@ -139,7 +139,7 @@ vector< T >&	vector< T >::operator=( const vector< T >& other )
 			_capacity = other._capacity;
 			this->reserve( _capacity );
 		}
-		this->assign( other.begin( ), other.end( ) )
+		this->assign( other.begin( ), other.end( ) );
 	}
 	return (*this);
 }
@@ -150,7 +150,7 @@ Assign `value` to `count` first elements of _array.
 If `count` > _capacity, increasse _capacity.
 */
 template< typename T >
-void	vectot< T >::assign( size_type count, const T& value )
+void	vector< T >::assign( size_type count, const T& value )
 {
 	_size = count;
 	if ( _capacity < count )
@@ -158,9 +158,68 @@ void	vectot< T >::assign( size_type count, const T& value )
 		_capacity = count;
 		this->reserve( _capacity );
 	}
-	for ( size_type i = 0, i < _size, i++ )
+	for ( size_type i = 0; i < _size; i++ )
 		_array[i] = value;
 	return ;
+}
+
+/*==============================================================================
+	Getter.
+==============================================================================*/
+
+template< typename T >
+typename vector< T >::allocator_type	vector< T >::get_allocator( void ) const
+{
+	return ( _allocator );
+}
+
+/*==============================================================================
+	Element access.
+==============================================================================*/
+
+template< typename T >
+typename vector< T >::reference		vector< T >::operator[]( size_type pos )
+{
+	return ( _array[pos] );
+}
+
+template< typename T >
+typename vector< T >::const_reference	vector< T >::operator[]( 
+													size_type pos ) const
+{
+	return ( _array[pos] );
+}
+
+/*==============================================================================
+	Capacity functions.
+==============================================================================*/
+
+template< typename T >
+typename vector< T >::size_type	vector< T >::size( void ) const
+{
+	return ( _size );
+}
+
+template< typename T >
+void	vector< T >::reserve( size_type new_cap )
+{
+	T*	tmp;
+	
+	if ( new_cap <= _capacity )
+		return ;
+	tmp = _allocator.allocate( new_cap );
+	for ( size_type i = 0; i < _size; i++)
+		tmp[i] = _array[i];
+	_allocator.deallocate( _array, _capacity );
+	_array = tmp;
+	_capacity = new_cap;
+	return ;
+}
+
+template< typename T >
+typename vector< T >::size_type	vector< T >::capacity( void ) const
+{
+	return ( _capacity );
 }
 
 /*==============================================================================
@@ -172,7 +231,7 @@ Get next capacity cap.
 Capacity increases in powers of 2.
 */
 template< typename T >
-vector< T >::size_type	vector< T >::_next_capacity( void )
+typename vector< T >::size_type	vector< T >::_next_capacity( void )
 {
 	return ( _capacity * 2 );
 }
@@ -182,7 +241,7 @@ Get minimum capacity to store `size` elements.
 Capacity increases in powers of 2.
 */
 template< typename T >
-vector< T >::size_type	vector< T >::_req_capacity( size_t size )
+typename vector< T >::size_type	vector< T >::_req_capacity( size_t size )
 {
 	size_t	capacity;
 	
