@@ -6,12 +6,14 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:59:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/25 22:15:57 by antoine          ###   ########.fr       */
+/*   Updated: 2022/10/27 17:28:15 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_TPP
 # define VECTOR_TPP
+
+# include <stdexcept>
 
 /*==============================================================================
 							*********************
@@ -178,6 +180,22 @@ typename vector< T >::allocator_type	vector< T >::get_allocator( void ) const
 ==============================================================================*/
 
 template< typename T >
+typename vector< T >::reference		vector< T >::at( size_type pos )
+{
+	if ( pos >= _size )
+		throw (std::out_of_range( "pos is out of range." ));
+	return ( _array[pos] );
+}
+
+template< typename T >
+typename vector< T >::const_reference	vector< T >::at( size_type pos ) const
+{
+	if ( pos >= _size )
+		throw (std::out_of_range( "pos is out of range." ));
+	return ( _array[pos] );
+}
+
+template< typename T >
 typename vector< T >::reference		vector< T >::operator[]( size_type pos )
 {
 	return ( _array[pos] );
@@ -188,6 +206,58 @@ typename vector< T >::const_reference	vector< T >::operator[](
 													size_type pos ) const
 {
 	return ( _array[pos] );
+}
+
+template< typename T >
+typename vector< T >::reference		vector< T >::front( void )
+{
+	return ( _array[0] );
+}
+
+template< typename T >
+typename vector< T >::const_reference	vector< T >::front( ) const
+{
+	return ( _array[0] );
+}
+
+template< typename T >
+typename vector< T >::reference		vector< T >::back( void )
+{
+	return ( _array[_size - 1] );
+}
+
+template< typename T >
+typename vector< T >::const_reference	vector< T >::back( ) const
+{
+	return ( _array[_size - 1] );
+}
+
+/*==============================================================================
+	Iterator functions.
+==============================================================================*/
+
+template< typename T >
+typename vector< T >::iterator	begin( void )
+{
+	return ( Iterator( &this->front() ) );
+}
+
+template< typename T >
+vector< T >::const_iterator	begin( void ) const
+{
+	return ( Iterator( &this->front() ) );
+}
+
+template< typename T >
+vector< T >::iterator	end( void )
+{
+	return ( Iterator( ( &this->back() ) + 1 ) );
+}
+
+template< typename T >
+vector< T >::const_iterator	end( void ) const
+{
+	return ( Iterator( ( &this->back() ) + 1 ) );
 }
 
 /*==============================================================================
@@ -249,6 +319,212 @@ typename vector< T >::size_type	vector< T >::_req_capacity( size_t size )
 	while ( capacity < size )
 		capacity *= 2;
 	return ( capacity );
+}
+
+/*==============================================================================
+							***********************
+							* ITERATOR FUNCTIONS. *
+							***********************
+==============================================================================*/
+
+/*==============================================================================
+	Constructors.
+==============================================================================*/
+
+// Default constructor with null element
+template< typename T >
+vector< T >::Iterator::Iterator( void )
+	: _elem( NULL )
+{
+	return ;
+}
+
+// Constructor from pointer to T
+template< typename T >
+vector< T >::Iterator::Iterator( typename pointer ptr )
+	: _elem( ptr )
+{
+	return ;
+}
+
+// Copy Constrcutor 
+template< typename T >
+vector< T >::Iterator::Iterator( const Iterator& other )
+{
+	*this = other;
+	return ;
+}
+
+/*==============================================================================
+	Destructor.
+==============================================================================*/
+
+// Destructor
+template< typename T >
+vector< T >::Iterator::~Iterator( void )
+{
+	return ;
+}
+
+/*==============================================================================
+	Assignment operator.
+==============================================================================*/
+
+template< typename T >
+vector< T >::Iterator&	vector< T >::Iterator::\
+	operator=( const Iterator& other )
+{
+	if ( this != &other )
+		_elem = other._elem;
+	return ( *this );
+}
+
+/*==============================================================================
+	Reference and pointer operator.
+==============================================================================*/
+
+template< typename T >
+const typename vector< T >::Iterator::reference	operator*( void ) const
+{
+	return ( *_elem );
+}
+
+template< typename T >
+typename vector< T >::Iterator::pointer	operator->( void ) const
+{
+	return ( _elem );
+}
+
+/*==============================================================================
+	Increment & decrement operators.
+==============================================================================*/
+
+template< typename T >
+vector< T >::Iterator&	vector< T >::Iterator::operator++( void )
+{
+	++_elem;
+	return ( *this );
+}
+
+template< typename T > 
+vector< T >::Iterator	vector< T >::Iterator::operator++( int )
+{
+	Iterator	tmp( *this );
+
+	++_elem;
+	return (tmp);
+}
+
+template< typename T >
+vector< T >::Iterator&	vector< T >::Iterator::operator--( void )
+{
+	--_elem;
+	return ( *this );
+}
+
+template< typename T > 
+vector< T >::Iterator	vector< T >::Iterator::operator--( int )
+{
+	Iterator	tmp( *this );
+
+	--_elem;
+	return (tmp);
+}
+
+/*==============================================================================
+	Comparison operators.
+==============================================================================*/
+
+template< typename T >
+bool	vector< T >::Iterator::operator==( const Iterator& other ) const
+{
+	return ( _elem == other._elem );
+}
+
+template< typename T >
+bool	vector< T >::Iterator::operator!=( const Iterator& other ) const
+{
+	return ( _elem != other._elem );
+}
+
+template< typename T >
+bool	vector< T >::Iterator::operator>( const Iterator& other ) const
+{
+	return ( _elem > other._elem );
+}
+
+template< typename T >
+bool	vector< T >::Iterator::operator>=( const Iterator& other ) const
+{
+	return ( _elem >= other._elem );
+}
+
+template< typename T >
+bool	vector< T >::Iterator::operator<( const Iterator& other ) const
+{
+	return ( _elem < other._elem );
+}
+
+template< typename T >
+bool	vector< T >::Iterator::operator<=( const Iterator& other ) const
+{
+	return ( _elem <= other._elem );
+}
+
+/*==============================================================================
+	Arithmetic operators.
+==============================================================================*/
+
+template< typename T >
+vector< T >::Iterator&	operator+=( const difference_type n )
+{
+	difference_type	m = n;
+	if ( m > 0 )
+		while ( m-- )
+			++_elem;
+	else
+		while ( m++ )
+			++_elem;
+	return ( *this );
+}
+
+template< typename T >
+vector< T >::Iterator&	operator-=( const difference_type n )
+{
+	return ( *this += -n );
+}
+
+template< typename T >
+vector< T >::Iterator&	operator+( const difference_type n ) const
+{
+	Iterator	tmp( *this );
+	
+	return ( tmp += n );
+}
+
+template< typename T >
+vector< T >::Iterator&	operator-( const difference_type n ) const
+{
+	Iterator	tmp( *this );
+	
+	return ( tmp -= n );
+}
+
+template< typename T >
+vector< T >::Iterator::difference_type	operator-( const Iterator& other ) const
+{
+	return ( _elem - other._elem );
+}
+
+/*==============================================================================
+	Subscript operators.
+==============================================================================*/
+
+template< typename T >
+const vector< T >::Iterator::reference	vector< T >::Iterator::\
+	operator[]( const difference_type n ) const
+{
+	return ( *( *this + n ) );
 }
 
 #endif

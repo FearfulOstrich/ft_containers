@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:58:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/25 22:17:54 by antoine          ###   ########.fr       */
+/*   Updated: 2022/10/27 19:02:41 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,10 @@ int main()
 	std::cout << "Using ft" << std::endl;
 #endif
 	std::cout << "=========== TEST CONSTRUCTORS ================ " << std::endl;
-	constructors();
+	// constructors();
 	std::cout << "=============== TEST ASSIGN ================== " << std::endl;
-	assignment();
+	// assignment();
+	ft::vector< S >	one;
+	std::cout << "iterator: " <<  << std::endl;
 	return (0);
 }

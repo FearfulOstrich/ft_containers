@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/25 22:04:15 by antoine          ###   ########.fr       */
+/*   Updated: 2022/10/28 00:26:06 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <cstddef>
 # include <memory>
+# include "iterator_traits.hpp"
 # include "reverse_iterator.hpp"
 
 namespace ft
@@ -33,8 +34,8 @@ namespace ft
 		typedef const T&								const_reference;
 		typedef typename allocator_type::pointer		pointer;
 		typedef const typename allocator_type::pointer	const_pointer;
-		typedef value_type								iterator;
-		typedef const value_type						const_iterator;
+		typedef Iterator								iterator;
+		typedef Iterator								const_iterator;
 		typedef typename ft::\
 					reverse_iterator< iterator >		reverse_iterator;
 		typedef typename ft::\
@@ -81,37 +82,37 @@ namespace ft
 		//	Getter for allocator.
 		allocator_type	get_allocator( void ) const;
 
-		// //	Element access.
-		// //		1. at operator non-const.
-		// reference		at( size_type pos );
-		// //		2. at operator const.
-		// const_reference	at( size_type pos ) const;
+		//	Element access.
+		//		1. at operator non-const.
+		reference		at( size_type pos );
+		//		2. at operator const.
+		const_reference	at( size_type pos ) const;
 		//		1. Access operator [] non-const.
 		reference		operator[]( size_type pos );
 		//		2. Access operator [] const.
 		const_reference	operator[]( size_type pos ) const;
-		// //		1. Access front element.
-		// reference		front( );
-		// //		2. Access front element const.
-		// const_reference	front( ) const;
-		// //		1. Access back element.
-		// reference		back( );
-		// //		2. Access back element const.
-		// const_reference	back( ) const;
+		//		1. Access front element.
+		reference		front( );
+		//		2. Access front element const.
+		const_reference	front( ) const;
+		//		1. Access back element.
+		reference		back( );
+		//		2. Access back element const.
+		const_reference	back( ) const;
 		// //		1. Access non-const underlying object.
 		// T*				data( void );
 		// //		2. Access const underlying object.
 		// const T*		data( void ) const;
 
-		// //	Iterator functions.
-		// //		1. Iterator begin element.
-		// iterator				begin( void );
-		// //		2. const iterator begin element.
-		// const_iterator			begin( void ) const;
-		// //		1. Iterator end element.
-		// iterator				end( void );
-		// //		2. const iterator end element.
-		// const_iterator			end( void ) const;
+		//	Iterator functions.
+		//		1. Iterator begin element.
+		iterator				begin( void );
+		//		2. const iterator begin element.
+		const_iterator			begin( void ) const;
+		//		1. Iterator end element.
+		iterator				end( void );
+		//		2. const iterator end element.
+		const_iterator			end( void ) const;
 		// //		1. Reverse iterator begin element.
 		// reverse_iterator		rbegin( void );
 		// //		2. const reverse iterator begin element.
@@ -158,6 +159,10 @@ namespace ft
 		// void	resize( size_type count, const value_type& value );
 		// //		1. Exchange content of both containers.
 		// void	swap( vector& other );
+		
+		// Container iterator
+		
+
 	};
 
 	# include "vector.tpp"
