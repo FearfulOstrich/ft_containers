@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/28 00:26:06 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/02 11:58:09 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <cstddef>
 # include <memory>
 # include "iterator_traits.hpp"
+# include "vector_iterator.hpp"
 # include "reverse_iterator.hpp"
 
 namespace ft
@@ -34,8 +35,8 @@ namespace ft
 		typedef const T&								const_reference;
 		typedef typename allocator_type::pointer		pointer;
 		typedef const typename allocator_type::pointer	const_pointer;
-		typedef Iterator								iterator;
-		typedef Iterator								const_iterator;
+		typedef ft::Iterator< T >						iterator;
+		typedef const ft::Iterator< T >					const_iterator;
 		typedef typename ft::\
 					reverse_iterator< iterator >		reverse_iterator;
 		typedef typename ft::\
@@ -99,10 +100,10 @@ namespace ft
 		reference		back( );
 		//		2. Access back element const.
 		const_reference	back( ) const;
-		// //		1. Access non-const underlying object.
-		// T*				data( void );
-		// //		2. Access const underlying object.
-		// const T*		data( void ) const;
+		//		1. Access non-const underlying object.
+		T*				data( void );
+		//		2. Access const underlying object.
+		const T*		data( void ) const;
 
 		//	Iterator functions.
 		//		1. Iterator begin element.
@@ -113,19 +114,19 @@ namespace ft
 		iterator				end( void );
 		//		2. const iterator end element.
 		const_iterator			end( void ) const;
-		// //		1. Reverse iterator begin element.
-		// reverse_iterator		rbegin( void );
-		// //		2. const reverse iterator begin element.
-		// const_reverse_iterator	rbegin( void ) const;
-		// //		1. Reverse iterator end element.
-		// reverse_iterator		rend( void );
-		// //		2. const reverse iterator end element.
-		// const_reverse_iterator	rend( void ) const;
-
-		//	Capacity functions.
+		/*//		1. Reverse iterator begin element.
+		reverse_iterator		rbegin( void );
+		//		2. const reverse iterator begin element.
+		const_reverse_iterator	rbegin( void ) const;
+		//		1. Reverse iterator end element.
+		reverse_iterator		rend( void );
+		//		2. const reverse iterator end element.
+		const_reverse_iterator	rend( void ) const;
+*/
+/*		//	Capacity functions.
 		// //		empty check function.
 		// bool		empty( void ) const;
-		//		Check size function.
+*/		//		Check size function.
 		size_type	size( void ) const;
 		// //		Check max size function.
 		// size_type	max_size( void ) const;
@@ -134,7 +135,7 @@ namespace ft
 		//		Check capacity function.
 		size_type	capacity( void ) const;
 
-		// //	Container modifiers.
+/*		// //	Container modifiers.
 		// //		clear function.
 		// void	clear( void );
 		// //		1. insert element from pos.
@@ -159,9 +160,7 @@ namespace ft
 		// void	resize( size_type count, const value_type& value );
 		// //		1. Exchange content of both containers.
 		// void	swap( vector& other );
-		
-		// Container iterator
-		
+*/		
 
 	};
 

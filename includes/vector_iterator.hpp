@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_iterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:33:09 by antoine           #+#    #+#             */
-/*   Updated: 2022/10/27 20:35:09 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/02 12:00:09 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ namespace ft
 		Iterator&	operator-( const difference_type n ) const;
 		difference_type	operator-( const Iterator& other ) const;
 		//		reference operator
-		reference	operator[]( const difference_type n ) const;
+		reference		operator[]( const difference_type n);
+		// const reference	operator[]( const difference_type n ) const;
 	};
 
 	# include "vector_iterator.tpp"

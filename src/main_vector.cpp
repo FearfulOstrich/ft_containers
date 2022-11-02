@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main_vector.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:58:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/27 19:02:41 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/02 14:03:39 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <iostream>
 // # include "vector"
-// #if STL
+#if STL
 	#include <vector>
 	namespace ft = std;
-// #else
-	// #include "vector.hpp"
-// #endif
+#else
+	#include "vector.hpp"
+#endif
 
 class S
 {
@@ -127,7 +127,13 @@ int main()
 	// constructors();
 	std::cout << "=============== TEST ASSIGN ================== " << std::endl;
 	// assignment();
-	ft::vector< S >	one;
-	std::cout << "iterator: " <<  << std::endl;
+	ft::vector< S >	one( 2, S( 12, 46 ) );
+	ft::vector< S >::iterator	start( one.begin() );
+	ft::vector< S >::iterator	end( one.end() );
+	while ( start != end )
+	{
+		std::cout << *start << std::endl;
+		start++;
+	}
 	return (0);
 }
