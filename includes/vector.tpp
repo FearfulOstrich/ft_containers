@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:59:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/02 14:33:45 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/03 14:42:17 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,15 +133,18 @@ deallocates _array and reallocates necessary.
 template< typename T >
 vector< T >&	vector< T >::operator=( const vector< T >& other )
 {
+	size_type	i = 0;
+	
 	if (this != &other)
 	{
 		_size = other._size;
 		if ( _capacity < other._size )
+			this->reserve( other._capacity );
+		while ( i < _size )
 		{
-			_capacity = other._capacity;
-			this->reserve( _capacity );
+			this->_array[i] = other._array[i];
+			i++;
 		}
-		this->assign( other.begin( ), other.end( ) );
 	}
 	return ( *this );
 }
@@ -156,10 +159,7 @@ void	vector< T >::assign( size_type count, const T& value )
 {
 	_size = count;
 	if ( _capacity < count )
-	{
-		_capacity = count;
-		this->reserve( _capacity );
-	}
+		this->reserve( count );
 	for ( size_type i = 0; i < _size; i++ )
 		_array[i] = value;
 	return ;
@@ -168,11 +168,29 @@ void	vector< T >::assign( size_type count, const T& value )
 /*
 Assign values to vector.
 Assign from iterator `start`.
-Assign until `end` - 1.
+Assign until `last` - 1.
 If difference is greater than _capacity, increase _capacity.
 */
 template< typename T >
-void	vector< T >::assign( 
+template< typename InputIt >
+void	vector< T >::assign( InputIt first, InputIt last )
+{
+	InputIt		copy( first );
+	size_type	it_size = 0;
+
+	while ( copy != last )
+	{
+		it_size++;
+		copy++;
+	}
+	if ( _capacity < it_size )
+		this->reserve( it_size );
+	_size = it_size;
+	it_size = 0;
+	while ( first != last )
+		_array[it_size++] = *first++;
+	return ;
+}
 
 /*==============================================================================
 	Getter.
@@ -242,13 +260,13 @@ typename vector< T >::const_reference	vector< T >::back( ) const
 }
 
 template< typename T >
-T*	vector< T >::data( void )
+typename vector< T >::pointer	vector< T >::data( void )
 {
 	return ( _array );
 }
 
 template< typename T >
-const T*	vector< T >::data( void ) const
+typename vector< T >::const_pointer	vector< T >::data( void ) const
 {
 	return ( _array );
 }
@@ -280,6 +298,31 @@ typename vector< T >::const_iterator	vector< T >::end( void ) const
 {
 	return ( iterator( ( &this->back() ) + 1 ) );
 }
+
+template< typename T >
+typename vector< T >::reverse_iterator	vector< T >::begin( void )
+{
+	return ( iterator( &this->front() ) );
+}
+
+template< typename T >
+typename vector< T >::const_reverse_iterator	vector< T >::begin( void ) const
+{
+	return ( iterator( &this->front() ) );
+}
+
+template< typename T >
+typename vector< T >::iterator	vector< T >::end( void )
+{
+	return ( iterator( ( &this->back() ) + 1 ) );
+}
+
+template< typename T >
+typename vector< T >::const_iterator	vector< T >::end( void ) const
+{
+	return ( iterator( ( &this->back() ) + 1 ) );
+}
+
 
 /*==============================================================================
 	Capacity functions.

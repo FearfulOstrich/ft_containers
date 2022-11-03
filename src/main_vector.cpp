@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:58:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/02 14:03:39 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/03 13:59:52 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,46 @@ void	assignment( void )
 	std::cout << "second capacity: " << second.capacity() << std::endl;
 	std::cout << "second size: " << second.size() << std::endl;
 
-	// ft::vector< S >	third;
-	// third.assign( first.begin(), first.end() );
-	// std::cout << "third.assign( first.begin(), first.end() );" << std::endl;
-	// std::cout << "third capacity: " << third.capacity() << std::endl;
-	// std::cout << "third size: " << third.size() << std::endl;
+	ft::vector< S >	third;
+	third.assign( first.begin(), first.end() );
+	std::cout << "third.assign( first.begin(), first.end() );" << std::endl;
+	std::cout << "third capacity: " << third.capacity() << std::endl;
+	std::cout << "third size: " << third.size() << std::endl;
 
 	std::cout << "===============================================" << std::endl;
 	return ;
+}
+
+void	access( void )
+{
+	ft::vector< S >			first( 5, S( 42, 42 ));
+	const ft::vector< S >	second( 5, S( 56, 56 ) );
+
+	std::cout << "ft::vector< S >	first( 5, ( 42, 42 ));" << std::endl;
+	std::cout << "const ft::vector< S >	second( 5, ( 42, 42 ));" << std::endl;
+	for ( unsigned int i = 0; i < 5; i++ )
+		std::cout << "first.at(" << i << "): " << first.at( i ) << std::endl;
+	for ( unsigned int i = 0; i < 5; i++ )
+		std::cout << "second.at(" << i << "): " << second.at( i ) << std::endl;
+	std::cout << "first.at(0) = S( 56, 56 );" << std::endl;
+	first.at( 0 ) = S( 56, 56 );
+	std::cout << "first.front(): " << first.front() << std::endl;
+	std::cout << "second.front(): " << second.front() << std::endl;
+	std::cout << "first.back(): " << first.back() << std::endl;
+	std::cout << "second.back(): " << second.back() << std::endl;
+	std::cout << "first.data[1] = S( 56, 56 );" << std::endl;
+	first.data()[1] = S( 56, 56 );
+	std::cout << "first.data()[1]: " << first.data()[1] << std::endl;
+	std::cout << "second.data()[1]: " << second.data()[1] << std::endl;
+	std::cout << "===============================================" << std::endl;
+	return ;
+}
+
+void	iterator_functions( void )
+{
+	
+	std::cout << "===============================================" << std::endl;
+	return ( 0 );
 }
 
 int main()
@@ -124,16 +156,10 @@ int main()
 	std::cout << "Using ft" << std::endl;
 #endif
 	std::cout << "=========== TEST CONSTRUCTORS ================ " << std::endl;
-	// constructors();
+	constructors();
 	std::cout << "=============== TEST ASSIGN ================== " << std::endl;
-	// assignment();
-	ft::vector< S >	one( 2, S( 12, 46 ) );
-	ft::vector< S >::iterator	start( one.begin() );
-	ft::vector< S >::iterator	end( one.end() );
-	while ( start != end )
-	{
-		std::cout << *start << std::endl;
-		start++;
-	}
+	assignment();
+	std::cout << "=============== TEST ACCESS ================== " << std::endl;
+	access();
 	return (0);
 }

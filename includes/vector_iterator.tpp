@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:33:09 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/02 12:00:36 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/03 12:09:23 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,6 @@ const typename Iterator< T >::reference	Iterator< T >::\
 		operator[]( const difference_type n ) const
 {
 	return ( *( *this + n ) );
-}*/
-
+}
+*/
 #endif

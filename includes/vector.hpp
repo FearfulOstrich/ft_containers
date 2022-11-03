@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/02 11:58:09 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/03 14:00:01 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ namespace ft
 		//		2. Access back element const.
 		const_reference	back( ) const;
 		//		1. Access non-const underlying object.
-		T*				data( void );
+		pointer			data( void );
 		//		2. Access const underlying object.
-		const T*		data( void ) const;
+		const_pointer	data( void ) const;
 
 		//	Iterator functions.
 		//		1. Iterator begin element.
@@ -114,7 +114,7 @@ namespace ft
 		iterator				end( void );
 		//		2. const iterator end element.
 		const_iterator			end( void ) const;
-		/*//		1. Reverse iterator begin element.
+		//		1. Reverse iterator begin element.
 		reverse_iterator		rbegin( void );
 		//		2. const reverse iterator begin element.
 		const_reverse_iterator	rbegin( void ) const;
@@ -122,7 +122,7 @@ namespace ft
 		reverse_iterator		rend( void );
 		//		2. const reverse iterator end element.
 		const_reverse_iterator	rend( void ) const;
-*/
+
 /*		//	Capacity functions.
 		// //		empty check function.
 		// bool		empty( void ) const;
