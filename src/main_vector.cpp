@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:58:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/03 13:59:52 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/04 15:47:21 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,19 @@ void	access( void )
 
 void	iterator_functions( void )
 {
+	ft::vector< S >	first;
+	ft::vector< S >	second( 4, S( 42, 42 ) );
+	const ft::vector< S >	third( 4, S( 42, 42 ) );
+	
+	ft::vector< S >::iterator	it1( first.begin() );
+	ft::vector< S >::iterator	ite1( first.end() );
+	ft::vector< S >::iterator	it2( second.begin() );
+	ft::vector< S >::iterator	ite2( second.end() );
+	ft::vector< S >::iterator	it3( third.begin() );
+	ft::vector< S >::iterator	ite3( third.end() );
 	
 	std::cout << "===============================================" << std::endl;
-	return ( 0 );
+	return ;
 }
 
 int main()
@@ -161,5 +171,7 @@ int main()
 	assignment();
 	std::cout << "=============== TEST ACCESS ================== " << std::endl;
 	access();
+	std::cout << "============== TEST ITERATOR ================= " << std::endl;
+	iterator_functions();
 	return (0);
 }

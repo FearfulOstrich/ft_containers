@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:59:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/03 14:42:17 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/04 10:20:02 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,52 +275,76 @@ typename vector< T >::const_pointer	vector< T >::data( void ) const
 	Iterator functions.
 ==============================================================================*/
 
+/*
+Begin
+*/
 template< typename T >
 typename vector< T >::iterator	vector< T >::begin( void )
 {
 	return ( iterator( &this->front() ) );
 }
 
+/*
+Const begin
+*/
 template< typename T >
 typename vector< T >::const_iterator	vector< T >::begin( void ) const
 {
-	return ( iterator( &this->front() ) );
+	return ( const_iterator( &this->front() ) );
 }
 
+/*
+End
+*/
 template< typename T >
 typename vector< T >::iterator	vector< T >::end( void )
 {
 	return ( iterator( ( &this->back() ) + 1 ) );
 }
 
+/*
+Const end
+*/
 template< typename T >
 typename vector< T >::const_iterator	vector< T >::end( void ) const
 {
-	return ( iterator( ( &this->back() ) + 1 ) );
+	return ( const_iterator( ( &this->back() ) + 1 ) );
 }
 
+/*
+Reverse begin
+*/
 template< typename T >
-typename vector< T >::reverse_iterator	vector< T >::begin( void )
+typename vector< T >::reverse_iterator	vector< T >::rbegin( void )
 {
-	return ( iterator( &this->front() ) );
+	return ( reverse_iterator( this->end() ) );
 }
 
+/*
+Reverse const begin
+*/
 template< typename T >
-typename vector< T >::const_reverse_iterator	vector< T >::begin( void ) const
+typename vector< T >::const_reverse_iterator	vector< T >::rbegin( void ) const
 {
-	return ( iterator( &this->front() ) );
+	return ( reverse_iterator( this->end() ) );
 }
 
+/*
+Reverse end
+*/
 template< typename T >
-typename vector< T >::iterator	vector< T >::end( void )
+typename vector< T >::reverse_iterator	vector< T >::rend( void )
 {
-	return ( iterator( ( &this->back() ) + 1 ) );
+	return ( reverse_iterator( this->begin() ) );
 }
 
+/*
+Reverse const end
+*/
 template< typename T >
-typename vector< T >::const_iterator	vector< T >::end( void ) const
+typename vector< T >::const_reverse_iterator	vector< T >::rend( void ) const
 {
-	return ( iterator( ( &this->back() ) + 1 ) );
+	return ( reverse_iterator( this->begin() ) );
 }
 
 

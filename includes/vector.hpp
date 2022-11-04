@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/03 14:00:01 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/04 16:42:51 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ namespace ft
 		typedef const T&								const_reference;
 		typedef typename allocator_type::pointer		pointer;
 		typedef const typename allocator_type::pointer	const_pointer;
-		typedef ft::Iterator< T >						iterator;
-		typedef const ft::Iterator< T >					const_iterator;
+		typedef ft::Iterator< T, false >				iterator;
+		typedef ft::Iterator< T, true >					const_iterator;
 		typedef typename ft::\
 					reverse_iterator< iterator >		reverse_iterator;
 		typedef typename ft::\
