@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:33:09 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/04 17:09:33 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/08 13:54:19 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,27 +43,17 @@ namespace ft
 		Iterator&	operator=( const Iterator& other );
 		//	Operators
 		//		deref and ref operators
-		typename ft::
-		enable_if< !Const, reference >::type		operator*( void );
-		typename ft::
-		enable_if< Const, const reference >::type	operator*( void ) const;
+		typename ft::choose< !Const, reference, const reference >::
+			type	operator*( void );
 		// const reference	operator*( void ) const;
-		typename ft::
-		enable_if< !Const, pointer >::type			operator->( void );
-		typename ft::
-		enable_if< Const, const pointer >::type		operator->( void ) const;
+		pointer	operator->( void );
 		//		Increment & Decrement
 		Iterator&	operator++( void );
 		Iterator	operator++( int );
 		Iterator&	operator--( void );
 		Iterator	operator--( int );
-		//		Comparison
-		bool	operator==( const Iterator& other ) const;
-		bool	operator!=( const Iterator& other ) const;
-		bool	operator>( const Iterator& other ) const;
-		bool	operator>=( const Iterator& other ) const;
-		bool	operator<( const Iterator& other ) const;
-		bool	operator<=( const Iterator& other ) const;
+		//		Conversion Operator
+					operator Iterator< T, true >( void ) const;
 		//		Arithmetic operators
 		Iterator&	operator+=( const difference_type n );
 		Iterator&	operator-=( const difference_type n );
@@ -71,12 +61,23 @@ namespace ft
 		Iterator&	operator-( const difference_type n ) const;
 		difference_type	operator-( const Iterator& other ) const;
 		//		reference operator
-		typename ft::enable_if< !Const, reference >::type
+		typename ft::choose< !Const, reference, const reference >::type
 				operator[]( const difference_type n);
-		typename ft::enable_if< Const, const reference >::type
-				operator[]( const difference_type n ) const;
 	};
 
+	template< typename T, bool Const >
+	bool	operator==( const Iterator< T, Const >& it1, const Iterator< T, Const >& it2 );
+	template< typename T, bool Const >
+	bool	operator!=( const Iterator< T, Const >& it1, const Iterator< T, Const >& it2 );
+	template< typename T, bool Const >
+	bool	operator>( const Iterator< T, Const >& it1, const Iterator< T, Const >& it2 );
+	template< typename T, bool Const >
+	bool	operator>=( const Iterator< T, Const >& it1, const Iterator< T, Const >& it2 );
+	template< typename T, bool Const >
+	bool	operator<( const Iterator< T, Const >& it1, const Iterator< T, Const >& it2 );
+	template< typename T, bool Const >
+	bool	operator<=( const Iterator< T, Const >& it1, const Iterator< T, Const >& it2 );
+	
 	# include "vector_iterator.tpp"
 
 }
