@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/12 09:00:33 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/14 15:10:05 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,18 @@ namespace ft
 	
 	public:
 		//	Typedefs
-		typedef T										value_type;
-		typedef Alloc									allocator_type;
-		typedef typename Alloc::size_type				size_type;
-		typedef typename Alloc::difference_type			difference_type;
-		typedef T&										reference;
-		typedef const T&								const_reference;
-		typedef typename Alloc::pointer					pointer;
-		typedef const typename Alloc::pointer			const_pointer;
-		typedef ft::Iterator< T, false >				iterator;
-		typedef   ft::Iterator< T, true >					const_iterator;
-		typedef typename ft::\
-					reverse_iterator< iterator >		reverse_iterator;
-		typedef typename ft::\
-					reverse_iterator< const_iterator >	const_reverse_iterator;
+		typedef T												value_type;
+		typedef Alloc											allocator_type;
+		typedef typename Alloc::size_type						size_type;
+		typedef typename Alloc::difference_type					difference_type;
+		typedef T&												reference;
+		typedef const T&										const_reference;
+		typedef typename Alloc::pointer							pointer;
+		typedef const typename Alloc::pointer					const_pointer;
+		typedef ft::Iterator< T >								iterator;
+		typedef ft::Iterator< const T >							const_iterator;
+		typedef typename ft::reverse_iterator< iterator >		reverse_iterator;
+		typedef typename ft::reverse_iterator< const_iterator >	const_reverse_iterator;
 
 	private:
 		allocator_type	_allocator; // Allocator to allocate memory.
@@ -53,10 +51,7 @@ namespace ft
 		pointer			_array; // underlying table of elements.
 
 		// Realloc memory and copy _array.
-		pointer	_array_copy( size_type new_cap = _capacity ) const;
-		// Find next capacity cap
-		// size_type	_next_capacity( void );
-		// size_type	_req_capacity( size_t size );
+		pointer	_array_copy( size_type new_cap );;
 		
 	public:
 		//	Constructors
@@ -83,9 +78,8 @@ namespace ft
 		//		1. assign count elements by value
 		void	assign( size_type count, const T& value );
 		//		2. assign from iterator
-		template< typename InputIt, typename allow = ft::enable_if< ft::is_integral< InputIt > >, InputIt >::type >
+		template< typename InputIt, typename ft::enable_if< ft::is_integral< InputIt >::value, InputIt >::type >
 		void	assign( InputIt first, InputIt last );
-		
 		template< typename InputIt >
 		void	assign( InputIt first, InputIt last );
 		
@@ -114,23 +108,23 @@ namespace ft
 		//		2. Access const underlying object.
 		const_pointer	data( void ) const;
 
-		// //	Iterator functions.
-		// //		1. Iterator begin element.
-		// iterator				begin( void );
-		// //		2. const iterator begin element.
-		// const_iterator			begin( void ) const;
-		// //		1. Iterator end element.
-		// iterator				end( void );
-		// //		2. const iterator end element.
-		// const_iterator			end( void ) const;
-		// //		1. Reverse iterator begin element.
-		// reverse_iterator		rbegin( void );
-		// //		2. const reverse iterator begin element.
-		// const_reverse_iterator	rbegin( void ) const;
-		// //		1. Reverse iterator end element.
-		// reverse_iterator		rend( void );
-		// //		2. const reverse iterator end element.
-		// const_reverse_iterator	rend( void ) const;
+		//	Iterator functions.
+		//		1. Iterator begin element.
+		iterator				begin( void );
+		//		2. const iterator begin element.
+		const_iterator			begin( void ) const;
+		//		1. Iterator end element.
+		iterator				end( void );
+		//		2. const iterator end element.
+		const_iterator			end( void ) const;
+		//		1. Reverse iterator begin element.
+		reverse_iterator		rbegin( void );
+		//		2. const reverse iterator begin element.
+		const_reverse_iterator	rbegin( void ) const;
+		//		1. Reverse iterator end element.
+		reverse_iterator		rend( void );
+		//		2. const reverse iterator end element.
+		const_reverse_iterator	rend( void ) const;
 
 		//	Capacity functions.
 		//		empty check function.

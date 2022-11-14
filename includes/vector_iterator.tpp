@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:33:09 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/08 12:07:30 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/14 15:35:10 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,22 @@
 	Constructors.
 ==============================================================================*/
 
-template< typename T, bool Const >
-Iterator< T , Const >::Iterator( void )
+template< typename T >
+Iterator< T >::Iterator( void )
 	: _elem( NULL )
 {
 	return ;
 }
 
-template< typename T, bool Const >
-Iterator< T , Const >::Iterator( pointer ptr )
+template< typename T >
+Iterator< T >::Iterator( pointer ptr )
 	: _elem( ptr )
 {
 	return ;
 }
 
-template< typename T, bool Const >
-Iterator< T , Const >::Iterator( const Iterator< T , Const >& other )
+template< typename T >
+Iterator< T >::Iterator( const Iterator< T >& other )
 {
 	*this = other;
 	return ;
@@ -48,8 +48,8 @@ Iterator< T , Const >::Iterator( const Iterator< T , Const >& other )
 	Destructor.
 ==============================================================================*/
 
-template< typename T, bool Const >
-Iterator< T , Const >::~Iterator( void )
+template< typename T >
+Iterator< T >::~Iterator( void )
 {
 	return ;
 }
@@ -58,9 +58,18 @@ Iterator< T , Const >::~Iterator( void )
 	Assignation functions.
 ==============================================================================*/
 
-template< typename T, bool Const >
-Iterator< T , Const >&	Iterator< T , Const >::
-	operator=( const Iterator< T , Const >& other )
+template< typename T >
+const typename Iterator< T >::pointer	Iterator< T >::base( void ) const
+{
+	return ( _elem );
+}
+
+/*==============================================================================
+	Assignation functions.
+==============================================================================*/
+
+template< typename T >
+Iterator< T >&	Iterator< T >::operator=( const Iterator< T >& other )
 {
 	if ( this != &other )
 	{
@@ -74,65 +83,49 @@ Iterator< T , Const >&	Iterator< T , Const >::
 ==============================================================================*/
 
 //		deref and ref operators
-template< typename T, bool Const >
-typename ft::choose< !Const, typename Iterator< T, Const >::reference,
-	const typename Iterator< T, Const >::reference >::
-	type	Iterator< T, Const >::operator*( void )
+template< typename T >
+typename Iterator< T >::reference	Iterator< T >::operator*( void ) const
 {
 	return ( *_elem );
 }
 
-// template< typename T, bool Const >
-// typename ft::enable_if< Const, const typename Iterator< T, Const >::reference >::type
-// 	Iterator< T, Const >::operator*( void ) const
-// {
-// 	return ( *_elem );
-// }
-
-template< typename T, bool Const >
-typename Iterator< T, Const >::pointer	Iterator< T, Const >::operator->( void )
+template< typename T >
+typename Iterator< T >::pointer	Iterator< T >::operator->( void )
 {
 	return ( _elem );
 }
-
-// template< typename T, bool Const >
-// typename ft::enable_if< Const, const typename Iterator< T, Const >::pointer >::type
-// 	Iterator< T , Const >::operator->( void ) const
-// {
-// 	return ( _elem );
-// }
 
 /*==============================================================================
 	Increment & decrement operators.
 ==============================================================================*/
 
-template< typename T, bool Const >
-Iterator< T , Const >&	Iterator< T , Const >::operator++( void )
+template< typename T >
+Iterator< T >&	Iterator< T >::operator++( void )
 {
 	++_elem;
 	return ( *this );
 }
 
-template< typename T, bool Const > 
-Iterator< T , Const >	Iterator< T , Const >::operator++( int )
+template< typename T > 
+Iterator< T >	Iterator< T >::operator++( int )
 {
-	Iterator< T , Const >	tmp( *this );
+	Iterator< T >	tmp( *this );
 
 	++_elem;
 	return (tmp);
 }
 
-template< typename T, bool Const >
-Iterator< T , Const >&	Iterator< T , Const >::operator--( void )
+template< typename T >
+Iterator< T >&	Iterator< T >::operator--( void )
 {
 	--_elem;
 	return ( *this );
 }
 
-template< typename T, bool Const > 
-Iterator< T , Const >	Iterator< T , Const >::operator--( int )
+template< typename T > 
+Iterator< T >	Iterator< T >::operator--( int )
 {
-	Iterator< T , Const >	tmp( *this );
+	Iterator< T >	tmp( *this );
 
 	--_elem;
 	return (tmp);
@@ -142,58 +135,58 @@ Iterator< T , Const >	Iterator< T , Const >::operator--( int )
 	Conversion operators.
 ==============================================================================*/
 
-template< typename T, bool Const >
-Iterator< T, Const >::operator	Iterator< T, true >( void ) const
+template< typename T >
+Iterator< T >::operator	Iterator< const T >( void ) const
 {
-	return ( Iterator< T, true >( this->_elem ) );
+	return ( Iterator< const T >( this->_elem ) );
 }
 
 /*==============================================================================
 	Comparison operators.
 ==============================================================================*/
 
-template< typename T, bool Const >
-bool	operator==( const Iterator< T , Const >& it1, const Iterator< T , Const >& it2 )
+template< typename T >
+bool	operator==( const Iterator< T >& it1, const Iterator< T >& it2 )
 {
-	return ( it1 == it2 );
+	return ( it1.base() == it2.base() );
 }
 
-template< typename T, bool Const >
-bool	operator!=( const Iterator< T , Const >& it1, const Iterator< T , Const >& it2 )
+template< typename T >
+bool	operator!=( const Iterator< T >& it1, const Iterator< T >& it2 )
 {
-	return ( it1 != it2 );
+	return ( !( it1 == it2 ) );
 }
 
-template< typename T, bool Const >
-bool	operator>( const Iterator< T , Const >& it1, const Iterator< T , Const >& it2 )
+template< typename T >
+bool	operator>( const Iterator< T >& it1, const Iterator< T >& it2 )
 {
-	return ( it1 > it2 );
+	return ( it1.base() > it2.base() );
 }
 
-template< typename T, bool Const >
-bool	operator>=( const Iterator< T , Const >& it1, const Iterator< T , Const >& it2 )
+template< typename T >
+bool	operator>=( const Iterator< T >& it1, const Iterator< T >& it2 )
 {
-	return ( it1 >= it2 );
+	return ( it1.base() >= it2.base() );
 }
 
-template< typename T, bool Const >
-bool	operator<( const Iterator< T , Const >& it1, const Iterator< T , Const >& it2 )
+template< typename T >
+bool	operator<( const Iterator< T >& it1, const Iterator< T >& it2 )
 {
-	return ( it1 < it2 );
+	return ( !( it1 >= it2 ) );
 }
 
-template< typename T, bool Const >
-bool	operator<=( const Iterator< T , Const >& it1, const Iterator< T , Const >& it2 )
+template< typename T >
+bool	operator<=( const Iterator< T >& it1, const Iterator< T >& it2 )
 {
-	return ( it1 <= it2 );
+	return ( !( it1 > it2 ) );
 }
 
 /*==============================================================================
 	Arithmetic operators.
 ==============================================================================*/
 
-template< typename T, bool Const >
-Iterator< T , Const >&	Iterator< T , Const >::operator+=( const difference_type n )
+template< typename T >
+Iterator< T >&	Iterator< T >::operator+=( const difference_type n )
 {
 	difference_type	m = n;
 	if ( m > 0 )
@@ -205,30 +198,30 @@ Iterator< T , Const >&	Iterator< T , Const >::operator+=( const difference_type 
 	return ( *this );
 }
 
-template< typename T, bool Const >
-Iterator< T , Const >&	Iterator< T , Const >::operator-=( const difference_type n )
+template< typename T >
+Iterator< T >&	Iterator< T >::operator-=( const difference_type n )
 {
 	return ( *this += -n );
 }
 
-template< typename T, bool Const >
-Iterator< T , Const >&	Iterator< T , Const >::operator+( const difference_type n ) const
+template< typename T >
+Iterator< T >&	Iterator< T >::operator+( const difference_type n ) const
 {
-	Iterator< T , Const >	tmp( *this );
+	Iterator< T >	tmp( *this );
 	
 	return ( tmp += n );
 }
 
-template< typename T, bool Const >
-Iterator< T , Const >&	Iterator< T , Const >::operator-( const difference_type n ) const
+template< typename T >
+Iterator< T >&	Iterator< T >::operator-( const difference_type n ) const
 {
-	Iterator< T , Const >	tmp( *this );
+	Iterator< T >	tmp( *this );
 	
 	return ( tmp -= n );
 }
 
-template< typename T, bool Const >
-typename Iterator< T , Const >::difference_type	Iterator< T , Const >::\
+template< typename T >
+typename Iterator< T >::difference_type	Iterator< T >::\
 		operator-( const Iterator& other ) const
 {
 	return ( _elem - other._elem );
@@ -238,10 +231,8 @@ typename Iterator< T , Const >::difference_type	Iterator< T , Const >::\
 	Subscript operators.
 ==============================================================================*/
 
-template< typename T, bool Const >
-typename ft::choose< !Const, typename Iterator< T, Const >::reference,
-	const typename Iterator< T, Const >::reference >::
-	type	Iterator< T , Const >::operator[]( const difference_type n )
+template< typename T >
+typename Iterator< T >::reference	Iterator< T >::operator[]( const difference_type n ) const
 {
 	return ( *( *this + n ) );
 }

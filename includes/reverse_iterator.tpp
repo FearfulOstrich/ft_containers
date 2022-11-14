@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 17:16:54 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/18 16:26:24 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/14 15:20:58 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ template< typename Iter >
 typename reverse_iterator< Iter >::iterator_type	reverse_iterator< Iter >::\
 	base( void ) const
 {
-	return (current);
+	return ( current );
 }
 
 /*==============================================================================

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.tpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:59:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/12 09:45:12 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/14 15:11:07 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ template< typename T, typename Alloc >
 template< class InputIt >
 vector< T, Alloc >::vector( InputIt first, InputIt last, const allocator_type& alloc )
 	: _allocator( alloc )
-	, _capacity( _size )
-	, _size( last - first )
+	, _capacity( 0 )
+	, _size( 0 )
 	, _array( _allocator.allocate( _capacity ) )
 {
 	size_type	_s = 0;
@@ -130,7 +130,7 @@ template< typename T, typename Alloc >
 vector< T, Alloc >::~vector( void )
 {
 	for ( size_type i = 0; i < _size; i++ )
-		_allocator.destroy( _array[i] );
+		_allocator.destroy( &_array[i] );
 	_allocator.deallocate( _array, _capacity );
 	return ;
 }
@@ -162,7 +162,7 @@ vector< T, Alloc >&	vector< T, Alloc >::operator=( const vector< T, Alloc >& oth
 		_allocator.destroy( &_tmp[i] );
 	_allocator.deallocate( _tmp, _capacity );
 	_size = other._size;
-	_capacity = other._capacity;
+	_capacity = std::max( other._capacity, _capacity );
 	return ( *this );
 }
 
@@ -230,7 +230,7 @@ void	vector< T, Alloc >::assign( InputIt first, InputIt last )
 }
 
 template< typename T, typename Alloc >
-template< typename InputIt, typename allow = ft::enable_if< ft::is_integral< InputIt > >, InputIt >::type >
+template< typename InputIt, typename ft::enable_if< ft::is_integral< InputIt >::value, InputIt >::type >
 void	vector< T, Alloc >::assign( InputIt count, InputIt value )
 {
 	pointer	_tmp;
@@ -338,74 +338,74 @@ typename vector< T, Alloc >::const_pointer	vector< T, Alloc >::data( void ) cons
 /*
 Begin
 */
-// template< typename T, typename Alloc >
-// typename vector< T, Alloc >::iterator	vector< T, Alloc >::begin( void )
-// {
-// 	return ( iterator( &this->front() ) );
-// }
+template< typename T, typename Alloc >
+typename vector< T, Alloc >::iterator	vector< T, Alloc >::begin( void )
+{
+	return ( iterator( &this->front() ) );
+}
 
 /*
 Const begin
 */
-// template< typename T, typename Alloc >
-// typename vector< T, Alloc >::const_iterator	vector< T, Alloc >::begin( void ) const
-// {
-// 	return ( const_iterator( &this->front() ) );
-// }
+template< typename T, typename Alloc >
+typename vector< T, Alloc >::const_iterator	vector< T, Alloc >::begin( void ) const
+{
+	return ( const_iterator( &this->front() ) );
+}
 
 /*
 End
 */
-// template< typename T, typename Alloc >
-// typename vector< T, Alloc >::iterator	vector< T, Alloc >::end( void )
-// {
-// 	return ( iterator( ( &this->back() ) + 1 ) );
-// }
+template< typename T, typename Alloc >
+typename vector< T, Alloc >::iterator	vector< T, Alloc >::end( void )
+{
+	return ( iterator( ( &this->back() ) + 1 ) );
+}
 
 /*
 Const end
 */
-// template< typename T, typename Alloc >
-// typename vector< T, Alloc >::const_iterator	vector< T, Alloc >::end( void ) const
-// {
-// 	return ( const_iterator( ( &this->back() ) + 1 ) );
-// }
+template< typename T, typename Alloc >
+typename vector< T, Alloc >::const_iterator	vector< T, Alloc >::end( void ) const
+{
+	return ( const_iterator( ( &this->back() ) + 1 ) );
+}
 
 /*
 Reverse begin
 */
-// template< typename T, typename Alloc >
-// typename vector< T, Alloc >::reverse_iterator	vector< T, Alloc >::rbegin( void )
-// {
-// 	return ( reverse_iterator( this->end() ) );
-// }
+template< typename T, typename Alloc >
+typename vector< T, Alloc >::reverse_iterator	vector< T, Alloc >::rbegin( void )
+{
+	return ( reverse_iterator( this->end() ) );
+}
 
 /*
 Reverse const begin
 */
-// template< typename T, typename Alloc >
-// typename vector< T, Alloc >::const_reverse_iterator	vector< T, Alloc >::rbegin( void ) const
-// {
-// 	return ( reverse_iterator( this->end() ) );
-// }
+template< typename T, typename Alloc >
+typename vector< T, Alloc >::const_reverse_iterator	vector< T, Alloc >::rbegin( void ) const
+{
+	return ( reverse_iterator( this->end() ) );
+}
 
 /*
 Reverse end
 */
-// template< typename T, typename Alloc >
-// typename vector< T, Alloc >::reverse_iterator	vector< T, Alloc >::rend( void )
-// {
-// 	return ( reverse_iterator( this->begin() ) );
-// }
+template< typename T, typename Alloc >
+typename vector< T, Alloc >::reverse_iterator	vector< T, Alloc >::rend( void )
+{
+	return ( reverse_iterator( this->begin() ) );
+}
 
 /*
 Reverse const end
 */
-// template< typename T, typename Alloc >
-// typename vector< T, Alloc >::const_reverse_iterator	vector< T, Alloc >::rend( void ) const
-// {
-// 	return ( reverse_iterator( this->begin() ) );
-// }
+template< typename T, typename Alloc >
+typename vector< T, Alloc >::const_reverse_iterator	vector< T, Alloc >::rend( void ) const
+{
+	return ( reverse_iterator( this->begin() ) );
+}
 
 
 /*==============================================================================
@@ -441,8 +441,8 @@ void	vector< T, Alloc >::reserve( size_type new_cap )
 	for ( size_type i = 0; i < _size; i++)
 		_allocator.construct( &_tmp[i], _array[i] );
 	std::swap( _tmp, _array );
-	for ( size_type i = 0, i < _size; i++ )
-		_allocator.destroy( _tmp[i] );
+	for ( size_type i = 0; i < _size; i++ )
+		_allocator.destroy( &_tmp[i] );
 	_allocator.deallocate( _tmp, _capacity );
 	_capacity = new_cap;
 	return ;
@@ -459,7 +459,7 @@ typename vector< T, Alloc >::size_type	vector< T, Alloc >::capacity( void ) cons
 ==============================================================================*/
 
 template< typename T, typename Alloc >
-void	clear( void )
+void	vector< T, Alloc >::clear( void )
 {
 	for ( unsigned int i = 0; i < _size; i++ )
 		_allocator.destroy( _array[i] );
@@ -511,14 +511,18 @@ typename vector< T, Alloc >::
 template< typename T, typename Alloc >
 void		vector< T, Alloc >::push_back( const_reference value )
 {
-	pointer	_copy;
+	pointer		_copy;
+	size_type	_new_cap;
 
-	_copy = _array_copy( _size + 1 );
+	if ( _capacity > _size + 1 )
+		_new_cap = _size + 1;
+	else
+		_new_cap = _capacity * 2;
+	_copy = _array_copy( _new_cap );
 	_allocator.construct( _copy[_size], value );
-	if ( _capacity < _size + 1 )
-		_capacity++;
-	_size++;
 	std::swap( _copy, _array );
+	_capacity = _new_cap;
+	_size++;
 	for ( size_type i = 0; i < _size; i++ )
 		_allocator.destroy( _copy[i] );
 	_allocator.deallocate( _copy );
@@ -545,9 +549,9 @@ void		vector< T, Alloc >::resize( size_type n, const_reference value )
 	_copy = _array_copy( n );
 	for ( size_type i = _size; i < n; i++ )
 		_allocator.construct( _copy[i], value );
+	std::swap( _copy, _array );
 	_capacity = n;
 	_size = n;
-	std::swap( _copy, _array );
 	for ( size_type i = 0; i < _size; i++ )
 		_allocator.destroy( _copy[i] );
 	_allocator.deallocate( _copy );
@@ -571,7 +575,7 @@ void	vector< T, Alloc >::swap( vector< T, Alloc >& other )
 
 template< typename T, typename Alloc >
 typename vector< T, Alloc >::
-	pointer	vector< T, Alloc >::_array_copy( size_type new_cap = _capacity ) const
+	pointer	vector< T, Alloc >::_array_copy( size_type new_cap )
 {
 	pointer	_copy;
 
@@ -579,33 +583,8 @@ typename vector< T, Alloc >::
 		new_cap = _capacity;
 	_copy = _allocator.allocate( new_cap );
 	for ( size_type i = 0; i < _size; i++ )
-		_allocator.construct( _copy[i], _array[i] );
-	return ( _copy )
+		_allocator.construct( &_copy[i], _array[i] );
+	return ( _copy );
 }
-
-/*
-Get next capacity cap.
-Capacity increases in powers of 2.
-*/
-// template< typename T, typename Alloc >
-// typename vector< T, Alloc >::size_type	vector< T, Alloc >::_next_capacity( void )
-// {
-// 	return ( _capacity * 2 );
-// }
-
-/*
-Get minimum capacity to store `size` elements.
-Capacity increases in powers of 2.
-*/
-// template< typename T, typename Alloc >
-// typename vector< T, Alloc >::size_type	vector< T, Alloc >::_req_capacity( size_t size )
-// {
-// 	size_t	capacity;
-	
-// 	capacity = 1;
-// 	while ( capacity < size )
-// 		capacity *= 2;
-// 	return ( capacity );
-// }
 
 #endif
