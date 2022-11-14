@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main_vector.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:58:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/10 13:53:03 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/11 11:45:17 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <iostream>
 # include <stdexcept>
-// # include "vector"
 #if STL
 	#include <vector>
 	namespace ft = std;
@@ -250,5 +249,6 @@ int main()
 	capacity();
 	// std::cout << "============== TEST ITERATOR ================= " << std::endl;
 	// iterator_functions();
+	
 	return (0);
 }

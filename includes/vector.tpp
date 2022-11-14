@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.tpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:59:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/10 16:48:03 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/12 09:45:12 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,11 @@ vector< T, Alloc >::vector(	typename vector< T, Alloc >::size_type count,
 	: _allocator( alloc )
 	, _capacity( count )
 	, _size( count )
-	, _array( _allocator.allocate( _capacity ) )
+	, _array( NULL )
 {
+	if ( count > max_size() )
+		throw ( std::length_error( "cannot create ft::vector larger than max_size()" ) );
+	_array = _allocator.allocate( _capacity );
 	this->assign( count, value );
 	return ;
 }
@@ -88,6 +91,16 @@ vector< T, Alloc >::vector( InputIt first, InputIt last, const allocator_type& a
 	, _size( last - first )
 	, _array( _allocator.allocate( _capacity ) )
 {
+	size_type	_s = 0;
+	InputIt		_copy( first );
+
+	while ( _copy != last )
+	{
+		_copy++;
+		_s++;
+	}
+	if ( _s > max_size() )
+		throw ( std::length_error( "cannot create ft::vector larger than max_size()" ) );
 	this->assign( first, last );
 	return ;
 }
@@ -116,6 +129,8 @@ Vector destructor.
 template< typename T, typename Alloc >
 vector< T, Alloc >::~vector( void )
 {
+	for ( size_type i = 0; i < _size; i++ )
+		_allocator.destroy( _array[i] );
 	_allocator.deallocate( _array, _capacity );
 	return ;
 }
@@ -132,22 +147,22 @@ deallocates _array and reallocates necessary.
 template< typename T, typename Alloc >
 vector< T, Alloc >&	vector< T, Alloc >::operator=( const vector< T, Alloc >& other )
 {
-	size_type	i = 0;
-	size_type	tmp_size;
+	pointer	_tmp;
 	
-	if (this != &other)
+	if ( other._size > max_size() )
+		throw ( std::length_error( "cannot create ft::vector larger than max_size()" ) );
+	_tmp = _array_copy( other._capacity );
+	for ( size_type i = 0; i < other._size; i++ )
 	{
-		if ( this->_capacity < other._size )
-			this->reserve( other._capacity );
-		tmp_size = other._size;
-		while ( i < tmp_size )
-		{
-			_allocator.destroy( &_array[i] );
-			_allocator.construct( &_array[i], other._array[i] );
-			i++;
-		}
-		this->_size = tmp_size;
+		_allocator.destroy( &_tmp[i] );
+		_allocator.construct( &_tmp[i], other[i] );
 	}
+	std::swap( _tmp, _array );
+	for ( size_type i = 0; i < _size; i++ )
+		_allocator.destroy( &_tmp[i] );
+	_allocator.deallocate( _tmp, _capacity );
+	_size = other._size;
+	_capacity = other._capacity;
 	return ( *this );
 }
 
@@ -159,69 +174,83 @@ If `count` > _capacity, increasse _capacity.
 template< typename T, typename Alloc >
 void	vector< T, Alloc >::assign( size_type count, const T& value )
 {
-	if ( _capacity < count )
-		this->reserve( count );
-	_size = count;
+	pointer	_tmp;
+	
+	if ( count > max_size() )
+		throw ( std::length_error( "cannot create ft::vector larger than max_size()" ) );
+	_tmp = _array_copy( count );
+	for ( size_type i = 0; i < count; i++ )
+	{
+		_allocator.destroy( &_tmp[i] );
+		_allocator.construct( &_tmp[i], value );
+	}
+	std::swap( _tmp, _array );
 	for ( size_type i = 0; i < _size; i++ )
-		_allocator.construct( &_array[i], value );
+		_allocator.destroy( &_tmp[i] );
+	_allocator.deallocate( _tmp, _capacity );
+	_size = count;
+	_capacity = std::max( count, _capacity );
 	return ;
 }
 
-// /*
-// Assign values to vector.
-// Assign from iterator `start`.
-// Assign until `last` - 1.
-// If difference is greater than _capacity, increase _capacity.
-// */
-// template< typename T, typename Alloc >
-// template< typename InputIt >
-// void	vector< T, Alloc >::assign( InputIt first, InputIt last )
-// {
-// 	size_type	it_size = last - first;
-
-// 	if ( _capacity < it_size )
-// 		this->reserve( it_size );
-// 	_size = it_size;
-// 	it_size = 0;
-// 	while ( first != last )
-// 		_array[it_size++] = *first++;
-// 	return ;
-// }
-
-// template< typename T, typename Alloc >
-// template< typename InputIt >
-// void	vector< T, Alloc >::_assign( InputIt count, InputIt value, true_type true)
-// {
-// 	if ( _capacity < count )
-// 		this->reserve( count );
-// 	for ( size_type i = 0; i < count; i++ )
-// 		_allocator.construct( &copy[i], value );
-// 	_size = count;
-// 	return ;
-// }
-
-// template< typename T, typename Alloc >
-// template< typename InputIt >
-// void	vector< T, Alloc >::_assign( InputIt first, InputIt last, false_type false)
-// {
-// 	size_type	it_size = 0;
-// 	size_type	i = 0;
-// 	pointer		tmp;
-// 	InputIt		copy(first);
+/*
+Assign values to vector.
+Assign from iterator `start`.
+Assign until `last` - 1.
+If difference is greater than _capacity, increase _capacity.
+*/
+template< typename T, typename Alloc >
+template< typename InputIt >
+void	vector< T, Alloc >::assign( InputIt first, InputIt last )
+{
+	size_type	_s = 0;
+	InputIt		_copy( first );
+	pointer		_tmp;
 	
-// 	while (copy < end)
-// 	{
-// 		copy++;
-// 		it_size++;
-// 	}
-// 	if ( _capacity < it_size )
-// 		this->reserve( it_size );
+	while ( _copy != last )
+	{
+		_copy++;
+		_s++;
+	}
+	if ( _s > max_size() )
+		throw ( std::length_error("cannot create ft::vector larger than max_size()") );
+	_tmp = _array_copy( _s );
+	for ( size_type i = 0; first != last; first++, i++ )
+	{
+		_allocator.destroy( &_tmp[i] );
+		_allocator.construct( &_tmp[i], *first );
+	}
+	std::swap( _tmp, _array );
+	for ( size_type i = 0; i < _size; i++ )
+		_allocator.destroy( &_tmp[i] );
+	_allocator.deallocate( _tmp, _capacity );
+	_size = _s;
+	_capacity = std::max( _size, _capacity );
+	return ;
+}
+
+template< typename T, typename Alloc >
+template< typename InputIt, typename allow = ft::enable_if< ft::is_integral< InputIt > >, InputIt >::type >
+void	vector< T, Alloc >::assign( InputIt count, InputIt value )
+{
+	pointer	_tmp;
 	
-// 	while ( first != last )
-// 		_array[it_size++] = *first++;
-// 	_size = it_size;
-// 	return ;
-// }
+	if ( count > max_size() )
+		throw ( std::length_error( "cannot create ft::vector larger than max_size()" ) );
+	_tmp = _array_copy( count );
+	for ( size_type i = 0; i < count; i++ )
+	{
+		_allocator.destroy( &_tmp[i] );
+		_allocator.construct( &_tmp[i], value );
+	}
+	std::swap( _tmp, _array );
+	for ( size_type i = 0; i < _size; i++ )
+		_allocator.destroy( &_tmp[i] );
+	_allocator.deallocate( _tmp, _capacity );
+	_size = count;
+	_capacity = std::max( count, _capacity );
+	return ;
+}
 
 /*==============================================================================
 	Getter.
@@ -404,18 +433,17 @@ typename vector< T, Alloc >::size_type	vector< T, Alloc >::max_size( void ) cons
 template< typename T, typename Alloc >
 void	vector< T, Alloc >::reserve( size_type new_cap )
 {
-	pointer	tmp;
+	pointer	_tmp;
 	
 	if ( new_cap <= _capacity )
 		return ;
-	tmp = _allocator.allocate( new_cap );
+	_tmp = _allocator.allocate( new_cap );
 	for ( size_type i = 0; i < _size; i++)
-	{
-		_allocator.destroy( &_array[i] );
-		_allocator.construct( &tmp[i], _array[i] );
-	}	
-	_allocator.deallocate( _array, _capacity );
-	_array = tmp;
+		_allocator.construct( &_tmp[i], _array[i] );
+	std::swap( _tmp, _array );
+	for ( size_type i = 0, i < _size; i++ )
+		_allocator.destroy( _tmp[i] );
+	_allocator.deallocate( _tmp, _capacity );
 	_capacity = new_cap;
 	return ;
 }
@@ -527,7 +555,15 @@ void		vector< T, Alloc >::resize( size_type n, const_reference value )
 }
 
 template< typename T, typename Alloc >
-void		vector< T, Alloc >::swap( vector< T, Alloc >& other )
+void	vector< T, Alloc >::swap( vector< T, Alloc >& other )
+{
+	vector< T, Alloc >	_tmp;
+
+	_tmp = other;
+	other = *this;
+	*this = _tmp;
+	return ;
+}
 
 /*==============================================================================
 	Private functions. 

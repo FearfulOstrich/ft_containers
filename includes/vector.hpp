@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/10 16:32:46 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/12 09:00:33 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,9 @@ namespace ft
 		//		1. assign count elements by value
 		void	assign( size_type count, const T& value );
 		//		2. assign from iterator
+		template< typename InputIt, typename allow = ft::enable_if< ft::is_integral< InputIt > >, InputIt >::type >
+		void	assign( InputIt first, InputIt last );
+		
 		template< typename InputIt >
 		void	assign( InputIt first, InputIt last );
 		
