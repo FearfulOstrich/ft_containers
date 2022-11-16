@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_iterator.tpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:33:09 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/14 15:35:10 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/16 08:51:12 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,15 +205,21 @@ Iterator< T >&	Iterator< T >::operator-=( const difference_type n )
 }
 
 template< typename T >
-Iterator< T >&	Iterator< T >::operator+( const difference_type n ) const
+Iterator< T >	Iterator< T >::operator+( const difference_type n ) const
 {
-	Iterator< T >	tmp( *this );
+	Iterator< T >	tmp = *this;
 	
 	return ( tmp += n );
 }
 
 template< typename T >
-Iterator< T >&	Iterator< T >::operator-( const difference_type n ) const
+Iterator< T >	operator+( const typename Iterator< T >::difference_type n, const Iterator< T >& it)
+{
+	return ( it + n );
+}
+
+template< typename T >
+Iterator< T >	Iterator< T >::operator-( const difference_type n ) const
 {
 	Iterator< T >	tmp( *this );
 	

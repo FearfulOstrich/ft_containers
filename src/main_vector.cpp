@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_vector.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:58:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/14 15:36:20 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/16 08:56:34 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,27 +208,67 @@ void	capacity( void )
 
 void	iterator_functions( void )
 {
-	ft::vector< S >	first;
-	ft::vector< S >	second( 4, S( 42, 42 ) );
-	ft::vector< S >	third( 4, S( 42, 42 ) );
-	
-	std::cout << "iterator	it1( first.begin() );" << std::endl;
-	ft::vector< S >::iterator	it1( first.begin() );
-	std::cout << "iterator	ite1( first.end() );" << std::endl;
-	ft::vector< S >::iterator	ite1( first.end() );
-	std::cout << "iterator	it2( second.begin() );" << std::endl;
-	ft::vector< S >::iterator	it2( second.begin() );
-	std::cout << "iterator	ite2( second.end() );" << std::endl;
-	ft::vector< S >::iterator	ite2( second.end() );
-	std::cout << "*it2: " << *it2 << std::endl;
-	std::cout << "it2 == ite2 ? " << (it2 == ite2 ? "TRUE" : "FALSE") << std::endl;
-	std::cout << "const_iterator	it3( third.begin() );" << std::endl;
-	ft::vector< S >::const_iterator	it3( third.begin() );
-	std::cout << "const_iterator	ite3( third.end() );" << std::endl;
-	ft::vector< S >::const_iterator	ite3( third.end() );
-	std::cout << "*it3: " << *it3 << std::endl;
-	for ( ; it3 != ite3; it3++ )
+	{
+		ft::vector< S >	first;
+		ft::vector< S >	second( 4, S( 42, 42 ) );
+		const ft::vector< S >	third( 4, S( 42, 42 ) );
+		
+		std::cout << "iterator	it1( first.begin() );" << std::endl;
+		ft::vector< S >::iterator	it1( first.begin() );
+		std::cout << "iterator	ite1( first.end() );" << std::endl;
+		ft::vector< S >::iterator	ite1( first.end() );
+		std::cout << "it1 < ite1 : " << ( ( it1 < ite1 ) ? "true" : "false" ) << std::endl;
+		std::cout << "it1 > ite1 : " << ( ( it1 > ite1 ) ? "true" : "false" ) << std::endl;
+		std::cout << "it1 <= ite1 : " << ( ( it1 <= ite1 ) ? "true" : "false" ) << std::endl;
+		std::cout << "it1 >= ite1 : " << ( ( it1 >= ite1 ) ? "true" : "false" ) << std::endl;
+		std::cout << "iterator	it2( second.begin() );" << std::endl;
+		ft::vector< S >::iterator	it2( second.begin() );
+		std::cout << "iterator	ite2( second.end() );" << std::endl;
+		ft::vector< S >::iterator	ite2( second.end() );
+		std::cout << "*it2: " << *it2 << std::endl;
+		std::cout << "it2 == ite2 ? " << (it2 == ite2 ? "TRUE" : "FALSE") << std::endl;
+		std::cout << "ite2 - it2 = " << ite2 - it2 << std::endl;
+		std::cout << "*( it2 + 1 ) = " << *( it2 + 1 ) << std::endl;
+		std::cout << "*( 1 + it2 ) = " << *( 1 + it2 ) << std::endl;
+		std::cout << "*( ite2 - 1 ) = " << *( ite2 - 1 ) << std::endl;
+		std::cout << "*( it2 += 1 ) = " << *( it2 += 1 ) << std::endl;
+		std::cout << "*( it2 -= 1 ) = " << *( it2 -= 1 ) << std::endl;
+		std::cout << "const_iterator	it3( third.begin() );" << std::endl;
+		ft::vector< S >::const_iterator	it3( third.begin() );
+		std::cout << "const_iterator	ite3( third.end() );" << std::endl;
+		ft::vector< S >::const_iterator	ite3( third.end() );
 		std::cout << "*it3: " << *it3 << std::endl;
+		for ( ; it3 != ite3; it3++ )
+			std::cout << "*it3: " << *it3 << std::endl;
+	}
+	{
+		ft::vector< S >	forth( 12, S( 48, 48 ) );
+		ft::vector< S >::iterator	it4( forth.begin() );
+
+		std::cout << "iterator	it4( forth.begin() );" << std::endl;
+		std::cout << "it4[1] = S( 49, 49 );" << std::endl;
+		std::cout << "it4[2] = S( 50, 50 );" << std::endl;
+		std::cout << "it4[3] = S( 51, 51 );" << std::endl;
+		std::cout << "it4[4] = S( 52, 52 );" << std::endl;
+		std::cout << "it4[5] = S( 53, 53 );" << std::endl;
+		it4[1] = S( 49, 49 );
+		it4[2] = S( 50, 50 );
+		it4[3] = S( 51, 51 );
+		it4[4] = S( 52, 52 );
+		it4[5] = S( 53, 53 );
+		std::cout << "it4->getN(): " << it4->getN() << std::endl;
+		std::cout << "it4->getC(): " << it4->getC() << std::endl;
+		std::cout << "it4[1]: " << it4[1] << std::endl;
+		std::cout << "it4[2]: " << it4[2] << std::endl;
+		std::cout << "it4[3]: " << it4[3] << std::endl;
+		std::cout << "it4[4]: " << it4[4] << std::endl;
+		std::cout << "it4[5]: " << it4[5] << std::endl;
+
+		ft::vector< S >::const_iterator	it5( forth.begin() );
+		std::cout << "const_iterator	it5( forth.begin() );" << std::endl;
+		std::cout << "it5[1] = S( 49, 49 ); DOES NOT COMPILE" << std::endl;
+		// it5[1] = S( 49, 49 ); // Does not compile
+	}
 	std::cout << "===============================================" << std::endl;
 	return ;
 }
