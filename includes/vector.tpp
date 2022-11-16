@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:59:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/14 15:11:07 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/16 16:16:48 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -466,13 +466,31 @@ void	vector< T, Alloc >::clear( void )
 	_size = 0;
 	return ;
 }
-/*
+
 template< typename T, typename Alloc >
 typename vector< T, Alloc >::
 	iterator	vector< T, Alloc >::insert(const_iterator pos,
 											const T& value )
 {
-	return ( pos );
+	size_type	_new_cap = _next_cap( _size + 1 );
+	size_type	i = 0;
+	pointer		_copy;
+	
+	if ( _new_cap > max_size() )
+		throw ( std::length_error( "cannot create ft::vector larger than max_size()" ) );
+	_copy = _allocator.allocate( _new_cap );
+	for ( ; i < pos - _array.begin(); ++i )
+		_allocator.construct( &_copy[i], _array[i] );
+	_allocator.construct( &_copy[i], value );
+	for (size_type j = i, j < _size; j++ )
+		_allocator.construct( &_copy[j + 1], _array[j] );
+	std::swap( _copy, _array );
+	for ( size_type j = 0; j < _size; j++ )
+		_allocator.destroy( &_copy[j] );
+	_allocator.deallocate( _copy, _capacity );
+	_size += 1;
+	_capacity = _new_cap;
+	return ( iterator( &_array[i] ) );
 }
 
 template< typename T, typename Alloc >
@@ -481,7 +499,59 @@ typename vector< T, Alloc >::
 											size_type count,
 											const T& value )
 {
-	return ( pos );
+	size_type	_new_cap = _next_cap( _size + count );
+	size_type	i = 0;
+	pointer		_copy;
+	
+	if ( count == 0 )
+		return ( pos );
+	if ( _new_cap > max_size() )
+		throw ( std::length_error( "cannot create ft::vector larger than max_size()" ) );
+	_copy = _allocator.allocate( _new_cap );
+	for ( ; i < pos - _array.begin(); ++i )
+		_allocator.construct( &_copy[i], _array[i] );
+	for ( size_type j = 0; j < count; j++ )
+		_allocator.construct( &_copy[i + j], value );
+	for (size_type j = i, j < _size; j++ )
+		_allocator.construct( &_copy[j + count], _array[j] );
+	std::swap( _copy, _array );
+	for ( size_type j = 0; j < _size; j++ )
+		_allocator.destroy( &_copy[j] );
+	_allocator.deallocate( _copy, _capacity );
+	_size += count;
+	_capacity = _new_cap;
+	return ( iterator( &_array[i] ) );
+}
+
+template< typename T, typename Alloc >
+template< typename InputIt, typename ft::enable_if< ft::is_integral< InputIt >::value, InputIt >::type >
+typename vector< T, Alloc >::
+	iterator	vector< T, Alloc >::insert( const_iterator pos,
+											InputIt count,
+											InputIt value )
+{
+	size_type	_new_cap = _next_cap( _size + count );
+	size_type	i = 0;
+	pointer		_copy;
+	
+	if ( count == 0 )
+		return ( pos );
+	if ( _new_cap > max_size() )
+		throw ( std::length_error( "cannot create ft::vector larger than max_size()" ) );
+	_copy = _allocator.allocate( _new_cap );
+	for ( ; i < pos - _array.begin(); ++i )
+		_allocator.construct( &_copy[i], _array[i] );
+	for ( size_type j = 0; j < count; j++ )
+		_allocator.construct( &_copy[i + j], value );
+	for (size_type j = i, j < _size; j++ )
+		_allocator.construct( &_copy[j + count], _array[j] );
+	std::swap( _copy, _array );
+	for ( size_type j = 0; j < _size; j++ )
+		_allocator.destroy( &_copy[j] );
+	_allocator.deallocate( _copy, _capacity );
+	_size += count;
+	_capacity = _new_cap;
+	return ( iterator( &_array[i] ) );
 }
 
 template< typename T, typename Alloc >
@@ -491,34 +561,58 @@ typename vector< T, Alloc >::
 											InputIt first,
 											InputIt last )
 {
-	return ( pos );
+	size_type	count = std::distance( last - first );
+	size_type	_new_cap = _next_cap( _size + count );
+	pointer		_copy;
+	size_type	i = 0;
+	
+	if ( first == last )
+		return ( pos );
+	if ( _new_cap > max_size() )
+		throw ( std::length_error( "cannot create ft::vector larger than max_size()" ) );
+	_copy = _allocator.allocate( _new_cap );
+	for ( ; i < pos - _array.begin(); ++i )
+		_allocator.construct( &_copy[i], _array[i] );
+	for ( size_type j = 0; j < count; j++, first++ )
+		_allocator.construct( &_copy[i + j], *first );
+	for (size_type j = i, j < _size; j++ )
+		_allocator.construct( &_copy[j + count], _array[j] );
+	std::swap( _copy, _array );
+	for ( size_type j = 0; j < _size; j++ )
+		_allocator.destroy( &_copy[j] );
+	_allocator.deallocate( _copy, _capacity );
+	_size += std::;
+	_capacity = _new_cap;
+	return ( iterator( &_array[i] ) );
 }
 
 template< typename T, typename Alloc >
 typename vector< T, Alloc >::
 	iterator	vector< T, Alloc >::erase( iterator pos )
 {
-	return ( pos );
+	size_type i = pos - _array.begin();
+
+	_allocator.destroy( &_array[i] );
+	for ( size_type j = i; j < _size; j++ )
+		_array[j] = _array[j + 1];
+	++_size;
+	return ( iterator( &_array[i] ) );
 }
 
+#TODO
 template< typename T, typename Alloc >
 typename vector< T, Alloc >::
 	iterator	vector< T, Alloc >::erase( iterator first, iterator last )
 {
 	return ( last );
 }
-*/
+
 template< typename T, typename Alloc >
 void		vector< T, Alloc >::push_back( const_reference value )
 {
-	pointer		_copy;
-	size_type	_new_cap;
+	size_type	_new_cap = _next_cap( _size + 1 );
+	pointer		_copy = _array_copy( _new_cap );
 
-	if ( _capacity > _size + 1 )
-		_new_cap = _size + 1;
-	else
-		_new_cap = _capacity * 2;
-	_copy = _array_copy( _new_cap );
 	_allocator.construct( _copy[_size], value );
 	std::swap( _copy, _array );
 	_capacity = _new_cap;
@@ -574,8 +668,7 @@ void	vector< T, Alloc >::swap( vector< T, Alloc >& other )
 ==============================================================================*/
 
 template< typename T, typename Alloc >
-typename vector< T, Alloc >::
-	pointer	vector< T, Alloc >::_array_copy( size_type new_cap )
+typename vector< T, Alloc >::pointer	vector< T, Alloc >::_array_copy( size_type new_cap )
 {
 	pointer	_copy;
 
@@ -585,6 +678,18 @@ typename vector< T, Alloc >::
 	for ( size_type i = 0; i < _size; i++ )
 		_allocator.construct( &_copy[i], _array[i] );
 	return ( _copy );
+}
+
+template< typename T, typename Alloc >
+typename vector< T, Alloc >::size_type	vector< T, Alloc >::_next_cap( size_type target_size )
+{
+	size_type	_new_cap( _capacity );
+	
+	if ( target_size <= _capacity )
+		return ( _new_cap );
+	while ( _new_cap < target_size )
+		_new_cap *= 2;
+	return ( _new_cap );
 }
 
 #endif

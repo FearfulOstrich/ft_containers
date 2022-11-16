@@ -16,7 +16,7 @@ FLAGS	=	-Wall -Wextra -Werror -g3 -std=c++98 -g3
 
 SRCDIR	=	src/
 
-SRCFILE	=	main_vector.cpp
+SRCFILE	=	main_test.cpp
 
 SRC		=	$(addprefix $(SRCDIR), $(SRCFILE))
 
