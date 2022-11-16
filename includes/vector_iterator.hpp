@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_iterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:33:09 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/14 15:15:23 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/16 08:51:14 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,14 @@ namespace ft
 		//		Arithmetic operators
 		Iterator&		operator+=( const difference_type n );
 		Iterator&		operator-=( const difference_type n );
-		Iterator&		operator+( const difference_type n ) const;
-		Iterator&		operator-( const difference_type n ) const;
+		Iterator		operator+( const difference_type n ) const;
+		Iterator		operator-( const difference_type n ) const;
 		difference_type	operator-( const Iterator& other ) const;
 		//		reference operator
 		reference	operator[]( const difference_type n) const;
 	};
 
+	//	Comparison operators
 	template< typename T >
 	bool	operator==( const Iterator< T >& it1, const Iterator< T >& it2 );
 	template< typename T >
@@ -72,7 +73,11 @@ namespace ft
 	bool	operator<( const Iterator< T >& it1, const Iterator< T >& it2 );
 	template< typename T >
 	bool	operator<=( const Iterator< T >& it1, const Iterator< T >& it2 );
-	
+
+	//	arithmetic operators
+	template< typename T >
+	Iterator< T >	operator+(const typename Iterator< T >::difference_type n, const Iterator< T >& it);
+
 	# include "vector_iterator.tpp"
 
 }
