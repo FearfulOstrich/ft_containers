@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:59:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/22 15:08:35 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/22 15:14:02 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,45 +194,10 @@ void	vector< T, Alloc >::assign( size_type count, const T& value )
 	return ;
 }
 
-/*
-Assign values to vector.
-Assign from iterator `start`.
-Assign until `last` - 1.
-If difference is greater than _capacity, increase _capacity.
-*/
 template< typename T, typename Alloc >
 template< typename InputIt >
-void	vector< T, Alloc >::assign( InputIt first, InputIt last )
-{
-	size_type	_s = 0;
-	InputIt		_copy( first );
-	pointer		_tmp;
-	
-	while ( _copy != last )
-	{
-		_copy++;
-		_s++;
-	}
-	if ( _s > max_size() )
-		throw ( std::length_error("cannot create ft::vector larger than max_size()") );
-	_tmp = _array_copy( _s );
-	for ( size_type i = 0; first != last; first++, i++ )
-	{
-		_allocator.destroy( &_tmp[i] );
-		_allocator.construct( &_tmp[i], *first );
-	}
-	std::swap( _tmp, _array );
-	for ( size_type i = 0; i < _size; i++ )
-		_allocator.destroy( &_tmp[i] );
-	_allocator.deallocate( _tmp, _capacity );
-	_size = _s;
-	_capacity = std::max( _size, _capacity );
-	return ;
-}
-
-template< typename T, typename Alloc >
-template< typename InputIt, typename ft::enable_if< ft::is_integral< InputIt >::value, InputIt >::type >
-void	vector< T, Alloc >::assign( InputIt count, InputIt value )
+void	vector< T, Alloc >::assign( InputIt count, InputIt value,
+								typename ft::enable_if< !ft::is_integral< InputIt >::value, InputIt >::type* )
 {
 	pointer	_tmp;
 	
@@ -527,43 +492,12 @@ typename vector< T, Alloc >::
 }
 
 template< typename T, typename Alloc >
-template< typename InputIt, typename ft::enable_if< ft::is_integral< InputIt >::value, InputIt >::type >
-typename vector< T, Alloc >::
-	iterator	vector< T, Alloc >::insert( const_iterator pos,
-											InputIt count,
-											InputIt value )
-{
-	size_type		_new_cap = _next_cap( _size + count );
-	size_type		i = 0;
-	const_iterator	it = begin();
-	pointer			_copy;
-	
-	if ( count == 0 )
-		return ( iterator( const_cast< pointer >( pos.base() ) ) );
-	if ( _new_cap > max_size() )
-		throw ( std::length_error( "cannot create ft::vector larger than max_size()" ) );
-	_copy = _allocator.allocate( _new_cap );
-	for ( ; it != pos; ++i, ++it )
-		_allocator.construct( &_copy[i], _array[i] );
-	for ( size_type j = 0; j < count; j++ )
-		_allocator.construct( &_copy[i + j], value );
-	for (size_type j = i; j < _size; j++ )
-		_allocator.construct( &_copy[j + count], _array[j] );
-	std::swap( _copy, _array );
-	for ( size_type j = 0; j < _size; j++ )
-		_allocator.destroy( &_copy[j] );
-	_allocator.deallocate( _copy, _capacity );
-	_size += count;
-	_capacity = _new_cap;
-	return ( iterator( &_array[i] ) );
-}
-
-template< typename T, typename Alloc >
 template< typename InputIt >
 typename vector< T, Alloc >::
 	iterator	vector< T, Alloc >::insert( const_iterator pos,
 											InputIt first,
-											InputIt last )
+											InputIt last,
+											typename ft::enable_if< !ft::is_integral< InputIt >::value, InputIt >::type* )
 {
 	size_type		count = difference( first, last );
 	size_type		_new_cap = _next_cap( _size + count );

@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/22 15:08:09 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/22 15:13:46 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,9 @@ namespace ft
 		vector&	operator=( const vector& other );
 		//		1. assign count elements by value.
 		void	assign( size_type count, const T& value );
-		//		2. assign from iterator, iterator as an integral type.
-		template< typename InputIt, typename ft::enable_if< ft::is_integral< InputIt >::value, InputIt >::type >
-		void	assign( InputIt first, InputIt last );
 		//		2. assign from iterator.
 		template< typename InputIt >
-		void	assign( InputIt first, InputIt last );
+		void	assign( InputIt first, InputIt last, typename ft::enable_if< !ft::is_integral< InputIt >::value, InputIt >::type* = NULL );
 		
 		//	Getter for allocator.
 		allocator_type	get_allocator( void ) const;
@@ -150,12 +147,9 @@ namespace ft
 		iterator	insert( const_iterator pos, const T& value );
 		//		3. insert count elements from pos.
 		iterator	insert(	const_iterator pos, size_type count, const T& value );
-		//		4. insert elements from iterator, iterator as an integral type.
-		template< typename InputIt, typename ft::enable_if< ft::is_integral< InputIt >::value, InputIt >::type >
-		iterator	insert( const_iterator pos, InputIt count, InputIt value );
 		//		4. insert elements from iterator.
 		template< typename InputIt >
-		iterator	insert( const_iterator pos, InputIt first, InputIt last );
+		iterator	insert( const_iterator pos, InputIt first, InputIt last, typename ft::enable_if< !ft::is_integral< InputIt >::value, InputIt >::type* = NULL );
 		//		1. Erase element at pos.
 		iterator	erase( iterator pos );
 		//		2. Erase elements from range.
