@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:58:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/22 15:08:45 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/22 15:54:15 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,6 +283,13 @@ void	iterator_functions( void )
 		std::cout << "const_iterator	it5( forth.begin() );" << std::endl;
 		std::cout << "it5[1] = S( 49, 49 ); DOES NOT COMPILE" << std::endl;
 		// it5[1] = S( 49, 49 ); // Does not compile
+	}
+	std:: cout << "==============================================" << std::endl;
+	{
+		ft::vector< int >					v( 10, 2 );
+		ft::vector< int >::const_iterator	it = v.begin();
+
+		std::cout << "*it: " << *it << std::endl;
 	}
 	std::cout << "===============================================" << std::endl;
 	return ;

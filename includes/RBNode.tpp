@@ -1,0 +1,83 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   RBNode.tpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/22 15:34:03 by aalleon           #+#    #+#             */
+/*   Updated: 2022/11/22 16:19:12 by aalleon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef RBNode_TPP
+# define RBNode_TPP
+
+/*
+Default constructor.
+Takes default content `T()`, default parent `NULL` and color to black.
+*/
+template< typename T >
+RBNode< T >::RBNode( value_type content, RBNode* parent, bool color )
+	: color( color )
+	, p( parent )
+	, l( NULL )
+	, r( NULL )
+	, content( content )
+{
+	return ;
+}
+
+/*
+Constructor by copy.
+*/
+template< typename T >
+RBNode< T >::RBNode( const RBNode& other )
+	: color( other.color )
+	, p( other.p )
+	, l( other.l )
+	, r( other.r )
+	, content( other.content )
+{
+	return ;
+}
+
+/*
+Default destructor.
+*/
+template< typename T >
+RBNode< T >::~RBNode( void )
+{
+	return ;
+}
+
+/*
+Assignment operator=
+*/
+template< typename T >
+RBNode< T >&	RBNode< T >::operator=( const RBNode& other )
+{
+	if ( this != &other )
+	{
+		color = other.color;
+		p = other.p;
+		l = other.l;
+		r = other.r;
+		content = other.content;
+	}
+	return ( *this );
+}
+
+/*
+Equality operator.
+Check equality of content of nodes.
+*/
+template< typename T >
+bool	operator==( const RBNode& other ) const
+{
+	if ( content == other.content )
+		return ( true );
+	return ( false );
+}
+
+#endif
