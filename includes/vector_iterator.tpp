@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:33:09 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/16 08:51:12 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/18 10:32:19 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ Iterator< T >&	Iterator< T >::operator+=( const difference_type n )
 			++_elem;
 	else
 		while ( m++ )
-			++_elem;
+			--_elem;
 	return ( *this );
 }
 

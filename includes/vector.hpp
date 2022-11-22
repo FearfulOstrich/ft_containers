@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/22 15:06:44 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/22 15:08:09 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 # include <memory>
 # include <utility>
 # include <limits>
+# include <iterator>
 # include "is_integral.hpp"
 # include "iterator_traits.hpp"
 # include "vector_iterator.hpp"
 # include "reverse_iterator.hpp"
+# include "difference.hpp"
 
 namespace ft
 {
@@ -166,7 +168,6 @@ namespace ft
 		void		resize( size_type n, const_reference value = value_type() );
 		//		1. Exchange content of both containers.
 		void		swap( vector& other );
-		
 
 	};
 

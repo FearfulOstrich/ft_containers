@@ -6,12 +6,14 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:58:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/22 15:04:55 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/22 15:08:45 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <iostream>
 # include <stdexcept>
+# include <algorithm>
+# include <iterator>
 #if STL
 	#include <vector>
 	namespace ft = std;
@@ -37,6 +39,13 @@ std::ostream&	operator<<( std::ostream& os, const S& obj )
 {
 	os << "_n{" << obj.getN() << "} _c{" << obj.getC() << "}";
 	return (os);
+}
+
+bool	operator==( const S& lhs, const S& rhs )
+{
+	if ( ( lhs.getN() != rhs.getN() ) | ( lhs.getC() != rhs.getC() ) )
+		return ( false );
+	return ( true );
 }
 
 void	constructors( void ) 
@@ -279,6 +288,60 @@ void	iterator_functions( void )
 	return ;
 }
 
+void	modifiers_functions( void )
+{
+	ft::vector< S >				first( 5, S( 52, 52 ) );
+	ft::vector< S >::iterator	it;
+
+	std::cout << "ft::vector< S >	first( 5, S( 52, 52 ) );" << std::endl;
+	std::cout << "first.clear();" << std::endl;
+	first.clear();
+	std::cout << "first.size(): " << first.size() << std::endl;
+	std::cout << "first.capacity(): " << first.capacity() << std::endl;
+	std::cout << "first.begin() == first.end(): ";
+	std::cout << ( first.begin() == first.end() ? "true" : "false" ) << std::endl;
+	std::cout << "it = first.insert( first.begin(), S( 53, 53 ) );" << std::endl;
+	it = first.insert( first.begin(), S( 53, 53 ) );
+	std::cout << "first.size(): " << first.size() << std::endl;
+	std::cout << "first.capacity(): " << first.capacity() << std::endl;
+	std::cout << "first[0]: " << first[0] << std::endl;
+	std::cout << "it - begin(): " << it - first.begin() << std::endl;
+	std::cout << "first.insert( first.begin(), 3, S( 54, 54 ) );" << std::endl;
+	// it = first.insert( first.begin(), 3, S( 54, 54 ) );
+	first.insert( first.begin(), 3, S( 54, 54 ) );
+	std::cout << "it = first.insert( first.begin(), 3, S( 54, 54 ) );" << std::endl;
+	std::cout << "first.size(): " << first.size() << std::endl;
+	std::cout << "first.capacity(): " << first.capacity() << std::endl;
+	std::cout << "first[0]: " << first[0] << std::endl;
+	std::cout << "first[1]: " << first[1] << std::endl;
+	std::cout << "first[2]: " << first[2] << std::endl;
+	std::cout << "first[3]: " << first[3] << std::endl;
+	// std::cout << "it - begin(): " << it - first.begin() << std::endl;
+	
+	ft::vector< S >	second;
+	std::cout << "ft::vector< S >	second;" << std::endl;
+	std::cout << "second.insert( second.begin(), first.begin(), first.end() );" << std::endl;
+	// it = second.insert( second.begin(), first.begin(), first.end() );
+	second.insert( second.begin(), first.begin(), first.end() );
+	std::cout << "second.size(): " << second.size() << std::endl;
+	std::cout << "second.capacity(): " << second.capacity() << std::endl;
+	std::cout << "second[0]: " << second[0] << std::endl;
+	std::cout << "second[1]: " << second[1] << std::endl;
+	std::cout << "second[2]: " << second[2] << std::endl;
+	std::cout << "second[3]: " << second[3] << std::endl;
+	// std::cout << "it - begin(): " << it - second.begin() << std::endl;
+	std::cout << "first == second: " << ( std::equal( first.begin(), first.end(), second.begin()) ? "true" : "false" );
+	std::cout << std::endl;
+	second.clear();
+	std::cout << "second.size(): " << second.size() << std::endl;
+	std::cout << "second.capacity(): " << second.capacity() << std::endl;
+	std::cout << "second.begin() == second.end(): ";
+	std::cout << ( second.begin() == second.end() ? "true" : "false" ) << std::endl;
+	
+	// ft::vector< S >	third( 5, S( 52, 52 ) );
+	// std::cout << "ft::vector< S >	third( 5, S( 52, 52 ) );" << std::endl;
+}
+
 int main()
 {
 #if STL
@@ -296,6 +359,8 @@ int main()
 	capacity();
 	std::cout << "============== TEST ITERATOR ================= " << std::endl;
 	iterator_functions();
+	std::cout << "============== TEST MODIFIER ================= " << std::endl;
+	modifiers_functions();
 	
 	return (0);
 }
