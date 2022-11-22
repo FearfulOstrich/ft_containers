@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_vector.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:58:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/16 08:56:34 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/22 15:04:55 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,24 @@ void	constructors( void )
 	std::cout << ( second.get_allocator() == third.get_allocator() ?
 					"true" : "false" ) << std::endl; 
 
-	const ft::vector< S >	forth;
-	std::cout << "const ft::vector< S >	forth;" << std::endl;
+	// Create value vector with ambiguous types
+	ft::vector< int >	forth( 4, 42 );
+	std::cout << "std::vector< S >	forth( 4, 42 );" << std::endl;
 	std::cout << "forth capacity: " << forth.capacity() << std::endl;
-	std::cout << "forth capacity: " << forth.size() << std::endl;
-	const ft::vector< S >	fifth( 10, S( 42, 42 ) );
-	std::cout << "const ft::vector< S > 	fifth( 10, S( 42, 42 ) );" << std::endl;
-	std::cout << "fifth capacity: " << forth.capacity() << std::endl;
-	std::cout << "fifth size: " << fifth.size() << std::endl;
-	const ft::vector< S >	sixth( fifth );
-	std::cout << "const ft::vector< S >	sixth( fifth );" << std::endl;
+	std::cout << "forth size: " << forth.size() << std::endl;
+
+	const ft::vector< S >	fifth;
+	std::cout << "const ft::vector< S >	fifth;" << std::endl;
+	std::cout << "fifth capacity: " << fifth.capacity() << std::endl;
+	std::cout << "fifth capacity: " << fifth.size() << std::endl;
+	const ft::vector< S >	sixth( 10, S( 42, 42 ) );
+	std::cout << "const ft::vector< S > 	sixth( 10, S( 42, 42 ) );" << std::endl;
 	std::cout << "sixth capacity: " << forth.capacity() << std::endl;
 	std::cout << "sixth size: " << sixth.size() << std::endl;
+	const ft::vector< S >	seventh( sixth );
+	std::cout << "const ft::vector< S >	seventh( sixth );" << std::endl;
+	std::cout << "seventh capacity: " << forth.capacity() << std::endl;
+	std::cout << "seventh size: " << seventh.size() << std::endl;
 
 	
 	std::cout << "===============================================" << std::endl;
@@ -104,11 +110,11 @@ void	assignment( void )
 	// third.assign( 10, S( 42, 42 ) ); // Does not compile.
 	std::cout << "third.assign( 10, S( 42, 42 ) ); does not compile.";
 
-	// ft::vector< S >	third;
-	// third.assign( first.begin(), first.end() );
-	// std::cout << "third.assign( first.begin(), first.end() );" << std::endl;
-	// std::cout << "third capacity: " << third.capacity() << std::endl;
-	// std::cout << "third size: " << third.size() << std::endl;
+	ft::vector< int >	forth;
+	forth.assign( 5, 9 );
+	std::cout << "forth.assign( 5, 9 );" << std::endl;
+	std::cout << "forth capacity: " << forth.capacity() << std::endl;
+	std::cout << "forth size: " << forth.size() << std::endl;
 
 	std::cout << "===============================================" << std::endl;
 	return ;

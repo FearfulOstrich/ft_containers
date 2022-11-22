@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:59:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/16 16:16:48 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/22 15:01:32 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ Set _capacity and _size to `last - first` (ptrdiff_t -> size_t) !!!!!
 */
 template< typename T, typename Alloc >
 template< class InputIt >
-vector< T, Alloc >::vector( InputIt first, InputIt last, const allocator_type& alloc )
+vector< T, Alloc >::vector( InputIt first, InputIt last, const allocator_type& alloc,
+						typename ft::enable_if< !ft::is_integral< InputIt >::value, InputIt >::type* )
 	: _allocator( alloc )
 	, _capacity( 0 )
 	, _size( 0 )
