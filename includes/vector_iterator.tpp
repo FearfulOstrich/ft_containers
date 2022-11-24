@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_iterator.tpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:33:09 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/18 10:32:19 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/23 15:02:06 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,21 @@
 ==============================================================================*/
 
 template< typename T >
-Iterator< T >::Iterator( void )
+vector_iterator< T >::vector_iterator( void )
 	: _elem( NULL )
 {
 	return ;
 }
 
 template< typename T >
-Iterator< T >::Iterator( pointer ptr )
+vector_iterator< T >::vector_iterator( pointer ptr )
 	: _elem( ptr )
 {
 	return ;
 }
 
 template< typename T >
-Iterator< T >::Iterator( const Iterator< T >& other )
+vector_iterator< T >::vector_iterator( const vector_iterator< T >& other )
 {
 	*this = other;
 	return ;
@@ -49,7 +49,7 @@ Iterator< T >::Iterator( const Iterator< T >& other )
 ==============================================================================*/
 
 template< typename T >
-Iterator< T >::~Iterator( void )
+vector_iterator< T >::~vector_iterator( void )
 {
 	return ;
 }
@@ -59,7 +59,7 @@ Iterator< T >::~Iterator( void )
 ==============================================================================*/
 
 template< typename T >
-const typename Iterator< T >::pointer	Iterator< T >::base( void ) const
+const typename vector_iterator< T >::pointer	vector_iterator< T >::base( void ) const
 {
 	return ( _elem );
 }
@@ -69,7 +69,7 @@ const typename Iterator< T >::pointer	Iterator< T >::base( void ) const
 ==============================================================================*/
 
 template< typename T >
-Iterator< T >&	Iterator< T >::operator=( const Iterator< T >& other )
+vector_iterator< T >&	vector_iterator< T >::operator=( const vector_iterator< T >& other )
 {
 	if ( this != &other )
 	{
@@ -84,13 +84,13 @@ Iterator< T >&	Iterator< T >::operator=( const Iterator< T >& other )
 
 //		deref and ref operators
 template< typename T >
-typename Iterator< T >::reference	Iterator< T >::operator*( void ) const
+typename vector_iterator< T >::reference	vector_iterator< T >::operator*( void ) const
 {
 	return ( *_elem );
 }
 
 template< typename T >
-typename Iterator< T >::pointer	Iterator< T >::operator->( void )
+typename vector_iterator< T >::pointer	vector_iterator< T >::operator->( void )
 {
 	return ( _elem );
 }
@@ -100,32 +100,32 @@ typename Iterator< T >::pointer	Iterator< T >::operator->( void )
 ==============================================================================*/
 
 template< typename T >
-Iterator< T >&	Iterator< T >::operator++( void )
+vector_iterator< T >&	vector_iterator< T >::operator++( void )
 {
 	++_elem;
 	return ( *this );
 }
 
 template< typename T > 
-Iterator< T >	Iterator< T >::operator++( int )
+vector_iterator< T >	vector_iterator< T >::operator++( int )
 {
-	Iterator< T >	tmp( *this );
+	vector_iterator< T >	tmp( *this );
 
 	++_elem;
 	return (tmp);
 }
 
 template< typename T >
-Iterator< T >&	Iterator< T >::operator--( void )
+vector_iterator< T >&	vector_iterator< T >::operator--( void )
 {
 	--_elem;
 	return ( *this );
 }
 
 template< typename T > 
-Iterator< T >	Iterator< T >::operator--( int )
+vector_iterator< T >	vector_iterator< T >::operator--( int )
 {
-	Iterator< T >	tmp( *this );
+	vector_iterator< T >	tmp( *this );
 
 	--_elem;
 	return (tmp);
@@ -136,47 +136,47 @@ Iterator< T >	Iterator< T >::operator--( int )
 ==============================================================================*/
 
 template< typename T >
-Iterator< T >::operator	Iterator< const T >( void ) const
+vector_iterator< T >::operator	vector_iterator< const T >( void ) const
 {
-	return ( Iterator< const T >( this->_elem ) );
+	return ( vector_iterator< const T >( this->_elem ) );
 }
 
 /*==============================================================================
 	Comparison operators.
 ==============================================================================*/
 
-template< typename T >
-bool	operator==( const Iterator< T >& it1, const Iterator< T >& it2 )
+template< typename T, typename U >
+bool	operator==( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
 {
 	return ( it1.base() == it2.base() );
 }
 
-template< typename T >
-bool	operator!=( const Iterator< T >& it1, const Iterator< T >& it2 )
+template< typename T, typename U >
+bool	operator!=( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
 {
 	return ( !( it1 == it2 ) );
 }
 
-template< typename T >
-bool	operator>( const Iterator< T >& it1, const Iterator< T >& it2 )
+template< typename T, typename U >
+bool	operator>( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
 {
 	return ( it1.base() > it2.base() );
 }
 
-template< typename T >
-bool	operator>=( const Iterator< T >& it1, const Iterator< T >& it2 )
+template< typename T, typename U >
+bool	operator>=( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
 {
 	return ( it1.base() >= it2.base() );
 }
 
-template< typename T >
-bool	operator<( const Iterator< T >& it1, const Iterator< T >& it2 )
+template< typename T, typename U >
+bool	operator<( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
 {
 	return ( !( it1 >= it2 ) );
 }
 
-template< typename T >
-bool	operator<=( const Iterator< T >& it1, const Iterator< T >& it2 )
+template< typename T, typename U >
+bool	operator<=( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
 {
 	return ( !( it1 > it2 ) );
 }
@@ -186,7 +186,7 @@ bool	operator<=( const Iterator< T >& it1, const Iterator< T >& it2 )
 ==============================================================================*/
 
 template< typename T >
-Iterator< T >&	Iterator< T >::operator+=( const difference_type n )
+vector_iterator< T >&	vector_iterator< T >::operator+=( const difference_type n )
 {
 	difference_type	m = n;
 	if ( m > 0 )
@@ -199,36 +199,36 @@ Iterator< T >&	Iterator< T >::operator+=( const difference_type n )
 }
 
 template< typename T >
-Iterator< T >&	Iterator< T >::operator-=( const difference_type n )
+vector_iterator< T >&	vector_iterator< T >::operator-=( const difference_type n )
 {
 	return ( *this += -n );
 }
 
 template< typename T >
-Iterator< T >	Iterator< T >::operator+( const difference_type n ) const
+vector_iterator< T >	vector_iterator< T >::operator+( const difference_type n ) const
 {
-	Iterator< T >	tmp = *this;
+	vector_iterator< T >	tmp = *this;
 	
 	return ( tmp += n );
 }
 
 template< typename T >
-Iterator< T >	operator+( const typename Iterator< T >::difference_type n, const Iterator< T >& it)
+vector_iterator< T >	operator+( const typename vector_iterator< T >::difference_type n, const vector_iterator< T >& it)
 {
 	return ( it + n );
 }
 
 template< typename T >
-Iterator< T >	Iterator< T >::operator-( const difference_type n ) const
+vector_iterator< T >	vector_iterator< T >::operator-( const difference_type n ) const
 {
-	Iterator< T >	tmp( *this );
+	vector_iterator< T >	tmp( *this );
 	
 	return ( tmp -= n );
 }
 
 template< typename T >
-typename Iterator< T >::difference_type	Iterator< T >::\
-		operator-( const Iterator& other ) const
+typename vector_iterator< T >::difference_type	vector_iterator< T >::\
+		operator-( const vector_iterator& other ) const
 {
 	return ( _elem - other._elem );
 }
@@ -238,7 +238,7 @@ typename Iterator< T >::difference_type	Iterator< T >::\
 ==============================================================================*/
 
 template< typename T >
-typename Iterator< T >::reference	Iterator< T >::operator[]( const difference_type n ) const
+typename vector_iterator< T >::reference	vector_iterator< T >::operator[]( const difference_type n ) const
 {
 	return ( *( *this + n ) );
 }

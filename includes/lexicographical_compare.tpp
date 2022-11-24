@@ -6,12 +6,17 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:12:36 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/13 14:09:55 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/24 13:55:52 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXICOGRAPHICAL_COMPARE_TPP
 # define LEXICOGRAPHICAL_COMPARE_TPP
+
+# include "binary_function.hpp"
+
+template< T >
+struct less
 
 template< typename InputIt1, typename InputIt2 >
 bool	lexicographical_compare( InputIt1 first1, InputIt1 last1,\

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 14:57:48 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/18 10:46:54 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/24 14:20:56 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,40 @@ namespace ft
 		//		Remove top element.
 		void	pop( void );
 
+		//	Comparison operator non-member functions
+		//		equal
+		friend bool	operator==( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+		//		Different
+		friend bool	operator!=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+		//		Greater
+		friend bool	operator>( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+		//		Greater or equal
+		friend bool	operator>=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+		//		Less
+		friend bool	operator<( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+		//		Less or equal
+		friend bool	operator<=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
 	};
+
+	//	Comparison operator non-member functions
+	//		equal
+	template< typename T, typename Alloc >
+	bool	operator==( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+	//		Different
+	template< typename T, typename Alloc >
+	bool	operator!=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+	//		Greater
+	template< typename T, typename Alloc >
+	bool	operator>( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+	//		Greater or equal
+	template< typename T, typename Alloc >
+	bool	operator>=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+	//		Less
+	template< typename T, typename Alloc >
+	bool	operator<( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+	//		Less or equal
+	template< typename T, typename Alloc >
+	bool	operator<=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
 
 	# include "stack.tpp"
 

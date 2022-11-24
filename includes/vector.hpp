@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/22 16:03:11 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/24 14:11:59 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include "vector_iterator.hpp"
 # include "reverse_iterator.hpp"
 # include "difference.hpp"
+# include "lexicographical_compare.hpp"
+# include "comp.hpp"
 
 namespace ft
 {
@@ -41,8 +43,8 @@ namespace ft
 		typedef const T&										const_reference;
 		typedef typename Alloc::pointer							pointer;
 		typedef const typename Alloc::pointer					const_pointer;
-		typedef ft::Iterator< T >								iterator;
-		typedef ft::Iterator< const T >							const_iterator;
+		typedef ft::vector_iterator< T >						iterator;
+		typedef ft::vector_iterator< const T >					const_iterator;
 		typedef typename ft::reverse_iterator< iterator >		reverse_iterator;
 		typedef typename ft::reverse_iterator< const_iterator >	const_reverse_iterator;
 
@@ -165,6 +167,30 @@ namespace ft
 
 	};
 
+	//	Comparison operator non-member functions
+	//		equal
+	template< typename T, typename Alloc >
+	bool	operator==( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs );
+	//		Different
+	template< typename T, typename Alloc >
+	bool	operator!=( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs );
+	//		Greater
+	template< typename T, typename Alloc >
+	bool	operator>( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs );
+	//		Greater or equal
+	template< typename T, typename Alloc >
+	bool	operator>=( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs );
+	//		Less
+	template< typename T, typename Alloc >
+	bool	operator<( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs );
+	//		Less or equal
+	template< typename T, typename Alloc >
+	bool	operator<=( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs );
+
+	//	Swap non-member function
+	template< typename T, typename Alloc >
+	void	swap( vector< T, Alloc >& lhs, vector< T, Alloc >& rhs );
+	
 	# include "vector.tpp"
 
 }

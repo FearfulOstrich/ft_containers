@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.tpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:45:00 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/18 11:18:41 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/24 14:23:52 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,66 @@ void	stack< T, Container >::pop( void )
 {
 	c.pop_back( value );
 	return ;
+}
+
+/*==============================================================================
+							*************************
+							* NON-MEMBER FUNCTIONS. *
+							*************************
+==============================================================================*/
+
+/*
+Equal comparison.
+*/
+template< typename T, typename Alloc >
+bool	operator==( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs )
+{
+	return ( lhs.c == rhs.c );
+}
+
+/*
+Different comparison
+*/
+template< typename T, typename Alloc >
+bool	operator!=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs )
+{
+	return ( !( lhs == rhs ) );
+}
+
+/*
+Greater than comparison
+*/
+template< typename T, typename Alloc >
+bool	operator>( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs )
+{
+	return ( lhs.c > rhs.c );
+}
+
+/*
+Greater than or equal to comparison
+*/
+template< typename T, typename Alloc >
+bool	operator>=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs )
+{
+	return ( !( lhs < rhs ) );
+}
+
+/*
+Less than comparison
+*/
+template< typename T, typename Alloc >
+bool	operator<( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs )
+{
+	return ( lhs.c < rhs.c );
+}
+
+/*
+Less than or equal to comparison
+*/
+template< typename T, typename Alloc >
+bool	operator<=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs )
+{
+	return ( !( lhs > rhs ) );
 }
 
 

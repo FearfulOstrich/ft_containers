@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:19:28 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/22 16:17:53 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/24 15:16:51 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ namespace ft
 		//	Constructors
 		RBNode( value_type content = value_type(), RBNode* parent = NULL, bool color = black );
 		RBNode( const RBNode& other );
+		
 		//	Destructor
 		~RBNode( void );
 
@@ -47,9 +48,8 @@ namespace ft
 		bool	operator==( const RBNode& other ) const;
 	};
 
-
 	# include "RBNode.tpp"
-	
+
 }
 
 #endif

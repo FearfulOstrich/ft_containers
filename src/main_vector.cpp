@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:58:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/22 15:54:15 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/23 14:55:58 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,7 @@ void	iterator_functions( void )
 		std::cout << "*it3: " << *it3 << std::endl;
 		for ( ; it3 != ite3; it3++ )
 			std::cout << "*it3: " << *it3 << std::endl;
+		std::cout << "it1 != it3: " << (it1 != it3 ? "true" : "false") << std::endl;
 	}
 	{
 		ft::vector< S >	forth( 12, S( 48, 48 ) );

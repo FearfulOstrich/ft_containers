@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_iterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:33:09 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/16 08:51:14 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/23 14:57:50 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 namespace ft
 {
 	template< typename T >
-	class Iterator: public ft::iterator_traits< T* >
+	class vector_iterator: public ft::iterator_traits< T* >
 	{
 	public:
 		typedef	typename ft::iterator_traits< T* >::pointer			pointer;
@@ -30,53 +30,54 @@ namespace ft
 	
 	public:
 		// Constructors
-		Iterator( void );
-		Iterator( pointer ptr );
-		Iterator( const Iterator& other );
+		vector_iterator( void );
+		vector_iterator( pointer ptr );
+		vector_iterator( const vector_iterator& other );
 		// Destructor
-		~Iterator( void );
+		~vector_iterator( void );
 		// Getter
 		const pointer	base( void ) const;
 		//	Assignemnt operator
-		Iterator&	operator=( const Iterator& other );
+		vector_iterator&	operator=( const vector_iterator& other );
 		//	Operators
 		//		deref and ref operators
-		reference	operator*( void ) const;
-		pointer		operator->( void );
+		reference			operator*( void ) const;
+		pointer				operator->( void );
 		//		Increment & Decrement
-		Iterator&	operator++( void );
-		Iterator	operator++( int );
-		Iterator&	operator--( void );
-		Iterator	operator--( int );
+		vector_iterator&	operator++( void );
+		vector_iterator		operator++( int );
+		vector_iterator&	operator--( void );
+		vector_iterator		operator--( int );
 		//		Conversion Operator
-					operator Iterator< const T >( void ) const;
+							operator vector_iterator< const T >( void ) const;
 		//		Arithmetic operators
-		Iterator&		operator+=( const difference_type n );
-		Iterator&		operator-=( const difference_type n );
-		Iterator		operator+( const difference_type n ) const;
-		Iterator		operator-( const difference_type n ) const;
-		difference_type	operator-( const Iterator& other ) const;
+		vector_iterator&	operator+=( const difference_type n );
+		vector_iterator&	operator-=( const difference_type n );
+		vector_iterator		operator+( const difference_type n ) const;
+		vector_iterator		operator-( const difference_type n ) const;
+		difference_type		operator-( const vector_iterator& other ) const;
 		//		reference operator
 		reference	operator[]( const difference_type n) const;
 	};
 
 	//	Comparison operators
-	template< typename T >
-	bool	operator==( const Iterator< T >& it1, const Iterator< T >& it2 );
-	template< typename T >
-	bool	operator!=( const Iterator< T >& it1, const Iterator< T >& it2 );
-	template< typename T >
-	bool	operator>( const Iterator< T >& it1, const Iterator< T >& it2 );
-	template< typename T >
-	bool	operator>=( const Iterator< T >& it1, const Iterator< T >& it2 );
-	template< typename T >
-	bool	operator<( const Iterator< T >& it1, const Iterator< T >& it2 );
-	template< typename T >
-	bool	operator<=( const Iterator< T >& it1, const Iterator< T >& it2 );
+	template< typename T, typename U >
+	bool	operator==( const vector_iterator< T >& it1, const vector_iterator< U >& it2 );
+	template< typename T, typename U >
+	bool	operator!=( const vector_iterator< T >& it1, const vector_iterator< U >& it2 );
+	template< typename T, typename U >
+	bool	operator>( const vector_iterator< T >& it1, const vector_iterator< U >& it2 );
+	template< typename T, typename U >
+	bool	operator>=( const vector_iterator< T >& it1, const vector_iterator< U >& it2 );
+	template< typename T, typename U >
+	bool	operator<( const vector_iterator< T >& it1, const vector_iterator< U >& it2 );
+	template< typename T, typename U >
+	bool	operator<=( const vector_iterator< T >& it1, const vector_iterator< U >& it2 );
 
 	//	arithmetic operators
 	template< typename T >
-	Iterator< T >	operator+(const typename Iterator< T >::difference_type n, const Iterator< T >& it);
+	vector_iterator< T >	operator+(const typename vector_iterator< T >::difference_type n,
+										const vector_iterator< T >& it);
 
 	# include "vector_iterator.tpp"
 

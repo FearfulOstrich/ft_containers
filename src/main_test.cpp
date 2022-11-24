@@ -6,11 +6,12 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:54:37 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/16 16:13:54 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/24 14:41:29 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vector>
+#include <map>
 #include <stdexcept>
 #include <iostream>
 
@@ -45,30 +46,10 @@ public:
 
 int main()
 {
-	std::vector< S >				v( 4, S(2) );
-	std::vector< S >::iterator	it;
+	std::map< int, int >	my_map;
+	std::vector< int >		my_vector;
 
-	std::cout << "v address: " << v.data() << std::endl;
-	std::cout << "size: " << v.size() << std::endl;
-	std::cout << "capacity: " << v.capacity() << std::endl;
-	v[2].setN(41);
-	v[3].setN(42);
-	try
-	{
-		it = v.erase(v.begin() + 1);
-	}
-	catch (std::exception& e)
-	{
-		std::cout << "exception thrown." << std::endl;
-	}
-	// it = v.insert( v.begin() + 1, 3 );
-	std::cout << "v address: " << v.data() << std::endl;
-	std::cout << "v[0]: " << v[0].getN() << std::endl;
-	std::cout << "v[1]: " << v[1].getN() << std::endl;
-	std::cout << "v[2]: " << v[2].getN() << std::endl;
-	std::cout << "v[3]: " << v[3].getN() << std::endl;
-	std::cout << "size: " << v.size() << std::endl;
-	std::cout << "capacity: " << v.capacity() << std::endl;
-	
+	std::cout << "size of vector: " << sizeof(my_vector) << std::endl;
+	std::cout << "size of map: " <<  sizeof(my_map) << std::endl;
 	return (0);
 }
