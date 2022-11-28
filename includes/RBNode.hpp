@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:19:28 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/24 15:16:51 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/28 16:51:31 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ namespace ft
 		//		color: Red (true) or Black (false)
 		bool		color;
 		//		parent node.
-		RBNode*		p;
+		RBNode*		parent;
 		//		left child node.
-		RBNode*		l;
+		RBNode*		left;
 		//		right child node.
-		RBNode*		r;
+		RBNode*		right;
 		//		value
-		value_type*	content;
+		value_type	content;
 		
 		//	Constructors
-		RBNode( value_type content = value_type(), RBNode* parent = NULL, bool color = black );
+		RBNode( value_type content = value_type(), RBNode* parent = NULL, bool color = red );
 		RBNode( const RBNode& other );
 		
 		//	Destructor
@@ -48,6 +48,37 @@ namespace ft
 		bool	operator==( const RBNode& other ) const;
 	};
 
+	//	Non-member functions
+	//		Comparison operators
+	template< typename T >
+	bool	operator==( const RBNode< T >& lhs, const RBNode< T >& rhs );
+
+	template< typename T >
+	bool	operator!=( const RBNode< T >& lhs, const RBNode< T >& rhs );
+
+	template< typename T >
+	bool	operator<( const RBNode< T >& lhs, const RBNode< T >& rhs );
+
+	template< typename T >
+	bool	operator<=( const RBNode< T >& lhs, const RBNode< T >& rhs );
+
+	template< typename T >
+	bool	operator>( const RBNode< T >& lhs, const RBNode< T >& rhs );
+
+	template< typename T >
+	bool	operator>=( const RBNode< T >& lhs, const RBNode< T >& rhs );
+
+	template< >
+	struct RBNode< void >
+	{
+		typedef false	black;
+		
+		static	bool	color = black;
+	};
+
+	template< >
+	bool	operator==( const RBNode< >& lhs, const RBNode< >& rhs );
+	
 	# include "RBNode.tpp"
 
 }

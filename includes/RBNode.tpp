@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:34:03 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/22 16:19:12 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/28 16:52:23 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ template< typename T >
 RBNode< T >::RBNode( value_type content, RBNode* parent, bool color )
 	: color( color )
 	, p( parent )
-	, l( NULL )
-	, r( NULL )
+	, l( RBNode< void >() )
+	, r( RBNode< void >() )
 	, content( content )
 {
 	return ;
@@ -79,5 +79,16 @@ bool	operator==( const RBNode& other ) const
 		return ( true );
 	return ( false );
 }
+
+//	Non-member functions
+//		Comparison operators.
+#TODO
+
+template< >
+bool	operator==( const RBNode< >& lhs, const RBNode< >& rhs )
+{
+	return ( true );
+}
+
 
 #endif
