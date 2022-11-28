@@ -6,12 +6,18 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:34:03 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/28 16:52:23 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/28 16:54:06 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RBNode_TPP
 # define RBNode_TPP
+
+/*==============================================================================
+							*********************
+							* MEMBER FUNCTIONS. *
+							*********************
+==============================================================================*/
 
 /*
 Default constructor.
@@ -80,9 +86,57 @@ bool	operator==( const RBNode& other ) const
 	return ( false );
 }
 
-//	Non-member functions
-//		Comparison operators.
-#TODO
+/*==============================================================================
+							*************************
+							* NON-MEMBER FUNCTIONS. *
+							*************************
+==============================================================================*/
+
+/*==============================================================================
+							* Comparison operators. *
+==============================================================================*/
+
+template< typename T >
+bool	operator==( const RBNode< T >& lhs, const RBNode< T >& rhs )
+{
+	return ( lhs.content == rhs.content );
+}
+
+template< typename T >
+bool	operator!=( const RBNode< T >& lhs, const RBNode< T >& rhs )
+{
+	return ( lhs.content != rhs.content );
+}
+
+template< typename T >
+bool	operator<( const RBNode< T >& lhs, const RBNode< T >& rhs )
+{
+	return ( lhs.content < rhs.content );
+}
+
+template< typename T >
+bool	operator<=( const RBNode< T >& lhs, const RBNode< T >& rhs )
+{
+	return ( lhs.content <= rhs.content );
+}
+
+template< typename T >
+bool	operator>( const RBNode< T >& lhs, const RBNode< T >& rhs )
+{
+	return ( lhs.content > rhs.content );
+}
+
+template< typename T >
+bool	operator>=( const RBNode< T >& lhs, const RBNode< T >& rhs )
+{
+	return ( lhs.content >= rhs.content );
+}
+
+/*==============================================================================
+					**********************************
+					* VOID SPECIALIZATION FUNCTIONS. *
+					**********************************
+==============================================================================*/
 
 template< >
 bool	operator==( const RBNode< >& lhs, const RBNode< >& rhs )

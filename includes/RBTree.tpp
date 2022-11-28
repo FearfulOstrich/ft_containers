@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:03:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/28 16:43:00 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/28 16:52:52 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,49 +165,6 @@ template< typename T >
 RBNode*	RBTree::remove( RBNode* node )
 {
 	return ( node );
-}
-
-
-/*==============================================================================
-							*************************
-							* NON-MEMBER FUNCTIONS. *
-							*************************
-==============================================================================*/
-
-template< typename T >
-bool	operator==( const RBNode< T >& lhs, const RBNode< T >& rhs )
-{
-	return ( lhs.content == rhs.content );
-}
-
-template< typename T >
-bool	operator!=( const RBNode< T >& lhs, const RBNode< T >& rhs )
-{
-	return ( lhs.content != rhs.content );
-}
-
-template< typename T >
-bool	operator<( const RBNode< T >& lhs, const RBNode< T >& rhs )
-{
-	return ( lhs.content < rhs.content );
-}
-
-template< typename T >
-bool	operator<=( const RBNode< T >& lhs, const RBNode< T >& rhs )
-{
-	return ( lhs.content <= rhs.content );
-}
-
-template< typename T >
-bool	operator>( const RBNode< T >& lhs, const RBNode< T >& rhs )
-{
-	return ( lhs.content > rhs.content );
-}
-
-template< typename T >
-bool	operator>=( const RBNode< T >& lhs, const RBNode< T >& rhs )
-{
-	return ( lhs.content >= rhs.content );
 }
 
 #endif
