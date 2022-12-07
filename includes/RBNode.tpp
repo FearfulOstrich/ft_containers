@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBNode.tpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:34:03 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/28 16:54:06 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/03 10:46:37 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,11 @@
 
 /*
 Default constructor.
-Takes default content `T()`, default parent `NULL` and color to black.
+Takes default content `T()`, default parent `NULL` and color to BLACK.
 */
 template< typename T >
-RBNode< T >::RBNode( value_type content, RBNode* parent, bool color )
+RBNode< T >::RBNode( value_type content, bool color )
 	: color( color )
-	, p( parent )
-	, l( RBNode< void >() )
-	, r( RBNode< void >() )
 	, content( content )
 {
 	return ;
@@ -38,11 +35,11 @@ RBNode< T >::RBNode( value_type content, RBNode* parent, bool color )
 Constructor by copy.
 */
 template< typename T >
-RBNode< T >::RBNode( const RBNode& other )
+RBNode< T >::RBNode( const RBNode< T >& other )
 	: color( other.color )
-	, p( other.p )
-	, l( other.l )
-	, r( other.r )
+	, parent( other.parent )
+	, left( other.left )
+	, right( other.right )
 	, content( other.content )
 {
 	return ;
@@ -61,17 +58,26 @@ RBNode< T >::~RBNode( void )
 Assignment operator=
 */
 template< typename T >
-RBNode< T >&	RBNode< T >::operator=( const RBNode& other )
+RBNode< T >&	RBNode< T >::operator=( const RBNode< T >& other )
 {
 	if ( this != &other )
 	{
 		color = other.color;
-		p = other.p;
-		l = other.l;
-		r = other.r;
+		parent = other.parent;
+		left = other.left;
+		right = other.right;
 		content = other.content;
 	}
 	return ( *this );
+}
+
+/*
+Convert RBNode to RBNode with constant content.
+*/
+template< typename T >
+RBNode< T >::operator	RBNode< const T >( void ) const
+{
+	return ( RBNode< const T >( content, color ) );
 }
 
 /*
@@ -79,11 +85,29 @@ Equality operator.
 Check equality of content of nodes.
 */
 template< typename T >
-bool	operator==( const RBNode& other ) const
+bool	RBNode< T >::operator==( const RBNode< T >& other ) const
 {
 	if ( content == other.content )
 		return ( true );
 	return ( false );
+}
+
+/*
+dereferencing operator.
+*/
+template< typename T >
+typename RBNode< T >::reference	RBNode< T >::operator*( void )
+{
+	return ( this->content );
+}
+
+/*
+Dereferencing operator const.
+*/
+template< typename T >
+typename RBNode< T >::const_reference	RBNode< T >::operator*( void ) const
+{
+	return ( this->content );
 }
 
 /*==============================================================================
@@ -132,17 +156,13 @@ bool	operator>=( const RBNode< T >& lhs, const RBNode< T >& rhs )
 	return ( lhs.content >= rhs.content );
 }
 
-/*==============================================================================
-					**********************************
-					* VOID SPECIALIZATION FUNCTIONS. *
-					**********************************
-==============================================================================*/
-
-template< >
-bool	operator==( const RBNode< >& lhs, const RBNode< >& rhs )
+// Swap two RBNodes.
+template< typename T >
+void	swap( RBNode< T >& lhs, RBNode< T >& rhs )
 {
-	return ( true );
+	RBNode< T > tmp = lhs;
+	lhs = rhs;
+	rhs = tmp;
 }
-
 
 #endif

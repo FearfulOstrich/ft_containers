@@ -3,27 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   RBNode.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:19:28 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/28 16:51:31 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/07 08:41:13 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RBNode_HPP
 # define RBNode_HPP
 
+# define RED	true
+# define BLACK	false
+
 namespace ft
 {
 	template< typename T >
 	struct RBNode
 	{
-		typedef	T		value_type;
-		typedef true	red;
-		typedef false	black;
+		//Typedefs
+		typedef	T			value_type;
+		typedef T&			reference;
+		typedef T*			pointer;
+		typedef const T&	const_reference;
 		
 		//	Attributes.
-		//		color: Red (true) or Black (false)
+		//		color: RED (true) or BLACK (false)
 		bool		color;
 		//		parent node.
 		RBNode*		parent;
@@ -35,17 +40,23 @@ namespace ft
 		value_type	content;
 		
 		//	Constructors
-		RBNode( value_type content = value_type(), RBNode* parent = NULL, bool color = red );
-		RBNode( const RBNode& other );
+		RBNode( value_type content = value_type(), bool color = BLACK );
+		RBNode( const RBNode< T >& other );
 		
 		//	Destructor
 		~RBNode( void );
 
-		//	Assignment operator=
-		RBNode&	operator=( const RBNode& other );
-
-		//	equality operator.
-		bool	operator==( const RBNode& other ) const;
+		//	Operators
+		//		Assignment operator=
+		RBNode&			operator=( const RBNode< T >& other );
+		//		Conversion Operator
+						operator RBNode< const T >( void ) const;
+		//		equality operator.
+		bool			operator==( const RBNode< T >& other ) const;
+		//		Dereferencing operator
+		reference		operator*( void );
+		//		Dereferencing operator
+		const_reference	operator*( void ) const;
 	};
 
 	//	Non-member functions
@@ -68,16 +79,8 @@ namespace ft
 	template< typename T >
 	bool	operator>=( const RBNode< T >& lhs, const RBNode< T >& rhs );
 
-	template< >
-	struct RBNode< void >
-	{
-		typedef false	black;
-		
-		static	bool	color = black;
-	};
-
-	template< >
-	bool	operator==( const RBNode< >& lhs, const RBNode< >& rhs );
+	template< typename T >
+	void	swap( RBNode< T >& lhs, RBNode< T >& rhs );
 	
 	# include "RBNode.tpp"
 

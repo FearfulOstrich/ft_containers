@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.tpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:25:44 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/24 14:37:42 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/06 10:32:38 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ bool	_this::value_compare::operator()( const value_type& lhs, const value_type& 
 
 template< typename Key, typename T, typename Compare, typename Allocator >
 _this::map( void )
+	: _tree( RBTree< value_type, value_compare >() )
+	, _size( 0 )
 {
-
+	return ;
 }
 
 #endif

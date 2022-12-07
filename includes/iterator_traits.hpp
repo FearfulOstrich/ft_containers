@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 11:16:01 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/26 14:20:37 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/06 17:06:44 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ namespace ft
 	struct iterator_traits
 	{
 		// Typedefs
-		typedef T									Iter;
+		typedef T	 								Iter;
 		typedef typename Iter::difference_type		difference_type;
 		typedef typename Iter::value_type			value_type;
 		typedef typename Iter::pointer				pointer;

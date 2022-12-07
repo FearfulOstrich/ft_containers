@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pair.tpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:21:16 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/19 10:53:08 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/02 10:13:44 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,23 @@ template< typename T1, typename T2 >
 bool	operator>=( const pair< T1, T2 >& lhs, const pair< T1, T2 >& rhs )
 {
 	return ( !( lhs < rhs ) );
+}
+
+/*
+Swap two pairs.
+Calls swap to first and swap to second.
+*/
+template< typename T1, typename T2 >
+void	swap( pair< T1, T2 >& lhs, pair< T1, T2 >& rhs )
+{
+	T1	tmp1 = rhs.first;
+	T2	tmp2 = rhs.second;
+
+	rhs.first = lhs.first;
+	rhs.second = lhs.second;
+	lhs.first = tmp1;
+	lhs.second = tmp2;
+	return ;
 }
 
 #endif

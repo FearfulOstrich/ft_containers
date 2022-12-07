@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pair.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 16:13:16 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/19 10:02:21 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/11/30 09:58:06 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ namespace ft
 	template< typename T1, typename T2 >
 	bool	operator>=( const pair< T1, T2 >& lhs, const pair< T1, T2 >& rhs );
 
+	//	Swap two pairs.
+	template< typename T1, typename T2 >
+	void	swap( pair< T1, T2 >& lhs, pair< T1, T2 >& rhs );
+	
 	# include "pair.tpp"
 
 }

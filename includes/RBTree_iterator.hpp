@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   comp.hpp                                           :+:      :+:    :+:   */
+/*   RBTree_iterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/23 13:41:36 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/02 19:55:36 by antoine          ###   ########.fr       */
+/*   Created: 2022/12/06 13:41:46 by antoine           #+#    #+#             */
+/*   Updated: 2022/12/07 08:43:28 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMP_HPP
-# define COMP_HPP
+#ifndef RBTREE_ITERATOR_HPP
+# define RBTree_ITERATOR_HPP
 
-# include "binary_function.hpp"
+# include<cstddef>
 
 namespace ft
 {
 	template< typename T >
-	struct less: public binary_function< T, T, bool >
+	class RBTree_iterator
 	{
-		//	Operator ()
-		bool	operator()( const T& lhs, const T& rhs) const;
-	};
-
-	template< typename T >
-	struct greater: public binary_function< T, T, bool >
-	{
-		//	Operator ()
-		bool	operator()( const T& lhs, const T& rhs ) const;
-	};
-
-	# include "comp.tpp"
+	public:
+		//	Typedefs
+		typedef std::ptrdiff_t						difference_type;
+		typedef typename RBNode< T >::value_type	value_type;
+		typedef typename RBNode< T >::pointer		pointer;
+		typedef typename RBNode< T >::reference		reference;
+		typedef 
+	}
 }
 
 #endif

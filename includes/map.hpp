@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:31:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/24 14:44:53 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/06 10:23:03 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@ namespace ft
 			typename Allocator = std::allocator< std::pair< const Key, T > > >
 	class map
 	{
-	private:
-		RBTree< value_type >*		_tree;
-		size_type	_size;
-
 	public:
 		//	Typedefs
 		typedef map< Key, T, Compare, Allocator >				_this;
@@ -58,6 +54,11 @@ namespace ft
 			bool	operator()( const value_type& lhs, const value_type& rhs ) const;
 		};
 
+	private:
+		RBTree< value_type >&	_tree;
+		size_type				_size;
+
+	public:
 		//	Constructors
 		//		Default constructor
 		map( void );
