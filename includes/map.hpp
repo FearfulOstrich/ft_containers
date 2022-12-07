@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:31:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/06 10:23:03 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/07 15:43:31 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ namespace ft
 	{
 	public:
 		//	Typedefs
-		typedef map< Key, T, Compare, Allocator >				_this;
+		typedef map< Key, T, Compare, Allocator >				self;
 		typedef Key												key_type;
 		typedef T												mapped_type;
 		typedef ft::pair< const Key, T >						value_type;
@@ -38,8 +38,8 @@ namespace ft
 		typedef const value_type&								const_reference;
 		typedef typename Allocator::pointer						pointer;
 		typedef const typename Allocator::pointer				const_pointer;
-		typedef ft::map_iterator< value_type >					iterator;
-		typedef ft::map_iterator< const value_type >			const_iterator;
+		typedef ft::rbtree_iterator< value_type >				iterator;
+		typedef ft::rbtree_iterator< const value_type >			const_iterator;
 		typedef typename ft::reverse_iterator< iterator >		reverse_iterator;
 		typedef typename ft::reverse_iterator< const_iterator >	const_reverse_iterator;
 
@@ -55,8 +55,10 @@ namespace ft
 		};
 
 	private:
-		RBTree< value_type >&	_tree;
-		size_type				_size;
+		RBTree< value_type, value_compare >&	_tree;
+		size_type								_size;
+		allocator_type							_allocator;
+		key_compare								_compare;
 
 	public:
 		//	Constructors

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBTree.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:14:46 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/06 10:13:30 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/07 15:45:37 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 namespace ft
 {
 
-	template< typename T, typename Comp >
+	template< typename T, typename Comp, typename Alloc >
 	class RBTree
 	{
 	public:
@@ -39,7 +39,38 @@ namespace ft
 		node_pointer	_sentinel;
 		node_pointer	_root;
 		Comp			_compare;
+		Alloc			_allocator;
 
+	public:
+		//	Constructors
+		//		Constructor with _root
+		RBTree( void );
+		//		Constructor by copy
+		RBTree( const RBTree< T >& other );
+		
+		//	Destructor
+		~RBTree( void );
+
+		//	Assignment operator
+		RBTree&	operator=( const RBTree< T >& other );
+
+		//	Getters
+		//		Root getter
+		const_node_pointer	get_root( void ) const;
+		//		Sentinel getter
+		const_node_pointer	get_sentinel( void ) const;
+
+		//	Public methods
+		//		Insert a node.
+		template< typename Comp >
+		void	insert( value_type value, Comp comp );
+		//		Remove a node.
+		template< typename Comp, typename Alloc >
+		void	remove( value_type value, Comp comp, Alloc allocator );
+		//		Clear tree.
+		template< typename Alloc >
+		void	
+	private:
 		//	Private functions
 		//		Alocate node in memory.
 		node_pointer		_allocate_node( value_type value);
@@ -87,33 +118,6 @@ namespace ft
 		void				_insert_fixup( node_pointer node );
 		//		Fixup tree after node has been removed.
 		void				_remove_fixup( node_pointer node, node_pointer parent );
-
-	public:
-		//	Constructors
-		//		Constructor with _root
-		RBTree( void );
-		//		Constructor by copy
-		RBTree( const RBTree< T >& other );
-		
-		//	Destructor
-		~RBTree( void );
-
-		//	Assignment operator
-		RBTree&	operator=( const RBTree< T >& other );
-
-		//	Getters
-		//		Root getter
-		const_node_pointer	get_root( void ) const;
-		//		Sentinel getter
-		const_node_pointer	get_sentinel( void ) const;
-
-		//	Public methods
-		//		Insert a node.
-		template< typename Comp >
-		void	insert( value_type value, Comp comp );
-		//		Remove a node.
-		template< typename Comp >
-		void	remove( value_type value, Comp comp );
 	};
 
 	# include "RBTree.tpp"

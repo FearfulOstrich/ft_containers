@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBNode.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:19:28 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/07 08:41:13 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/07 11:35:38 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,17 @@ namespace ft
 		reference		operator*( void );
 		//		Dereferencing operator
 		const_reference	operator*( void ) const;
+		
+		//	Root of node's tree.
+		RBNode< T >*	_root( RBNode< T >* sentinel ) const;
+		//	minimum and maximum in node's sub-tree.
+		RBNode< T >*	_minimum( RBNode< T >* sentinel ) const;
+		RBNode< T >*	_maximum( RBNode< T >* sentinel ) const;
+
+	public:
+		//	Successors and Predecessors.
+		RBNode< T >*	successor( void ) const;
+		RBNode< T >*	predecessor( void ) const;
 	};
 
 	//	Non-member functions

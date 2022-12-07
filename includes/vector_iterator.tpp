@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:33:09 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/23 15:02:06 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/07 13:52:25 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ vector_iterator< T >::~vector_iterator( void )
 }
 
 /*==============================================================================
-	Assignation functions.
+	Base getter.
 ==============================================================================*/
 
 template< typename T >
@@ -65,7 +65,7 @@ const typename vector_iterator< T >::pointer	vector_iterator< T >::base( void ) 
 }
 
 /*==============================================================================
-	Assignation functions.
+	Assignation operator.
 ==============================================================================*/
 
 template< typename T >
@@ -142,46 +142,6 @@ vector_iterator< T >::operator	vector_iterator< const T >( void ) const
 }
 
 /*==============================================================================
-	Comparison operators.
-==============================================================================*/
-
-template< typename T, typename U >
-bool	operator==( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
-{
-	return ( it1.base() == it2.base() );
-}
-
-template< typename T, typename U >
-bool	operator!=( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
-{
-	return ( !( it1 == it2 ) );
-}
-
-template< typename T, typename U >
-bool	operator>( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
-{
-	return ( it1.base() > it2.base() );
-}
-
-template< typename T, typename U >
-bool	operator>=( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
-{
-	return ( it1.base() >= it2.base() );
-}
-
-template< typename T, typename U >
-bool	operator<( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
-{
-	return ( !( it1 >= it2 ) );
-}
-
-template< typename T, typename U >
-bool	operator<=( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
-{
-	return ( !( it1 > it2 ) );
-}
-
-/*==============================================================================
 	Arithmetic operators.
 ==============================================================================*/
 
@@ -241,6 +201,52 @@ template< typename T >
 typename vector_iterator< T >::reference	vector_iterator< T >::operator[]( const difference_type n ) const
 {
 	return ( *( *this + n ) );
+}
+
+/*==============================================================================
+							*************************
+							* NON-MEMBER FUNCTIONS. *
+							*************************
+==============================================================================*/
+
+/*==============================================================================
+	Comparison operators.
+==============================================================================*/
+
+template< typename T, typename U >
+bool	operator==( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
+{
+	return ( it1.base() == it2.base() );
+}
+
+template< typename T, typename U >
+bool	operator!=( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
+{
+	return ( !( it1 == it2 ) );
+}
+
+template< typename T, typename U >
+bool	operator>( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
+{
+	return ( it1.base() > it2.base() );
+}
+
+template< typename T, typename U >
+bool	operator>=( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
+{
+	return ( it1.base() >= it2.base() );
+}
+
+template< typename T, typename U >
+bool	operator<( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
+{
+	return ( !( it1 >= it2 ) );
+}
+
+template< typename T, typename U >
+bool	operator<=( const vector_iterator< T >& it1, const vector_iterator< U >& it2 )
+{
+	return ( !( it1 > it2 ) );
 }
 
 #endif
