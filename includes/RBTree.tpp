@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBTree.tpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:03:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/07 15:50:45 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/07 18:30:06 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,15 @@ typename RBTree< T >::const_node_pointer	RBTree< T >::get_sentinel( void ) const
 }
 
 /*
+Find node given key.
+*/
+template< typename T, typename Comp, typename Alloc >
+typename RBTree< T >::node_pointer	RBTree< T >::find( value_type value, Comp comp )
+{
+	return ( _find( value, _root, comp ) );
+}
+
+/*
 Create node with given value and insert in tree.
 */
 template< typename T, typename Comp, typename Alloc >
@@ -140,9 +149,9 @@ void	RBTree< T >::insert( value_type value )
 Remove element `node` from tree.
 */
 template< typename T, typename Comp, typename Alloc >
-void	RBTree< T >::remove( value_type value )
+void	RBTree< T >::remove( value_type value, Comp comp )
 {
-	node_pointer	node( _find( value ) );
+	node_pointer	node( find( value, comp ) );
 	node_pointer	child;
 	node_pointer	parent;
 	
@@ -395,23 +404,14 @@ typename RBTree< T >::const_node_pointer	RBTree< T >::_predecessor( node_pointer
 Find node given key.
 */
 template< typename T, typename Comp, typename Alloc >
-typename RBTree< T >::node_pointer	RBTree< T >::_find( value_type value )
-{
-	return ( _find( value, _root ) );
-}
-
-/*
-Find node given key.
-*/
-template< typename T, typename Comp, typename Alloc >
-typename RBTree< T >::node_pointer	RBTree< T >::_find( value_type value, node_pointer node )
+typename RBTree< T >::node_pointer	RBTree< T >::_find( value_type value, node_pointer node, Comp comp )
 {
 	if ( node == _sentinel )
 		return ( node );
 	if ( _compare( value, node->content ) )
-		return ( _find( value, node->left ) );
+		return ( _find( value, node->left, comp ) );
 	else if ( _compare( node->content, value ) )
-		return ( _find( value, node->right ) );
+		return ( _find( value, node->right, comp ) );
 	else
 		return ( node );
 }

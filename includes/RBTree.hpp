@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBTree.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:14:46 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/07 15:45:37 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/07 18:31:22 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,16 @@ namespace ft
 		const_node_pointer	get_sentinel( void ) const;
 
 		//	Public methods
+		//		Find a node.
+		template< typename Comp >
+		node_pointer	find( value_type key, Comp comp );
 		//		Insert a node.
 		template< typename Comp >
-		void	insert( value_type value, Comp comp );
+		void			insert( value_type value, Comp comp );
 		//		Remove a node.
 		template< typename Comp, typename Alloc >
-		void	remove( value_type value, Comp comp, Alloc allocator );
-		//		Clear tree.
-		template< typename Alloc >
-		void	
+		void			remove( value_type value, Comp comp );
+
 	private:
 		//	Private functions
 		//		Alocate node in memory.
@@ -104,9 +105,6 @@ namespace ft
 		const_node_pointer	_successor( node_pointer node ) const;
 		//		Get node predecessor const.
 		const_node_pointer	_predecessor( node_pointer node ) const;
-		//		Find node from key.
-		template< typename Comp >
-		node_pointer		_find( value_type key, Comp comp );
 		//		Find node from key.
 		template< typename Comp >
 		node_pointer		_find( value_type key, node_pointer node, Comp comp );

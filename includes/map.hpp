@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:31:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/07 15:43:31 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/07 18:22:28 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ namespace ft
 
 		//	Element Access
 		//		Element access at given key.
-		T&			at( const Key& key );
+		mapped_type&		at( const Key& key );
 		//		Element access at given key const.
-		const T&	at( const Key& key ) const;
+		const mapped_type&	at( const Key& key ) const;
 		//		Element access with given key. Create element if key unexisting.
 		T&			operator[]( const Key& key );
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.tpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:25:44 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/07 15:41:42 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/07 18:44:57 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,87 @@ SELF::map( const self& other )
 template< typename Key, typename T, typename Compare, typename Allocator >
 SELF::~map( void )
 {
-	
 	return ;
 }
 
+/*==============================================================================
+	Getter.
+==============================================================================*/
 
+/*
+Getter for allocator member.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+SELF::allocator_type	SELF::get_allocator( void ) const
+{
+	return ( _allocator );
+}
+
+/*==============================================================================
+	Assignment operator.
+==============================================================================*/
+
+template< typename Key, typename T, typename Compare, typename Allocator >
+SELF&	SELF::operator=( const self& other )
+{
+	if ( &other != this )
+	{
+		_allocator = other._allocator;
+		_compare = other._compare;
+		_tree = other._tree;
+		_size = other._size;
+	}
+	return ( *this );
+}
+
+/*==============================================================================
+	Element Access.
+==============================================================================*/
+
+/*
+at function.
+Return mapped value at given key.
+Takes first node found in _tree.
+If no node with key is found, throw exception.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+SELF::mapped_type&	SELF::at( const Key& key )
+{
+	RBNode< T >*	node = _tree.find( key );
+	
+	if ( node == tree.get_sentinel() )
+		throw ( std::out_of_range( "OOps change message." ) );
+	return ( node->content.second );
+}
+
+/*
+Const at function.
+See above.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+const SELF::mapped_type&	SELF::at( const Key& key ) const
+{
+	RBNode< T >*	node = _tree.find( key, _compare );
+	
+	if ( node == tree.get_sentinel() )
+		throw ( std::out_of_range( "OOps change message." ) );
+	return ( node->content.second );
+}
+
+/*
+Subscript operator.
+Return mapped value at given key.
+Takes first node found in _tree.
+If no node with key is found, create value initialized value_type and insert it.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+SELF::mapped_type&	SELF::operator[]( const Key& key )
+{
+	RBNode< T >*	node = _tree.find( key, _compare );
+
+	if ( node == _tree.get_sentinel() )
+		return ( insert(ft::make_pair( key, mapped_type() ) ).first->second );
+	return ( node->content.second )
+}
 
 #endif
