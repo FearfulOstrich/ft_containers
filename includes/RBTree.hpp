@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBTree.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:14:46 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/08 19:00:21 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/09 16:04:20 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "RBNode.hpp"
 # include "pair.hpp"
 # include <iostream>
+# include <memory>
 
 namespace ft
 {
@@ -25,21 +26,24 @@ namespace ft
 	{
 	public:
 		//	Typedefs
-		typedef	RBNode< T >		node_type;
-		typedef	const node_type	const_node;
-		typedef	node_type*		node_pointer;
-		typedef	const_node*		const_node_pointer;
-		typedef node_type&		node_reference;
-		typedef	const_node&		const_node_reference;
-		typedef T				value_type;
+		typedef T							value_type;
+		typedef RBNode< T >					node_type;
+		typedef const node_type				const_node;
+		typedef node_type*					node_pointer;
+		typedef const_node*					const_node_pointer;
+		typedef node_type&					node_reference;
+		typedef const_node&					const_node_reference;
+		typedef std::allocator< node_type >	node_allocator;
+		typedef Alloc::size_type			size_type;
 
 	private:
 		//	Attibutes
 		//		Root of tree;
+		node_allocator	_node_allocator;
+		Alloc			_allocator;
+		Comp			_compare;
 		node_pointer	_sentinel;
 		node_pointer	_root;
-		Comp			_compare;
-		Alloc			_allocator;
 
 	public:
 		//	Constructors
@@ -60,18 +64,20 @@ namespace ft
 		//		Sentinel getter
 		const_node_pointer	get_sentinel( void ) const;
 
+		//	Capacity
+		size_type	max_size( void ) const;
+
 		//	Public methods
 		//		Clear the tree
-		void	clear( void );
+		void			clear( void );
 		//		Find a node.
-		template< typename Comp >
-		node_pointer	find( value_type key, Comp comp );
+		node_pointer	find( value_type value );
 		//		Insert a node.
-		template< typename Comp >
-		node_pointer	insert( value_type value, Comp comp );
+		node_pointer	insert( value_type value );
+		//		Remove a node from key.
+		void			remove( value_type value );
 		//		Remove a node.
-		template< typename Comp, typename Alloc >
-		void			remove( value_type value, Comp comp );
+		void			remove( value_type value );
 
 	private:
 		//	Private functions
@@ -83,22 +89,22 @@ namespace ft
 		void				_recursive_destroy( node_pointer node );
 		//		Format incoming raw node.
 		void				_format_node( node_pointer node );
-		//		Fetch minimum of tree const.
-		const_node_pointer	_minimum( void ) const;
 		//		Fetch minimum of tree.
 		node_pointer		_minimum( void );
-		//		Fetch minimum of subtree from node const.
-		const_node_pointer	_minimum( node_pointer node ) const;
 		//		Fetch minimum of subtree from node.
 		node_pointer		_minimum( node_pointer node );
-		//		Fetch maximum of tree const.
-		const_node_pointer	_maximum( void ) const;
 		//		Fetch maximum of tree.
 		node_pointer		_maximum( void );
-		//		Fetch maximum of subtree from nodem const.
-		const_node_pointer	_maximum( node_pointer node ) const;
 		//		Fetch maximum of subtree from node.
 		node_pointer		_maximum( node_pointer node );
+		//		Fetch minimum of tree const.
+		const_node_pointer	_minimum( void ) const;
+		//		Fetch minimum of subtree from node const.
+		const_node_pointer	_minimum( node_pointer node ) const;
+		//		Fetch maximum of tree const.
+		const_node_pointer	_maximum( void ) const;
+		//		Fetch maximum of subtree from nodem const.
+		const_node_pointer	_maximum( node_pointer node ) const;
 		//		Get node successor.
 		node_pointer		_successor( node_pointer node );
 		//		Get node predecessor.

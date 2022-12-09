@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:19:28 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/07 11:35:38 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/09 13:15:41 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ namespace ft
 		typedef const T&	const_reference;
 		
 		//	Attributes.
-		//		color: RED (true) or BLACK (false)
-		bool		color;
 		//		parent node.
 		RBNode*		parent;
 		//		left child node.
 		RBNode*		left;
 		//		right child node.
 		RBNode*		right;
+		//		color: RED (true) or BLACK (false)
+		bool		color;
 		//		value
 		value_type	content;
 		

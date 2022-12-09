@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/24 14:11:59 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/09 11:18:13 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ namespace ft
 		//		Check max size function.
 		size_type	max_size( void ) const;
 		//		Increase capacity function.
-		void		reserve( size_type new_cap );
+		void		reserve( size_type _cap );
 		//		Check capacity function.
 		size_type	capacity( void ) const;
 

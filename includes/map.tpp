@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.tpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:25:44 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/09 08:35:54 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/09 17:06:29 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ Check max possible size of container.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::size_type	max_size( void ) const
 {
-	return ( _allocator.max_size() );
+	return ( _tree.max_size() );
 }
 
 /*==============================================================================
@@ -353,6 +353,153 @@ void	SELF::insert( InputIt first, InputIt last )
 			_tree.insert( *first );
 		first++;
 	}
+	return ;
 }
 
+/*
+Erase element from iterator.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+void	SELF::erase( iterator pos )
+{
+	_tree.remove( *pos );
+	return ;
+}
+
+/*
+Erase elements from first iterator to last not included.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+void	SELF::erase( iterator first, iterator last )
+{
+	while ( first != last )
+		_tree.remove( ( first++ ).base() );
+	return ;
+}
+
+/*
+Erase element given key.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::size_type	SELF::erase( const Key& key )
+{
+	return ( _tree.erase( ft::make_pair( key, mapped_type() ) ) );
+}
+
+/*
+Swap two map objects.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+void	SELF::swap( map& other )
+{
+	map< Key, T, Compare, Allocator >	tmp;
+	
+	tmp = other;
+	other = *this;
+	*this = tmp;
+	return ;
+}
+
+/*==============================================================================
+	Lookup functions.
+==============================================================================*/
+
+/*
+Count number of elements with given key in tree.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::size_type	SELF::count( const Key& key ) const
+{
+	if ( _tree.find( ft::make_pair( key, mapped_type() ) ) == _tree.get_sentinel() )
+		return ( 0 );
+	return ( 1 );
+}
+
+/*
+Find element from key.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::iterator	SELF::find( const Key& key )
+{
+	return ( iterator( _tree.find( ft::make_pair( key, mapped_type() ) ) ) );
+}
+
+/*
+Find element from key const.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::const_iterator	SELF::find( const Key& key ) const
+{
+	return ( const_iterator( _tree.find( ft::make_pair( key, mapped_type() ) ) ) );
+}
+
+/*
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+ft::pair< SELF::iterator, SELF::iterator >	SELF::equal_range( const Key& key )
+{
+	RBTree< T >*	pos = _tree.find( ft::make_pair( key, mapped_type() ) );
+	
+	return 
+}
+
+/*
+Find lower bound with given key.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::iterator	SELF::lower_bound( const Key& key )
+{
+	iterator		it = begin();
+	const_iterator	ite = end();
+
+	while ( ( it != ite ) )
+		if ( value_compare()( *it++, key ) )
+			return ( iterator( it - 1 ) );
+	return ( iterator( ite ) );
+}
+
+/*
+Find lower bound with given key const.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::const_iterator	SELF::lower_bound( const Key& key ) const
+{
+	const_iterator	it = begin();
+	const_iterator	ite = end();
+
+	while ( ( it != ite ) )
+		if ( value_compare()( *it++, key ) )
+			return ( const_iterator( it - 1 ) );
+	return ( const_iterator( ite ) );
+}
+
+/*
+Find upper bound with given key.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::iterator	SELF::lower_bound( const Key& key )
+{
+	iterator		it = rbegin();
+	const_iterator	ite = rend();
+
+	while ( ( it != ite ) )
+		if ( value_compare()( *it++, key ) )
+			return ( iterator( *( it - 1 ) ) );
+	return ( iterator( ite ) );
+}
+
+/*
+Find upper bound with given key const.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::const_iterator	SELF::lower_bound( const Key& key ) const
+{
+	const_iterator	it = rbegin();
+	const_iterator	ite = rend();
+
+	while ( ( it != ite ) )
+		if ( value_compare()( *it++, key ) )
+			return ( const_iterator( *( it - 1 ) ) );
+	return ( const_iterator( ite ) );
+}
 #endif

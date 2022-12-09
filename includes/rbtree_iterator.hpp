@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:41:46 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/07 15:08:14 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/09 14:42:55 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ namespace ft
 		//	Destructor
 		~rbtree_iterator( void );
 		//	Getter
-		const node_pointer	base( void ) const;
+		node_pointer		base( void );
 		//	Operators
 		//		Assignment operator
 		rbtree_iterator&	operator=( const rbtree_iterator& other );

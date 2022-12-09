@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:31:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/07 18:22:28 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/09 14:48:52 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ namespace ft
 		};
 
 	private:
-		RBTree< value_type, value_compare >&	_tree;
-		size_type								_size;
-		allocator_type							_allocator;
-		key_compare								_compare;
+		RBTree< value_type, value_compare, allocator_type >&	_tree;
+		size_type												_size;
+		allocator_type											_allocator;
+		key_compare												_compare;
 
 	public:
 		//	Constructors
@@ -129,9 +129,9 @@ namespace ft
 		template< class InputIt >
 		void						insert( InputIt first, InputIt last );
 		//		Erase element from pos.
-		iterator					erase( iterator pos );
+		void						erase( iterator pos );
 		//		Erase from range of iterators.
-		iterator					erase( iterator first, iterator last );
+		void						erase( iterator first, iterator last );
 		//		Erase given key.
 		size_type					erase( const Key& key );
 		//		Swap two maps.
