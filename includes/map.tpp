@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:25:44 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/07 18:44:57 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/09 08:35:54 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,171 @@ SELF::mapped_type&	SELF::operator[]( const Key& key )
 	if ( node == _tree.get_sentinel() )
 		return ( insert(ft::make_pair( key, mapped_type() ) ).first->second );
 	return ( node->content.second )
+}
+
+/*==============================================================================
+	Iterators.
+==============================================================================*/
+
+/*
+Begin iterator.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::iterator	SELF::begin( void )
+{
+	return ( iterator( _tree.minimum() ) );
+}
+
+/*
+Begin iterator const.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::const_iterator	SELF::begin( void ) const
+{
+	return ( iterator( _tree.minimum() ) );
+}
+
+/*
+End iterator.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::iterator	SELF::end( void )
+{
+	return ( iterator( _tree.get_sentinel() ) );
+}
+
+/*
+End iterator const.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::const_iterator	SELF::end( void ) const
+{
+	return ( iterator( _tree.get_sentinel() ) );
+}
+
+/*
+Reverse begin iterator.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::reverse_iterator	SELF::rbegin( void )
+{
+	return (reverse_iterator( _tree.maximum() ) );
+}
+
+/*
+Reverse begin iterator const.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::const_reverse_iterator	SELF::rbegin( void ) const
+{
+	return ( reverse_iterator( _tree.maximum() ) );
+}
+
+/*
+Reverse end iterator.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::reverse_iterator	SELF::rend( void )
+{
+	return (reverse_iterator( _tree.get_sentinel() ) );
+}
+
+/*
+Reverse end iterator cont.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::const_reverse_iterator	SELF::rend( void ) const
+{
+	return ( reverse_iterator( _tree.get_sentinel() ) );
+}
+
+/*==============================================================================
+	Capacity functions.
+==============================================================================*/
+
+/*
+Check for empty container.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+bool	SELF::empty( void ) const
+{
+	if ( _size == 0 )
+		return ( true );
+	return ( false );
+}
+
+/*
+Check size of container.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::size_type	SELF::size( void ) const
+{
+	return ( _size );
+}
+
+/*
+Check max possible size of container.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::size_type	max_size( void ) const
+{
+	return ( _allocator.max_size() );
+}
+
+/*==============================================================================
+	Container modifiers.
+==============================================================================*/
+
+/*
+Clear container.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+void	SELF::clear( void )
+{
+	_tree.clear();
+	_size = 0;
+	return ;
+}
+
+/*
+insert pair in container.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+ft::pair< SELF::iterator, bool >	SELF::insert( const value_type& value )
+{
+	node_pointer	node = _tree.find( value );
+	
+	if ( node != _tree.get_sentinel() )
+		return ( ft::make_pair( iterator( node ), false ) );
+	node = _tree.insert( value, value_compare() );
+	return ( ft::make_pair( iterator( node ), true ) );
+}
+
+/*
+Insert pair in container.
+Take a position as hint for node insertion.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::iterator	SELF::insert( iterator pos, const value_type& value )
+{
+	(void)pos;
+	return ( insert( value ) );
+}
+
+/*
+Insert nodes from iterator.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+template< typename InputIt >
+void	SELF::insert( InputIt first, InputIt last )
+{
+	while ( first != last )
+	{
+		
+		if ( _tree.find( first->first ) == _tree.get_sentinel() )
+			_tree.insert( *first );
+		first++;
+	}
 }
 
 #endif

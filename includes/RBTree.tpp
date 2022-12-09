@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:03:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/07 18:30:06 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/08 18:10:46 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,17 @@ typename RBTree< T >::const_node_pointer	RBTree< T >::get_sentinel( void ) const
 }
 
 /*
+Clear tree.
+*/
+template< typename T, typename Comp, typename Alloc >
+void	RBTree< T >::clear( void )
+{
+	_recursive_destroy( _root );
+	_root = _sentinel;
+	return ;
+}
+
+/*
 Find node given key.
 */
 template< typename T, typename Comp, typename Alloc >
@@ -105,7 +116,7 @@ typename RBTree< T >::node_pointer	RBTree< T >::find( value_type value, Comp com
 Create node with given value and insert in tree.
 */
 template< typename T, typename Comp, typename Alloc >
-void	RBTree< T >::insert( value_type value )
+typename RBtree< T >::node_pointer	RBTree< T >::insert( value_type value )
 {
 	node_pointer	node = _allocate_node( value );
 	node_pointer	current = _root;
@@ -142,7 +153,7 @@ void	RBTree< T >::insert( value_type value )
 	std::cout << " child of " << parent << std::endl;
 	//	Restore RBTree properties
 	_insert_fixup( node );
-	return ;
+	return ( node );
  }
 
 /*
@@ -195,7 +206,8 @@ typename RBTree< T >::node_pointer	RBTree< T >::_allocate_node( value_type value
 	node_pointer	new_node;
 	
 	new_node = new node_type( value, RED );
-	new_node->content = value;
+	new_node->content = _allocator.allocate( 1 );
+	_allocator.construct( new_node->content, value );
 	return ( new_node );
 }
 
@@ -207,6 +219,7 @@ template< typename T, typename Comp, typename Alloc >
 void	RBTree< T >::_deallocate_node( node_pointer node )
 {
 	_allocator.destroy( node->content );
+	_allocator.deallocate( node->content, 1 );
 	delete node;
 	return ;
 }

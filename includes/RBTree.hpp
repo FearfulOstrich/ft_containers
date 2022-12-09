@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:14:46 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/07 18:31:22 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/08 19:00:21 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,14 @@ namespace ft
 		const_node_pointer	get_sentinel( void ) const;
 
 		//	Public methods
+		//		Clear the tree
+		void	clear( void );
 		//		Find a node.
 		template< typename Comp >
 		node_pointer	find( value_type key, Comp comp );
 		//		Insert a node.
 		template< typename Comp >
-		void			insert( value_type value, Comp comp );
+		node_pointer	insert( value_type value, Comp comp );
 		//		Remove a node.
 		template< typename Comp, typename Alloc >
 		void			remove( value_type value, Comp comp );
@@ -74,7 +76,7 @@ namespace ft
 	private:
 		//	Private functions
 		//		Alocate node in memory.
-		node_pointer		_allocate_node( value_type value);
+		node_pointer		_allocate_node( value_type value );
 		//		Deallocate node in memory.
 		void				_deallocate_node( node_pointer node );
 		//		recursively destroy all nodes in tree.
