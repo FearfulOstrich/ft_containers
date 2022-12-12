@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:59:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/24 14:24:37 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/12 16:58:34 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -558,23 +558,24 @@ typename vector< T, Alloc >::
  template< typename T, typename Alloc >
 void		vector< T, Alloc >::push_back( const_reference value )
 {
+	size_type	_old_cap = _capacity;
 	size_type	_new_cap = _next_cap( _size + 1 );
 	pointer		_copy = _array_copy( _new_cap );
 
-	_allocator.construct( _copy[_size], value );
+	_allocator.construct( &_copy[_size], value );
 	std::swap( _copy, _array );
 	_capacity = _new_cap;
 	_size++;
 	for ( size_type i = 0; i < _size; i++ )
-		_allocator.destroy( _copy[i] );
-	_allocator.deallocate( _copy );
+		_allocator.destroy( &_copy[i] );
+	_allocator.deallocate( _copy, _old_cap );
 	return ;
 }
 
 template< typename T, typename Alloc >
 void		vector< T, Alloc >::pop_back( void )
 {
-	_allocator.destroy( _array[--_size] );
+	_allocator.destroy( &_array[--_size] );
 	return ;
 }
 
@@ -665,12 +666,30 @@ bool	operator!=( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs )
 }
 
 /*
+Less than comparison
+*/
+template< typename T, typename Alloc >
+bool	operator<( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs )
+{
+	return ( lexicographical_compare( rhs.begin(), rhs.end(), lhs.begin(), lhs.end() ) );
+}
+
+/*
+Less than or equal to comparison
+*/
+template< typename T, typename Alloc >
+bool	operator<=( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs )
+{
+	return ( ( lhs < rhs ) || ( lhs == rhs ) );
+}
+
+/*
 Greater than comparison
 */
 template< typename T, typename Alloc >
 bool	operator>( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs )
 {
-	return ( lexicographical_compare( rhs.begin(), rhs.end(), lhs.begin(), lhs.end(), ft::greater() ) );
+	return ( !( lhs <= rhs ) );
 }
 
 /*
@@ -680,24 +699,6 @@ template< typename T, typename Alloc >
 bool	operator>=( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs )
 {
 	return ( !( lhs < rhs ) );
-}
-
-/*
-Less than comparison
-*/
-template< typename T, typename Alloc >
-bool	operator<( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs )
-{
-	return ( lexicographical_compare( rhs.begin(), rhs.end(), lhs.begin(), lhs.end(), ft::less() ) );
-}
-
-/*
-Less than or equal to comparison
-*/
-template< typename T, typename Alloc >
-bool	operator<=( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs )
-{
-	return ( !( lhs > rhs ) );
 }
 
 /*

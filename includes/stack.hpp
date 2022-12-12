@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 14:57:48 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/24 14:20:56 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/12 16:42:17 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ namespace ft
 	{
 	public:
 		//	Member types
-		typedef Container					container_type;
-		typedef Container::value_type		value_type;
-		typedef Container::size_type		size_type;
-		typedef Container::reference		reference;
-		typedef Container::const_reference	const_reference;
+		typedef Container							container_type;
+		typedef typename Container::value_type		value_type;
+		typedef typename Container::size_type		size_type;
+		typedef typename Container::reference		reference;
+		typedef typename Container::const_reference	const_reference;
 
 	protected:
 		//	Undelying container.
@@ -66,38 +66,38 @@ namespace ft
 
 		//	Comparison operator non-member functions
 		//		equal
-		friend bool	operator==( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+		friend bool	operator==( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
 		//		Different
-		friend bool	operator!=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+		friend bool	operator!=( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
 		//		Greater
-		friend bool	operator>( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+		friend bool	operator>( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
 		//		Greater or equal
-		friend bool	operator>=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+		friend bool	operator>=( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
 		//		Less
-		friend bool	operator<( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+		friend bool	operator<( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
 		//		Less or equal
-		friend bool	operator<=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+		friend bool	operator<=( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
 	};
 
 	//	Comparison operator non-member functions
 	//		equal
-	template< typename T, typename Alloc >
-	bool	operator==( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+	template< typename T, typename Container >
+	bool	operator==( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
 	//		Different
-	template< typename T, typename Alloc >
-	bool	operator!=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+	template< typename T, typename Container >
+	bool	operator!=( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
 	//		Greater
-	template< typename T, typename Alloc >
-	bool	operator>( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+	template< typename T, typename Container >
+	bool	operator>( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
 	//		Greater or equal
-	template< typename T, typename Alloc >
-	bool	operator>=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+	template< typename T, typename Container >
+	bool	operator>=( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
 	//		Less
-	template< typename T, typename Alloc >
-	bool	operator<( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+	template< typename T, typename Container >
+	bool	operator<( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
 	//		Less or equal
-	template< typename T, typename Alloc >
-	bool	operator<=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs );
+	template< typename T, typename Container >
+	bool	operator<=( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
 
 	# include "stack.tpp"
 

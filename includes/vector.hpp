@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/09 11:18:13 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/12 16:36:13 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,27 @@
 # include "difference.hpp"
 # include "lexicographical_compare.hpp"
 # include "comp.hpp"
+# include "enable_if.hpp"
 
 namespace ft
 {
 	template< typename T, typename Alloc = std::allocator< T > >
 	class vector
 	{
-	
 	public:
 		//	Typedefs
-		typedef T												value_type;
-		typedef Alloc											allocator_type;
-		typedef typename Alloc::size_type						size_type;
-		typedef typename Alloc::difference_type					difference_type;
-		typedef T&												reference;
-		typedef const T&										const_reference;
-		typedef typename Alloc::pointer							pointer;
-		typedef const typename Alloc::pointer					const_pointer;
-		typedef ft::vector_iterator< T >						iterator;
-		typedef ft::vector_iterator< const T >					const_iterator;
-		typedef typename ft::reverse_iterator< iterator >		reverse_iterator;
-		typedef typename ft::reverse_iterator< const_iterator >	const_reverse_iterator;
+		typedef T										value_type;
+		typedef Alloc									allocator_type;
+		typedef typename Alloc::size_type				size_type;
+		typedef typename Alloc::difference_type			difference_type;
+		typedef T&										reference;
+		typedef const T&								const_reference;
+		typedef typename Alloc::pointer					pointer;
+		typedef const typename Alloc::pointer			const_pointer;
+		typedef ft::vector_iterator< T >				iterator;
+		typedef ft::vector_iterator< const T >			const_iterator;
+		typedef ft::reverse_iterator< iterator >		reverse_iterator;
+		typedef ft::reverse_iterator< const_iterator >	const_reverse_iterator;
 
 	private:
 		allocator_type	_allocator; // Allocator to allocate memory.

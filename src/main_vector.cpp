@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 15:58:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/23 14:55:58 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/12 16:23:52 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 # include <stdexcept>
 # include <algorithm>
 # include <iterator>
-#if STL
-	#include <vector>
+# if STL
+	# include <vector>
 	namespace ft = std;
-#else
-	#include "vector.hpp"
-#endif
+# else
+	# include "vector.hpp"
+# endif
 
 class S
 {

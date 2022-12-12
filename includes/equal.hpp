@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 12:09:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/10/13 12:14:17 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/12 15:30:13 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ namespace ft
 	bool	equal( InputIt1 first1, InputIt1 last1, InputIt2 first2 );
 	// equal with two iterators and a binary predicate
 	template< typename InputIt1, typename InputIt2 , typename BinaryPredicate >
-	bool	equal( InputIt1 first1, InputIt1 last1, InputIt2 first2,\
-					BinaryPredicate p );
+	bool	equal( InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryPredicate p );
 
 # include "equal.tpp"
 

@@ -1,5 +1,8 @@
 *.o
-containers
+containers_FT
 containers_STL
 FT
+ft
 STL
+stl
+test

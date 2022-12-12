@@ -16,7 +16,7 @@ FLAGS	=	-Wall -Wextra -Werror -g3 -std=c++98 -g3
 
 SRCDIR	=	src/
 
-SRCFILE	=	main_vector.cpp
+SRCFILE	=	main_stack.cpp
 
 SRC		=	$(addprefix $(SRCDIR), $(SRCFILE))
 
@@ -47,7 +47,7 @@ $(OBJDIR)%.o:	$(SRCDIR)%.cpp Makefile $(DEPS)
 				$(CC) $(FLAGS) -c $< -o $@ -D STL=0 -I $(INCL_DIR)
 
 $(NAME)		:	$(OBJ)
-				$(CC) $(OBJ) -o $(NAME)
+				$(CC) $(OBJ) -o $(NAME)_FT
 
 $(OBJSTLDIR)%.o:	$(SRCDIR)%.cpp Makefile $(DEPS)
 					mkdir -p $(OBJSTLDIR)

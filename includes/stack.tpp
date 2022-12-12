@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:45:00 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/24 14:23:52 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/12 17:08:26 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ Stack destructor.
 template< typename T, typename Container >
 stack< T, Container >::~stack( void )
 {
-	~c();
 	return ;
 }
 
@@ -85,7 +84,7 @@ Top element access as non-const value.
 If stack is empty, Segfault.
 */
 template< typename T, typename Container >
-stack< T, Container >::reference	stack< T, Container >::top( void )
+typename stack< T, Container >::reference	stack< T, Container >::top( void )
 {
 	return ( c.back() );
 }
@@ -95,7 +94,7 @@ Top element access as const value.
 If stack is empty, Segfault.
 */
 template< typename T, typename Container >
-stack< T, Container >::const_reference	stack< T, Container >::top( void ) const
+typename stack< T, Container >::const_reference	stack< T, Container >::top( void ) const
 {
 	return ( c.back() );
 }
@@ -117,7 +116,7 @@ bool	stack< T, Container >::empty( void ) const
 Check if container is empty.
 */
 template< typename T, typename Container >
-stack< T, Container >::size_type	stack< T, Container >::size( void ) const
+typename stack< T, Container >::size_type	stack< T, Container >::size( void ) const
 {
 	return ( c.size() );
 }
@@ -143,7 +142,7 @@ Remove top element from stack.
 template< typename T, typename Container >
 void	stack< T, Container >::pop( void )
 {
-	c.pop_back( value );
+	c.pop_back();
 	return ;
 }
 

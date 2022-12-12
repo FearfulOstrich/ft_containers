@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:25:44 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/09 17:06:29 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/12 14:52:39 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -434,13 +434,21 @@ typename SELF::const_iterator	SELF::find( const Key& key ) const
 }
 
 /*
+Return range containing all elements with given key.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
 ft::pair< SELF::iterator, SELF::iterator >	SELF::equal_range( const Key& key )
 {
-	RBTree< T >*	pos = _tree.find( ft::make_pair( key, mapped_type() ) );
-	
-	return 
+	return ( ft::make_pair< iterator, iterator >( lower_bound( ), upper_bound() ) );
+}
+
+/*
+Return range containing all elements with given key.
+*/
+template< typename Key, typename T, typename Compare, typename Allocator >
+ft::pair< SELF::const_iterator, SELF::const_iterator >	SELF::equal_range( const Key& key ) const
+{
+	return ( ft::make_pair< const_iterator, const_iterator >( lower_bound( ), upper_bound() ) );
 }
 
 /*
@@ -452,10 +460,9 @@ typename SELF::iterator	SELF::lower_bound( const Key& key )
 	iterator		it = begin();
 	const_iterator	ite = end();
 
-	while ( ( it != ite ) )
-		if ( value_compare()( *it++, key ) )
-			return ( iterator( it - 1 ) );
-	return ( iterator( ite ) );
+	while ( ( it != ite ) && _compare()( it->first, key ) )
+		 it++;
+	return ( iterator( it ) );
 }
 
 /*
@@ -467,39 +474,119 @@ typename SELF::const_iterator	SELF::lower_bound( const Key& key ) const
 	const_iterator	it = begin();
 	const_iterator	ite = end();
 
-	while ( ( it != ite ) )
-		if ( value_compare()( *it++, key ) )
-			return ( const_iterator( it - 1 ) );
-	return ( const_iterator( ite ) );
+	while ( ( it != ite ) && _compare()( it->first, key ) )
+		 it++;
+	return ( const_iterator( it ) );
 }
 
 /*
 Find upper bound with given key.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
-typename SELF::iterator	SELF::lower_bound( const Key& key )
+typename SELF::iterator	SELF::upper_bound( const Key& key )
 {
-	iterator		it = rbegin();
-	const_iterator	ite = rend();
+	iterator		it = begin();
+	const_iterator	ite = end();
 
-	while ( ( it != ite ) )
-		if ( value_compare()( *it++, key ) )
-			return ( iterator( *( it - 1 ) ) );
-	return ( iterator( ite ) );
+	while ( ( it != ite ) && !_compare()( key, it->first ) )
+		 it++;
+	return ( iterator( it ) );
 }
 
 /*
 Find upper bound with given key const.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
-typename SELF::const_iterator	SELF::lower_bound( const Key& key ) const
+typename SELF::const_iterator	SELF::upper_bound( const Key& key ) const
 {
-	const_iterator	it = rbegin();
-	const_iterator	ite = rend();
+	const_iterator	it = begin();
+	const_iterator	ite = end();
 
-	while ( ( it != ite ) )
-		if ( value_compare()( *it++, key ) )
-			return ( const_iterator( *( it - 1 ) ) );
-	return ( const_iterator( ite ) );
+	while ( ( it != ite ) && !_compare()( key, it->first ) )
+		 it++;
+	return ( const_iterator( it ) );
 }
+
+/*==============================================================================
+	Observers.
+==============================================================================*/
+
+/*
+Return a functions object that compares two instances of `Key`.
+*/
+SELF::key_compare	SELF::key_comp( void ) const
+{
+	return ( _compare );
+}
+
+/*
+Return a function object that compares two instances of `value_type`.
+*/
+SELF::value_compare	SELF::value_comp( void ) const
+{
+	return ( value_compare() );
+}
+
+/*==============================================================================
+							*************************
+							* NON-MEMBER FUNCTIONS. *
+							*************************
+==============================================================================*/
+
+/*==============================================================================
+	Comparison functions.
+==============================================================================*/
+
+//	Equal
+template< typename Key, typename T, typename Compare, typename Alloc >
+bool	operator==( const map< Key, T, Compare, Alloc >& lhs, const map< Key, T, Compare, Alloc >& rhs )
+{
+	return ( ft::equal( lhs.begin(), lhs.end(), rhs.begin() ) );
+}
+
+//	Different
+template< typename Key, typename T, typename Compare, typename Alloc >
+bool	operator!=( const map< Key, T, Compare, Alloc >& lhs, const map< Key, T, Compare, Alloc >& rhs )
+{
+	return ( !( lhs == rhs ) );
+}
+
+//	Less
+template< typename Key, typename T, typename Compare, typename Alloc >
+bool	operator<( const map< Key, T, Compare, Alloc >& lhs, const map< Key, T, Compare, Alloc >& rhs )
+{
+	return ( ft::lexicographical_compare( lhs.begin(), lhs.end(), rhs.begin(), rhs.begin(), lhs.value_compare() ) );
+}
+
+//	Less or equal
+template< typename Key, typename T, typename Compare, typename Alloc >
+bool	operator<=( const map< Key, T, Compare, Alloc >& lhs, const map< Key, T, Compare, Alloc >& rhs )
+{
+	return ( ( lhs < rhs ) || ( lhs == rhs ) ); 
+}
+
+//	Greater
+template< typename Key, typename T, typename Compare, typename Alloc >
+bool	operator>( const map< Key, T, Compare, Alloc >& lhs, const map< Key, T, Compare, Alloc >& rhs )
+{
+	return ( !( lhs <= rhs ) );
+}
+
+//	Greater or equal
+template< typename Key, typename T, typename Compare, typename Alloc >
+bool	operator>=( const map< Key, T, Compare, Alloc >& lhs, const map< Key, T, Compare, Alloc >& rhs )
+{
+	return ( !( lhs < rhs ) );
+}
+
+/*==============================================================================
+	swap function.
+==============================================================================*/
+
+template< typename Key, typename T, typename Compare, typename Alloc >
+void	swap( map< Key, T, Compare, Alloc >& lhs, map< Key, T, Compare, Alloc >& rhs )
+{
+	lhs.swap( rhs );
+}
+
 #endif
