@@ -16,7 +16,7 @@ FLAGS	=	-Wall -Wextra -Werror -g3 -std=c++98 -g3
 
 SRCDIR	=	src/
 
-SRCFILE	=	main_stack.cpp
+SRCFILE	=	main_map.cpp
 
 SRC		=	$(addprefix $(SRCDIR), $(SRCFILE))
 
