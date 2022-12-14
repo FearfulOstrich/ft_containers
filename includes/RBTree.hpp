@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:14:46 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/09 16:04:20 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/14 17:13:33 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "RBNode.hpp"
 # include "pair.hpp"
+# include "rbtree_iterator.hpp"
 # include <iostream>
 # include <memory>
 
@@ -28,13 +29,13 @@ namespace ft
 		//	Typedefs
 		typedef T							value_type;
 		typedef RBNode< T >					node_type;
-		typedef const node_type				const_node;
+		typedef const RBNode< T >			const_node;
 		typedef node_type*					node_pointer;
 		typedef const_node*					const_node_pointer;
 		typedef node_type&					node_reference;
 		typedef const_node&					const_node_reference;
 		typedef std::allocator< node_type >	node_allocator;
-		typedef Alloc::size_type			size_type;
+		typedef typename Alloc::size_type	size_type;
 
 	private:
 		//	Attibutes
@@ -48,15 +49,15 @@ namespace ft
 	public:
 		//	Constructors
 		//		Constructor with _root
-		RBTree( void );
+		RBTree( const Comp& compare, const Alloc& allocator );
 		//		Constructor by copy
-		RBTree( const RBTree< T >& other );
+		RBTree( const RBTree< T, Comp, Alloc >& other );
 		
 		//	Destructor
 		~RBTree( void );
 
 		//	Assignment operator
-		RBTree&	operator=( const RBTree< T >& other );
+		RBTree&	operator=( const RBTree< T, Comp, Alloc >& other );
 
 		//	Getters
 		//		Root getter
@@ -75,9 +76,9 @@ namespace ft
 		//		Insert a node.
 		node_pointer	insert( value_type value );
 		//		Remove a node from key.
-		void			remove( value_type value );
+		size_type		remove( value_type value );
 		//		Remove a node.
-		void			remove( value_type value );
+		void			remove( node_pointer node );
 
 	private:
 		//	Private functions
@@ -100,11 +101,11 @@ namespace ft
 		//		Fetch minimum of tree const.
 		const_node_pointer	_minimum( void ) const;
 		//		Fetch minimum of subtree from node const.
-		const_node_pointer	_minimum( node_pointer node ) const;
+		const_node_pointer	_minimum( const_node_pointer node ) const;
 		//		Fetch maximum of tree const.
 		const_node_pointer	_maximum( void ) const;
 		//		Fetch maximum of subtree from nodem const.
-		const_node_pointer	_maximum( node_pointer node ) const;
+		const_node_pointer	_maximum( const_node_pointer node ) const;
 		//		Get node successor.
 		node_pointer		_successor( node_pointer node );
 		//		Get node predecessor.
@@ -114,8 +115,7 @@ namespace ft
 		//		Get node predecessor const.
 		const_node_pointer	_predecessor( node_pointer node ) const;
 		//		Find node from key.
-		template< typename Comp >
-		node_pointer		_find( value_type key, node_pointer node, Comp comp );
+		node_pointer		_find( value_type key, node_pointer node );
 		//		Left rotate node in tree.
 		void				_left_rotate( node_pointer node );
 		//		Right rotate node in tree.

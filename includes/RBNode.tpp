@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:34:03 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/07 12:00:43 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/14 16:54:15 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ Constructor by copy.
 */
 template< typename T >
 RBNode< T >::RBNode( const RBNode< T >& other )
-	: color( other.color )
-	, parent( other.parent )
+	: parent( other.parent )
 	, left( other.left )
 	, right( other.right )
+	, color( other.color )
 	, content( other.content )
 {
 	return ;
@@ -114,7 +114,7 @@ typename RBNode< T >::const_reference	RBNode< T >::operator*( void ) const
 Find root of node's tree.
 */
 template< typename T >
-RBNode< T >*	RBNode< T >::_root( RBNode< T >* sentinel ) const
+const RBNode< T >*	RBNode< T >::_root( const RBNode< T >* sentinel ) const
 {
 	if ( parent == sentinel )
 		return ( this );
@@ -125,37 +125,37 @@ RBNode< T >*	RBNode< T >::_root( RBNode< T >* sentinel ) const
 Minimum in node's subtree.
 */
 template< typename T >
-RBNode< T >*	RBNode< T >::_minimum( RBNode< T >* sentinel ) const
+const RBNode< T >*	RBNode< T >::_minimum( const RBNode< T >* sentinel ) const
 {
 	if ( left == sentinel )
 		return ( this );
-	return ( left->minimum( sentinel ) );
+	return ( left->_minimum( sentinel ) );
 }
 
 /*
 Maximum in node's subtree.
 */
 template< typename T >
-RBNode< T >*	RBNode< T >::_maximum( RBNode< T >* sentinel ) const
+const RBNode< T >*	RBNode< T >::_maximum( const RBNode< T >* sentinel ) const
 {
 	if ( right == sentinel )
 		return ( this );
-	return ( right->maximum( sentinel ) );
+	return ( right->_maximum( sentinel ) );
 }
 
 /*
 Successor of node.
 */
 template< typename T >
-RBNode< T >*	RBNode< T >::successor( RBNode< T >* sentinel ) const
+const RBNode< T >*	RBNode< T >::successor( const RBNode< T >* sentinel ) const
 {
-	RBNode< T >*	parent_node;
-	RBNode< T >*	node;
+	const RBNode< T >*	parent_node;
+	const RBNode< T >*	node;
 	
 	if ( right != sentinel )
 		return ( right->_minimum( sentinel ) );
 	parent_node = parent;
-	node = this;
+	node = const_cast< RBNode< T >* >( this );
 	while ( ( parent_node != sentinel ) && ( node == parent_node->right ) )
 	{
 		node = parent_node;
@@ -168,7 +168,7 @@ RBNode< T >*	RBNode< T >::successor( RBNode< T >* sentinel ) const
 Predecessor of node.
 */
 template< typename T >
-RBNode< T >*	RBNode< T >::predecessor( RBNode< T >* sentinel ) const
+const RBNode< T >*	RBNode< T >::predecessor( const RBNode< T >* sentinel ) const
 {
 	RBNode< T >*	parent_node;
 	RBNode< T >*	node;
@@ -176,7 +176,7 @@ RBNode< T >*	RBNode< T >::predecessor( RBNode< T >* sentinel ) const
 	if ( left != sentinel )
 		return ( left->_maximum( sentinel ) );
 	parent_node = parent;
-	node = this;
+	node = const_cast< RBNode< T >* >( this );
 	while ( ( parent_node != sentinel ) && ( node == parent_node->left ) )
 	{
 		node = parent_node;

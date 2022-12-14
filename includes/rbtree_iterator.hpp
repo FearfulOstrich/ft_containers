@@ -6,14 +6,15 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:41:46 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/09 14:42:55 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/14 17:30:23 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RBTREE_ITERATOR_HPP
-# define RBTree_ITERATOR_HPP
+# define RBTREE_ITERATOR_HPP
 
-# include<cstddef>
+# include <cstddef>
+# include "iterator_traits.hpp"
 
 namespace ft
 {
@@ -22,13 +23,13 @@ namespace ft
 	{
 	public:
 		//	Typedefs
-		typedef std::ptrdiff_t						difference_type;
-		typedef typename RBNode< T >::value_type	value_type;
-		typedef typename RBNode< T >::pointer		pointer;
-		typedef typename RBNode< T >::reference		reference;
-		typedef ft::bidirectional_iterator_tag		iterator_category;
-		typedef RBNode< T >							node_type;
-		typedef node_type*							node_pointer;
+		typedef std::ptrdiff_t					difference_type;
+		typedef ft::bidirectional_iterator_tag	iterator_category;
+		typedef RBNode< T >						node_type;
+		typedef node_type*						node_pointer;
+		typedef typename node_type::value_type	value_type;
+		typedef typename node_type::pointer		pointer;
+		typedef typename node_type::reference	reference;
 	
 	private:
 		//	Attributes
@@ -57,8 +58,8 @@ namespace ft
 		rbtree_iterator&	operator--( void );
 		rbtree_iterator		operator--( int );
 		//		Conversion to const
-							operator rbtree_iterator< const T >( void ) const;
-	}
+							operator rbtree_iterator< RBNode< const T > >( void ) const;
+	};
 
 	//	Non-member functions
 	//		Comparison operators.

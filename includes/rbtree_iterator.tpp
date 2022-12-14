@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:05:39 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/09 14:43:08 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/14 17:06:27 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,9 @@ rbtree_iterator< T >	rbtree_iterator< T >::operator--( int )
 ==============================================================================*/
 
 template< typename T >
-rbtree_iterator< T >::operator	rbtree_iterator< const T >( void ) const
+rbtree_iterator< T >::operator	rbtree_iterator< RBNode< const T > >( void ) const
 {
-	return ( rbtree_iterator< const T >( _node, _sentinel ) );
+	return ( rbtree_iterator< RBNode< const T > >( _node, _sentinel ) );
 }
 
 /*==============================================================================

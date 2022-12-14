@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:31:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/09 14:48:52 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/14 16:22:54 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@
 # include "binary_function.hpp"
 # include "comp.hpp"
 # include "RBTree.hpp"
+# include "reverse_iterator.hpp"
+# include "equal.hpp"
+#include "lexicographical_compare.hpp"
 
 namespace ft
 {
 	template< typename Key, typename T,
 			typename Compare = ft::less< Key >,
-			typename Allocator = std::allocator< std::pair< const Key, T > > >
+			typename Allocator = std::allocator< ft::pair< const Key, T > > >
 	class map
 	{
 	public:
@@ -55,10 +58,13 @@ namespace ft
 		};
 
 	private:
-		RBTree< value_type, value_compare, allocator_type >&	_tree;
-		size_type												_size;
-		allocator_type											_allocator;
-		key_compare												_compare;
+		//	Typedefs.
+		typedef RBTree< value_type, value_compare, allocator_type >	tree_type;
+		//	Attributes.
+		size_type		_size;
+		key_compare		_compare;
+		allocator_type	_allocator;
+		tree_type		_tree;
 
 	public:
 		//	Constructors
@@ -145,9 +151,9 @@ namespace ft
 		//		Find const element with given key.
 		const_iterator								find( const Key& key ) const;
 		//		find range of values with given key.
-		std::pair< iterator, iterator >				equal_range( const Key& key );
+		ft::pair< iterator, iterator >				equal_range( const Key& key );
 		//		find const range of values with given key.
-		std::pair< const_iterator, const_iterator >	equal_range( const Key& key ) const;
+		ft::pair< const_iterator, const_iterator >	equal_range( const Key& key ) const;
 		//		Find lower bound with given key.
 		iterator									lower_bound( const Key& key );
 		//		Find constant lower bound with given key.

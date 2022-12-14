@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:19:28 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/09 13:15:41 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/14 16:52:44 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,15 @@ namespace ft
 		const_reference	operator*( void ) const;
 		
 		//	Root of node's tree.
-		RBNode< T >*	_root( RBNode< T >* sentinel ) const;
+		const RBNode< T >*	_root( const RBNode< T >* sentinel ) const;
 		//	minimum and maximum in node's sub-tree.
-		RBNode< T >*	_minimum( RBNode< T >* sentinel ) const;
-		RBNode< T >*	_maximum( RBNode< T >* sentinel ) const;
+		const RBNode< T >*	_minimum( const RBNode< T >* sentinel ) const;
+		const RBNode< T >*	_maximum( const RBNode< T >* sentinel ) const;
 
 	public:
 		//	Successors and Predecessors.
-		RBNode< T >*	successor( void ) const;
-		RBNode< T >*	predecessor( void ) const;
+		const RBNode< T >*		successor( const RBNode< T >* sentinel ) const;
+		const RBNode< T >*		predecessor( const RBNode< T >* sentinel ) const;
 	};
 
 	//	Non-member functions

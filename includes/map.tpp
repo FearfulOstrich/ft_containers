@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:25:44 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/12 14:52:39 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/14 17:34:18 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ Operator () for value compare.
 Compare keys (first attribute of value_type)
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
-bool	SELF::value_compare::operator()( const value_type& lhs, const value_type& rhs ) const;
+bool	SELF::value_compare::operator()( const value_type& lhs, const value_type& rhs ) const
 {
 	return ( comp( lhs.first, rhs.first ) );
 }
@@ -54,10 +54,10 @@ Default constructor.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
 SELF::map( void )
-	: _tree( RBTree< value_type, value_compare >() )
-	, _size( 0 )
+	: _size( 0 )
 	, _compare( Compare() )
 	, _allocator( Allocator() )
+	, _tree( tree_type( value_compare( _compare ), _allocator ) )
 {
 	return ;
 }
@@ -67,10 +67,10 @@ constructor with given `key_compare` function and `allocator`.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
 SELF::map( const Compare& comp, const Allocator& alloc )
-	: _tree( RBTree< value_type, value_compare >() )
-	, _size( 0 )
+	: _size( 0 )
 	, _compare( comp )
 	, _allocator( alloc )
+	, _tree( tree_type( value_compare( _compare ), _allocator ) )
 {
 	return ;
 }
@@ -81,10 +81,10 @@ Constructor from InputIterator.
 template< typename Key, typename T, typename Compare, typename Allocator >
 template< typename InputIt >
 SELF::map( InputIt first, InputIt last, const Compare& comp, const Allocator& alloc )
-	: _tree( RBTree< value_type, value_compare >() )
-	, _size( 0 )
+	: _size( 0 )
 	, _compare( comp )
 	, _allocator( alloc )
+	, _tree( tree_type( value_compare( _compare ), _allocator ) )
 {
 	insert( first, last );
 	return ;
@@ -95,6 +95,7 @@ Copy constructor.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
 SELF::map( const self& other )
+	:	_tree( other._tree )
 {
 	*this = other;
 	return ;
@@ -118,7 +119,7 @@ SELF::~map( void )
 Getter for allocator member.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
-SELF::allocator_type	SELF::get_allocator( void ) const
+typename SELF::allocator_type	SELF::get_allocator( void ) const
 {
 	return ( _allocator );
 }
@@ -151,11 +152,11 @@ Takes first node found in _tree.
 If no node with key is found, throw exception.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
-SELF::mapped_type&	SELF::at( const Key& key )
+typename SELF::mapped_type&	SELF::at( const Key& key )
 {
-	RBNode< T >*	node = _tree.find( key );
+	typename tree_type::node_pointer	node = _tree.find( key );
 	
-	if ( node == tree.get_sentinel() )
+	if ( node == _tree.get_sentinel() )
 		throw ( std::out_of_range( "OOps change message." ) );
 	return ( node->content.second );
 }
@@ -165,11 +166,11 @@ Const at function.
 See above.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
-const SELF::mapped_type&	SELF::at( const Key& key ) const
+const typename SELF::mapped_type&	SELF::at( const Key& key ) const
 {
-	RBNode< T >*	node = _tree.find( key, _compare );
+	typename tree_type::node_pointer	node = _tree.find( key, _compare );
 	
-	if ( node == tree.get_sentinel() )
+	if ( node == _tree.get_sentinel() )
 		throw ( std::out_of_range( "OOps change message." ) );
 	return ( node->content.second );
 }
@@ -181,13 +182,13 @@ Takes first node found in _tree.
 If no node with key is found, create value initialized value_type and insert it.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
-SELF::mapped_type&	SELF::operator[]( const Key& key )
+typename SELF::mapped_type&	SELF::operator[]( const Key& key )
 {
-	RBNode< T >*	node = _tree.find( key, _compare );
+	typename tree_type::node_pointer	node = _tree.find( key, _compare );
 
 	if ( node == _tree.get_sentinel() )
 		return ( insert(ft::make_pair( key, mapped_type() ) ).first->second );
-	return ( node->content.second )
+	return ( node->content.second );
 }
 
 /*==============================================================================
@@ -294,7 +295,7 @@ typename SELF::size_type	SELF::size( void ) const
 Check max possible size of container.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
-typename SELF::size_type	max_size( void ) const
+typename SELF::size_type	SELF::max_size( void ) const
 {
 	return ( _tree.max_size() );
 }
@@ -318,9 +319,9 @@ void	SELF::clear( void )
 insert pair in container.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
-ft::pair< SELF::iterator, bool >	SELF::insert( const value_type& value )
+ft::pair< typename SELF::iterator, bool >	SELF::insert( const value_type& value )
 {
-	node_pointer	node = _tree.find( value );
+	typename tree_type::node_pointer	node = _tree.find( value );
 	
 	if ( node != _tree.get_sentinel() )
 		return ( ft::make_pair( iterator( node ), false ) );
@@ -349,7 +350,7 @@ void	SELF::insert( InputIt first, InputIt last )
 	while ( first != last )
 	{
 		
-		if ( _tree.find( first->first ) == _tree.get_sentinel() )
+		if ( _tree.find( *first ) == _tree.get_sentinel() )
 			_tree.insert( *first );
 		first++;
 	}
@@ -437,18 +438,18 @@ typename SELF::const_iterator	SELF::find( const Key& key ) const
 Return range containing all elements with given key.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
-ft::pair< SELF::iterator, SELF::iterator >	SELF::equal_range( const Key& key )
+ft::pair< typename SELF::iterator, typename SELF::iterator >	SELF::equal_range( const Key& key )
 {
-	return ( ft::make_pair< iterator, iterator >( lower_bound( ), upper_bound() ) );
+	return ( ft::make_pair< iterator, iterator >( lower_bound( key  ), upper_bound( key ) ) );
 }
 
 /*
 Return range containing all elements with given key.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
-ft::pair< SELF::const_iterator, SELF::const_iterator >	SELF::equal_range( const Key& key ) const
+ft::pair< typename SELF::const_iterator, typename SELF::const_iterator >	SELF::equal_range( const Key& key ) const
 {
-	return ( ft::make_pair< const_iterator, const_iterator >( lower_bound( ), upper_bound() ) );
+	return ( ft::make_pair< const_iterator, const_iterator >( lower_bound( key  ), upper_bound( key ) ) );
 }
 
 /*
@@ -514,7 +515,8 @@ typename SELF::const_iterator	SELF::upper_bound( const Key& key ) const
 /*
 Return a functions object that compares two instances of `Key`.
 */
-SELF::key_compare	SELF::key_comp( void ) const
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::key_compare	SELF::key_comp( void ) const
 {
 	return ( _compare );
 }
@@ -522,7 +524,8 @@ SELF::key_compare	SELF::key_comp( void ) const
 /*
 Return a function object that compares two instances of `value_type`.
 */
-SELF::value_compare	SELF::value_comp( void ) const
+template< typename Key, typename T, typename Compare, typename Allocator >
+typename SELF::value_compare	SELF::value_comp( void ) const
 {
 	return ( value_compare() );
 }

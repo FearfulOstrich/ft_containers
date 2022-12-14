@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:03:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/09 15:07:17 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/14 17:31:07 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ Default Constructor, root default to _sentinel.
 template< typename T, typename Comp, typename Alloc >
 RBTree< T, Comp, Alloc >::RBTree( const Comp& compare, const Alloc& allocator )
 	: _node_allocator( node_allocator() )
-	, _compare( compare )
 	, _allocator( allocator )
+	, _compare( compare )
 {
-	_node_allocator.construct( _sentinel, T() );
+	_sentinel = _node_allocator.allocate( 1 );
+	_allocator.construct( &_sentinel->content, T() );
 	_root = _sentinel;
 	return ;
 }
@@ -46,6 +47,9 @@ Constructor by copy.
 */
 template< typename T, typename Comp, typename Alloc >
 RBTree< T, Comp, Alloc >::RBTree( const RBTree< T, Comp, Alloc >& other )
+	: _node_allocator( other._node_allocator )
+	, _allocator( other._allocator )
+	, _compare( other._compare )
 {
 	*this = other;
 	return ;
@@ -78,18 +82,18 @@ Deep copy.
 template< typename T, typename Comp, typename Alloc >
 RBTree< T, Comp, Alloc >&	RBTree< T, Comp, Alloc >::operator=( const RBTree< T, Comp, Alloc >& other )
 {
-	ft::rbtree_iterator< T >	it = other.begin();
-	ft::rbtree_iterator< T >	ite = other.end();
-
-	if ( this != *other )
+	const_node_pointer	node = other._minimum();
+	
+	if ( this != &other )
 	{
 		_node_allocator = other._node_allocator;
-		_allocator = other._allocate_node;
+		_allocator = other._allocator;
 		_compare = other._compare;
-		_node_allocator.construct( _sentinel, T() );
+		_sentinel = _node_allocator.allocate( 1 );
+		_allocator.construct( &_sentinel->content, T() );
 		_root = _sentinel;
-		while ( it != ite )
-			insert( (it++)->content );
+		while ( node != _sentinel )
+			insert( node->content );
 		_sentinel->left = _maximum();
 		_sentinel->right = _minimum();
 	}
@@ -158,7 +162,7 @@ typename RBTree< T, Comp, Alloc >::node_pointer	RBTree< T, Comp, Alloc >::find( 
 Create node with given value and insert in tree.
 */
 template< typename T, typename Comp, typename Alloc >
-typename RBtree< T >::node_pointer	RBTree< T, Comp, Alloc >::insert( value_type value )
+typename RBTree< T, Comp, Alloc >::node_pointer	RBTree< T, Comp, Alloc >::insert( value_type value )
 {
 	node_pointer	node = _allocate_node( value );
 	node_pointer	current = _root;
@@ -193,7 +197,7 @@ typename RBtree< T >::node_pointer	RBTree< T, Comp, Alloc >::insert( value_type 
 Remove node given value.
 */
 template< typename T, typename Comp, typename Alloc >
-void	RBTree< T, Comp, Alloc >::remove( value_type value )
+typename RBTree< T, Comp, Alloc >::size_type	RBTree< T, Comp, Alloc >::remove( value_type value )
 {
 	node_pointer	node = find( value );
 	
@@ -257,7 +261,7 @@ typename RBTree< T, Comp, Alloc >::node_pointer	RBTree< T, Comp, Alloc >::_alloc
 	node_pointer	new_node;
 	
 	new_node = _node_allocator.allocate( 1 );
-	_allocator.construct( new_node->content, value );
+	_allocator.construct( &new_node->content, value );
 	return ( new_node );
 }
 
@@ -267,8 +271,8 @@ Deallocate node memory.
 template< typename T, typename Comp, typename Alloc >
 void	RBTree< T, Comp, Alloc >::_deallocate_node( node_pointer node )
 {
-	_allocator.destroy( node->content );
-	_node_allocator._deallocate( node, 1 );
+	_allocator.destroy( &node->content );
+	_node_allocator.deallocate( node, 1 );
 	return ;
 }
 
@@ -364,7 +368,7 @@ template< typename T, typename Comp, typename Alloc >
 typename RBTree< T, Comp, Alloc >::const_node_pointer	RBTree< T, Comp, Alloc >::_minimum( void ) const
 {
 	if ( _root == _sentinel )
-		return ( _sentinel );
+		return ( get_sentinel() );
 	return ( _minimum( _root ) );
 }
 
@@ -372,7 +376,7 @@ typename RBTree< T, Comp, Alloc >::const_node_pointer	RBTree< T, Comp, Alloc >::
 Fetch minimum node in tree or sub-tree with root `node` const.
 */
 template< typename T, typename Comp, typename Alloc >
-typename RBTree< T, Comp, Alloc >::const_node_pointer	RBTree< T, Comp, Alloc >::_minimum( node_pointer node ) const
+typename RBTree< T, Comp, Alloc >::const_node_pointer	RBTree< T, Comp, Alloc >::_minimum( const_node_pointer node ) const
 {
 	if ( node->left == _sentinel )
 		return ( node );
@@ -394,7 +398,7 @@ typename RBTree< T, Comp, Alloc >::const_node_pointer	RBTree< T, Comp, Alloc >::
 Fetch maximum node in tree or sub-tree with root `node`.
 */
 template< typename T, typename Comp, typename Alloc >
-typename RBTree< T, Comp, Alloc >::const_node_pointer	RBTree< T, Comp, Alloc >::_maximum( node_pointer node ) const
+typename RBTree< T, Comp, Alloc >::const_node_pointer	RBTree< T, Comp, Alloc >::_maximum( const_node_pointer node ) const
 {
 	if ( node->right == _sentinel )
 		return ( node );
