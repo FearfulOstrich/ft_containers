@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:25:44 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/14 17:34:18 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/15 17:00:20 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ Default constructor.
 template< typename Key, typename T, typename Compare, typename Allocator >
 SELF::map( void )
 	: _size( 0 )
-	, _compare( Compare() )
+	, _key_compare( Compare() )
 	, _allocator( Allocator() )
-	, _tree( tree_type( value_compare( _compare ), _allocator ) )
+	, _tree( tree_type( value_compare( _key_compare ), _allocator ) )
 {
 	return ;
 }
@@ -68,9 +68,9 @@ constructor with given `key_compare` function and `allocator`.
 template< typename Key, typename T, typename Compare, typename Allocator >
 SELF::map( const Compare& comp, const Allocator& alloc )
 	: _size( 0 )
-	, _compare( comp )
+	, _key_compare( comp )
 	, _allocator( alloc )
-	, _tree( tree_type( value_compare( _compare ), _allocator ) )
+	, _tree( tree_type( value_compare( _key_compare ), _allocator ) )
 {
 	return ;
 }
@@ -82,9 +82,9 @@ template< typename Key, typename T, typename Compare, typename Allocator >
 template< typename InputIt >
 SELF::map( InputIt first, InputIt last, const Compare& comp, const Allocator& alloc )
 	: _size( 0 )
-	, _compare( comp )
+	, _key_compare( comp )
 	, _allocator( alloc )
-	, _tree( tree_type( value_compare( _compare ), _allocator ) )
+	, _tree( tree_type( value_compare( _key_compare ), _allocator ) )
 {
 	insert( first, last );
 	return ;
@@ -134,7 +134,7 @@ SELF&	SELF::operator=( const self& other )
 	if ( &other != this )
 	{
 		_allocator = other._allocator;
-		_compare = other._compare;
+		_key_compare = other._key_compare;
 		_tree = other._tree;
 		_size = other._size;
 	}
@@ -168,7 +168,7 @@ See above.
 template< typename Key, typename T, typename Compare, typename Allocator >
 const typename SELF::mapped_type&	SELF::at( const Key& key ) const
 {
-	typename tree_type::node_pointer	node = _tree.find( key, _compare );
+	typename tree_type::node_pointer	node = _tree.find( key );
 	
 	if ( node == _tree.get_sentinel() )
 		throw ( std::out_of_range( "OOps change message." ) );
@@ -184,7 +184,7 @@ If no node with key is found, create value initialized value_type and insert it.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::mapped_type&	SELF::operator[]( const Key& key )
 {
-	typename tree_type::node_pointer	node = _tree.find( key, _compare );
+	typename tree_type::node_pointer	node = _tree.find( key );
 
 	if ( node == _tree.get_sentinel() )
 		return ( insert(ft::make_pair( key, mapped_type() ) ).first->second );
@@ -201,7 +201,7 @@ Begin iterator.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::iterator	SELF::begin( void )
 {
-	return ( iterator( _tree.minimum() ) );
+	return ( iterator( _tree.minimum(), _tree.get_sentinel() ) );
 }
 
 /*
@@ -210,7 +210,7 @@ Begin iterator const.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::const_iterator	SELF::begin( void ) const
 {
-	return ( iterator( _tree.minimum() ) );
+	return ( const_iterator( _tree.minimum(), _tree.get_sentinel() ) );
 }
 
 /*
@@ -219,7 +219,7 @@ End iterator.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::iterator	SELF::end( void )
 {
-	return ( iterator( _tree.get_sentinel() ) );
+	return ( iterator( _tree.get_sentinel(), _tree.get_sentinel() ) );
 }
 
 /*
@@ -228,7 +228,7 @@ End iterator const.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::const_iterator	SELF::end( void ) const
 {
-	return ( iterator( _tree.get_sentinel() ) );
+	return ( const_iterator( _tree.get_sentinel(), _tree.get_sentinel() ) );
 }
 
 /*
@@ -237,7 +237,7 @@ Reverse begin iterator.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::reverse_iterator	SELF::rbegin( void )
 {
-	return (reverse_iterator( _tree.maximum() ) );
+	return ( reverse_iterator( iterator( _tree.maximum(), _tree.get_sentinel() ) ) );
 }
 
 /*
@@ -246,7 +246,7 @@ Reverse begin iterator const.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::const_reverse_iterator	SELF::rbegin( void ) const
 {
-	return ( reverse_iterator( _tree.maximum() ) );
+	return ( const_reverse_iterator( const_iterator( _tree.maximum(), _tree.get_sentinel() ) ) );
 }
 
 /*
@@ -255,7 +255,7 @@ Reverse end iterator.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::reverse_iterator	SELF::rend( void )
 {
-	return (reverse_iterator( _tree.get_sentinel() ) );
+	return ( reverse_iterator( iterator( _tree.get_sentinel(), _tree.get_sentinel() ) ) );
 }
 
 /*
@@ -264,7 +264,7 @@ Reverse end iterator cont.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::const_reverse_iterator	SELF::rend( void ) const
 {
-	return ( reverse_iterator( _tree.get_sentinel() ) );
+	return ( const_reverse_iterator( const_iterator( _tree.get_sentinel(), _tree.get_sentinel() ) ) );
 }
 
 /*==============================================================================
@@ -324,9 +324,10 @@ ft::pair< typename SELF::iterator, bool >	SELF::insert( const value_type& value 
 	typename tree_type::node_pointer	node = _tree.find( value );
 	
 	if ( node != _tree.get_sentinel() )
-		return ( ft::make_pair( iterator( node ), false ) );
-	node = _tree.insert( value, value_compare() );
-	return ( ft::make_pair( iterator( node ), true ) );
+		return ( ft::make_pair( iterator( node, _tree.get_sentinel() ), false ) );
+	node = _tree.insert( value );
+	_size++;
+	return ( ft::make_pair( iterator( node, _tree.get_sentinel() ), true ) );
 }
 
 /*
@@ -351,7 +352,10 @@ void	SELF::insert( InputIt first, InputIt last )
 	{
 		
 		if ( _tree.find( *first ) == _tree.get_sentinel() )
+		{
 			_tree.insert( *first );
+			_size++;
+		}
 		first++;
 	}
 	return ;
@@ -384,7 +388,7 @@ Erase element given key.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::size_type	SELF::erase( const Key& key )
 {
-	return ( _tree.erase( ft::make_pair( key, mapped_type() ) ) );
+	return ( _tree.remove( ft::make_pair( key, mapped_type() ) ) );
 }
 
 /*
@@ -461,7 +465,7 @@ typename SELF::iterator	SELF::lower_bound( const Key& key )
 	iterator		it = begin();
 	const_iterator	ite = end();
 
-	while ( ( it != ite ) && _compare()( it->first, key ) )
+	while ( ( it != ite ) && _key_compare()( it->first, key ) )
 		 it++;
 	return ( iterator( it ) );
 }
@@ -475,7 +479,7 @@ typename SELF::const_iterator	SELF::lower_bound( const Key& key ) const
 	const_iterator	it = begin();
 	const_iterator	ite = end();
 
-	while ( ( it != ite ) && _compare()( it->first, key ) )
+	while ( ( it != ite ) && _key_compare()( it->first, key ) )
 		 it++;
 	return ( const_iterator( it ) );
 }
@@ -489,7 +493,7 @@ typename SELF::iterator	SELF::upper_bound( const Key& key )
 	iterator		it = begin();
 	const_iterator	ite = end();
 
-	while ( ( it != ite ) && !_compare()( key, it->first ) )
+	while ( ( it != ite ) && !_key_compare()( key, it->first ) )
 		 it++;
 	return ( iterator( it ) );
 }
@@ -503,7 +507,7 @@ typename SELF::const_iterator	SELF::upper_bound( const Key& key ) const
 	const_iterator	it = begin();
 	const_iterator	ite = end();
 
-	while ( ( it != ite ) && !_compare()( key, it->first ) )
+	while ( ( it != ite ) && !_key_compare()( key, it->first ) )
 		 it++;
 	return ( const_iterator( it ) );
 }
@@ -518,7 +522,7 @@ Return a functions object that compares two instances of `Key`.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::key_compare	SELF::key_comp( void ) const
 {
-	return ( _compare );
+	return ( _key_compare );
 }
 
 /*

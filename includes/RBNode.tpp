@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:34:03 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/14 16:54:15 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/15 17:25:40 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ RBNode< T >&	RBNode< T >::operator=( const RBNode< T >& other )
 Convert RBNode to RBNode with constant content.
 */
 template< typename T >
-RBNode< T >::operator	RBNode< const T >( void ) const
+RBNode< T >::operator	ft::RBNode< const T >( void )
 {
-	return ( RBNode< const T >( content, color ) );
+	return ( ft::RBNode< const T >( content, color ) );
 }
 
 /*

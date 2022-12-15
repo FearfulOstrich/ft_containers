@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:31:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/14 16:22:54 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/15 13:40:36 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ namespace ft
 		typedef RBTree< value_type, value_compare, allocator_type >	tree_type;
 		//	Attributes.
 		size_type		_size;
-		key_compare		_compare;
+		key_compare		_key_compare;
+		// value_compare	_value_compare;
 		allocator_type	_allocator;
 		tree_type		_tree;
 

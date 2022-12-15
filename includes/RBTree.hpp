@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:14:46 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/14 17:13:33 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/15 17:07:25 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ namespace ft
 		//		Root getter
 		const_node_pointer	get_root( void ) const;
 		//		Sentinel getter
+		node_pointer		get_sentinel( void );
+		//		Sentinel getter const
 		const_node_pointer	get_sentinel( void ) const;
 
 		//	Capacity
@@ -70,15 +72,23 @@ namespace ft
 
 		//	Public methods
 		//		Clear the tree
-		void			clear( void );
+		void				clear( void );
 		//		Find a node.
-		node_pointer	find( value_type value );
+		node_pointer		find( const value_type& value );
 		//		Insert a node.
-		node_pointer	insert( value_type value );
+		node_pointer		insert( value_type value );
 		//		Remove a node from key.
-		size_type		remove( value_type value );
+		size_type			remove( const value_type& value );
 		//		Remove a node.
-		void			remove( node_pointer node );
+		void				remove( node_pointer node );
+		//		Fetch minimum of tree.
+		node_pointer		minimum( void );
+		//		Fetch maximum of tree.
+		node_pointer		maximum( void );
+		//		Fetch minimum of tree const.
+		const_node_pointer	minimum( void ) const;
+		//		Fetch maximum of tree const.
+		const_node_pointer	maximum( void ) const;
 
 	private:
 		//	Private functions
@@ -90,20 +100,12 @@ namespace ft
 		void				_recursive_destroy( node_pointer node );
 		//		Format incoming raw node.
 		void				_format_node( node_pointer node );
-		//		Fetch minimum of tree.
-		node_pointer		_minimum( void );
 		//		Fetch minimum of subtree from node.
 		node_pointer		_minimum( node_pointer node );
-		//		Fetch maximum of tree.
-		node_pointer		_maximum( void );
 		//		Fetch maximum of subtree from node.
 		node_pointer		_maximum( node_pointer node );
-		//		Fetch minimum of tree const.
-		const_node_pointer	_minimum( void ) const;
 		//		Fetch minimum of subtree from node const.
 		const_node_pointer	_minimum( const_node_pointer node ) const;
-		//		Fetch maximum of tree const.
-		const_node_pointer	_maximum( void ) const;
 		//		Fetch maximum of subtree from nodem const.
 		const_node_pointer	_maximum( const_node_pointer node ) const;
 		//		Get node successor.
@@ -115,7 +117,7 @@ namespace ft
 		//		Get node predecessor const.
 		const_node_pointer	_predecessor( node_pointer node ) const;
 		//		Find node from key.
-		node_pointer		_find( value_type key, node_pointer node );
+		node_pointer		_find( const value_type& key, node_pointer node );
 		//		Left rotate node in tree.
 		void				_left_rotate( node_pointer node );
 		//		Right rotate node in tree.

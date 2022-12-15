@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:41:46 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/14 17:30:23 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/15 17:07:57 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ namespace ft
 		typedef ft::bidirectional_iterator_tag	iterator_category;
 		typedef RBNode< T >						node_type;
 		typedef node_type*						node_pointer;
+		typedef const node_type*				const_node_pointer;
 		typedef typename node_type::value_type	value_type;
 		typedef typename node_type::pointer		pointer;
 		typedef typename node_type::reference	reference;
@@ -34,18 +35,20 @@ namespace ft
 	private:
 		//	Attributes
 		//		Node containing value.
-		node_pointer	_node;
+		node_pointer		_node;
 		//		Sentinel of tree.
-		node_pointer	_sentinel;
+		const_node_pointer	_sentinel;
 
 	public:
 		//	Constructors
-		rbtree_iterator( node_pointer node, node_pointer sentinel );
+		rbtree_iterator( void );
+		rbtree_iterator( node_pointer node, const_node_pointer sentinel );
 		rbtree_iterator( const rbtree_iterator& other );
 		//	Destructor
 		~rbtree_iterator( void );
 		//	Getter
 		node_pointer		base( void );
+		const_node_pointer	base( void ) const;
 		//	Operators
 		//		Assignment operator
 		rbtree_iterator&	operator=( const rbtree_iterator& other );
@@ -58,7 +61,7 @@ namespace ft
 		rbtree_iterator&	operator--( void );
 		rbtree_iterator		operator--( int );
 		//		Conversion to const
-							operator rbtree_iterator< RBNode< const T > >( void ) const;
+							operator rbtree_iterator< const T >( void );
 	};
 
 	//	Non-member functions

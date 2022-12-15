@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:19:28 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/14 16:52:44 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/15 17:25:20 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ namespace ft
 		//		Assignment operator=
 		RBNode&			operator=( const RBNode< T >& other );
 		//		Conversion Operator
-						operator RBNode< const T >( void ) const;
+						operator RBNode< const T >( void );
 		//		equality operator.
 		bool			operator==( const RBNode< T >& other ) const;
 		//		Dereferencing operator

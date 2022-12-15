@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:05:39 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/14 17:06:27 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/15 17:08:46 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,15 @@
 ==============================================================================*/
 
 template< typename T >
-rbtree_iterator< T >::rbtree_iterator( node_pointer node, node_pointer sentinel )
+rbtree_iterator< T >::rbtree_iterator( void )
+	: _node( NULL )
+	, _sentinel( NULL )
+{
+	return ;
+}
+
+template< typename T >
+rbtree_iterator< T >::rbtree_iterator( node_pointer node, const_node_pointer sentinel )
 	: _node( node )
 	, _sentinel( sentinel )
 {
@@ -32,7 +40,7 @@ rbtree_iterator< T >::rbtree_iterator( node_pointer node, node_pointer sentinel 
 }
 
 template< typename T >
-rbtree_iterator< T >::rbtree_iterator( const rbtree_iterator< T >& other )
+rbtree_iterator< T >::rbtree_iterator( const rbtree_iterator& other )
 {
 	*this = other;
 	return ;
@@ -52,8 +60,20 @@ rbtree_iterator< T >::~rbtree_iterator( void )
 	Base getter.
 ==============================================================================*/
 
+/*
+Get base.
+*/
 template< typename T >
 typename rbtree_iterator< T >::node_pointer	rbtree_iterator< T >::base( void )
+{
+	return ( _node );
+}
+
+/*
+Get base const.
+*/
+template< typename T >
+typename rbtree_iterator< T >::const_node_pointer	rbtree_iterator< T >::base( void ) const
 {
 	return ( _node );
 }
@@ -134,9 +154,9 @@ rbtree_iterator< T >	rbtree_iterator< T >::operator--( int )
 ==============================================================================*/
 
 template< typename T >
-rbtree_iterator< T >::operator	rbtree_iterator< RBNode< const T > >( void ) const
+rbtree_iterator< T >::operator	rbtree_iterator< const T >( void )
 {
-	return ( rbtree_iterator< RBNode< const T > >( _node, _sentinel ) );
+	return ( rbtree_iterator< const T >( _node, _sentinel ) );
 }
 
 /*==============================================================================
