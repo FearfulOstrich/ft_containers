@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBTree.tpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:03:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/14 17:31:07 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/14 22:36:38 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ template< typename T, typename Comp, typename Alloc >
 RBTree< T, Comp, Alloc >&	RBTree< T, Comp, Alloc >::operator=( const RBTree< T, Comp, Alloc >& other )
 {
 	const_node_pointer	node = other._minimum();
-	
+
 	if ( this != &other )
 	{
 		_node_allocator = other._node_allocator;
@@ -92,7 +92,7 @@ RBTree< T, Comp, Alloc >&	RBTree< T, Comp, Alloc >::operator=( const RBTree< T, 
 		_sentinel = _node_allocator.allocate( 1 );
 		_allocator.construct( &_sentinel->content, T() );
 		_root = _sentinel;
-		while ( node != _sentinel )
+		while ( node != other._sentinel )
 			insert( node->content );
 		_sentinel->left = _maximum();
 		_sentinel->right = _minimum();
