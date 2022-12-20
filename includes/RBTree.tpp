@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBTree.tpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:03:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/15 17:06:42 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/20 09:13:27 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@
 ==============================================================================*/
 
 /*
+Default constructor.
+*/
+template< typename T, typename Comp, typename Alloc >
+RBTree< T, Comp, Alloc >::RBTree( const Comp& compare )
+	: _compare( compare )
+{
+	return ;
+}
+
+/*
 Default Constructor, root default to _sentinel.
 */
 template< typename T, typename Comp, typename Alloc >
@@ -38,6 +48,7 @@ RBTree< T, Comp, Alloc >::RBTree( const Comp& compare, const Alloc& allocator )
 {
 	_sentinel = _node_allocator.allocate( 1 );
 	_allocator.construct( &_sentinel->content, T() );
+	_sentinel->color = BLACK;
 	_root = _sentinel;
 	return ;
 }
@@ -66,7 +77,7 @@ template< typename T, typename Comp, typename Alloc >
 RBTree< T, Comp, Alloc >::~RBTree( void )
 {
 	_recursive_destroy( _root );
-	_deallocate_node( _sentinel );
+	deallocate_node( _sentinel );
 	return ;
 }
 
@@ -89,8 +100,10 @@ RBTree< T, Comp, Alloc >&	RBTree< T, Comp, Alloc >::operator=( const RBTree< T, 
 		_node_allocator = other._node_allocator;
 		_allocator = other._allocator;
 		_compare = other._compare;
+		
 		_sentinel = _node_allocator.allocate( 1 );
 		_allocator.construct( &_sentinel->content, T() );
+		_sentinel->color = BLACK;
 		_root = _sentinel;
 		while ( node != other._sentinel )
 			insert( node->content );
@@ -162,7 +175,7 @@ void	RBTree< T, Comp, Alloc >::clear( void )
 Find node given key.
 */
 template< typename T, typename Comp, typename Alloc >
-typename RBTree< T, Comp, Alloc >::node_pointer	RBTree< T, Comp, Alloc >::find( const value_type& value )
+typename RBTree< T, Comp, Alloc >::node_pointer	RBTree< T, Comp, Alloc >::find( const value_type& value ) const
 {
 	return ( _find( value, _root ) );
 }
@@ -247,7 +260,7 @@ void	RBTree< T, Comp, Alloc >::remove( node_pointer node )
 		parent->right = child;
 	if ( node->color == BLACK )
 		_remove_fixup( child, parent );
-	_deallocate_node( node );
+	deallocate_node( node );
 	_sentinel->left = maximum();
 	_sentinel->right = minimum();
 	return ;
@@ -271,6 +284,7 @@ typename RBTree< T, Comp, Alloc >::node_pointer	RBTree< T, Comp, Alloc >::_alloc
 	
 	new_node = _node_allocator.allocate( 1 );
 	_allocator.construct( &new_node->content, value );
+	new_node->color = RED;
 	return ( new_node );
 }
 
@@ -278,7 +292,7 @@ typename RBTree< T, Comp, Alloc >::node_pointer	RBTree< T, Comp, Alloc >::_alloc
 Deallocate node memory.
 */
 template< typename T, typename Comp, typename Alloc >
-void	RBTree< T, Comp, Alloc >::_deallocate_node( node_pointer node )
+void	RBTree< T, Comp, Alloc >::deallocate_node( node_pointer node )
 {
 	_allocator.destroy( &node->content );
 	_node_allocator.deallocate( node, 1 );
@@ -299,7 +313,7 @@ void	RBTree< T, Comp, Alloc >::_recursive_destroy( node_pointer node )
 	{
 		_recursive_destroy( node->left );
 		_recursive_destroy( node->right );
-		_deallocate_node( node );
+		deallocate_node( node );
 	}
 	return ;
 }
@@ -506,7 +520,7 @@ typename RBTree< T, Comp, Alloc >::const_node_pointer	RBTree< T, Comp, Alloc >::
 Find node given key.
 */
 template< typename T, typename Comp, typename Alloc >
-typename RBTree< T, Comp, Alloc >::node_pointer	RBTree< T, Comp, Alloc >::_find( const value_type& value, node_pointer node )
+typename RBTree< T, Comp, Alloc >::node_pointer	RBTree< T, Comp, Alloc >::_find( const value_type& value, node_pointer node ) const
 {
 	if ( node == _sentinel )
 		return ( node );
@@ -589,6 +603,7 @@ Restore RBTree properties by perfoorming rotations and color changes.
 template< typename T, typename Comp, typename Alloc >
 void	RBTree< T, Comp, Alloc >::_insert_fixup( node_pointer node )
 {
+	
 	node_pointer	parent;
 	node_pointer	grand_parent;
 	node_pointer	uncle;

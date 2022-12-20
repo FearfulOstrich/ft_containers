@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBTree.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:14:46 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/15 17:07:25 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/20 09:13:32 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ namespace ft
 
 	public:
 		//	Constructors
+		//		Default constructor, do not alloc sentinel.
+		RBTree( const Comp& compare );
 		//		Constructor with _root
 		RBTree( const Comp& compare, const Alloc& allocator );
 		//		Constructor by copy
@@ -68,13 +70,15 @@ namespace ft
 		const_node_pointer	get_sentinel( void ) const;
 
 		//	Capacity
-		size_type	max_size( void ) const;
+		size_type			max_size( void ) const;
 
 		//	Public methods
+		//		Deallocate node in memory.
+		void				deallocate_node( node_pointer node );
 		//		Clear the tree
 		void				clear( void );
 		//		Find a node.
-		node_pointer		find( const value_type& value );
+		node_pointer		find( const value_type& value ) const;
 		//		Insert a node.
 		node_pointer		insert( value_type value );
 		//		Remove a node from key.
@@ -94,8 +98,6 @@ namespace ft
 		//	Private functions
 		//		Alocate node in memory.
 		node_pointer		_allocate_node( value_type value );
-		//		Deallocate node in memory.
-		void				_deallocate_node( node_pointer node );
 		//		recursively destroy all nodes in tree.
 		void				_recursive_destroy( node_pointer node );
 		//		Format incoming raw node.
@@ -117,7 +119,7 @@ namespace ft
 		//		Get node predecessor const.
 		const_node_pointer	_predecessor( node_pointer node ) const;
 		//		Find node from key.
-		node_pointer		_find( const value_type& key, node_pointer node );
+		node_pointer		_find( const value_type& key, node_pointer node ) const;
 		//		Left rotate node in tree.
 		void				_left_rotate( node_pointer node );
 		//		Right rotate node in tree.

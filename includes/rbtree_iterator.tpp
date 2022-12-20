@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rbtree_iterator.tpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:05:39 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/15 17:08:46 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/19 12:29:22 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,31 @@
 # define RBTREE_ITERATOR_TPP
 
 /*==============================================================================
-							*********************
-							* MEMBER FUNCTIONS. *
-							*********************
+							********************
+							* RBTREE ITERATOR. *
+							********************
 ==============================================================================*/
 
 /*==============================================================================
 	Constructors.
 ==============================================================================*/
 
-template< typename T >
-rbtree_iterator< T >::rbtree_iterator( void )
-	: _node( NULL )
-	, _sentinel( NULL )
+template< typename T, bool Const >
+rbtree_iterator< T, Const >::rbtree_iterator( void )
 {
 	return ;
 }
 
-template< typename T >
-rbtree_iterator< T >::rbtree_iterator( node_pointer node, const_node_pointer sentinel )
+template< typename T, bool Const >
+rbtree_iterator< T, Const >::rbtree_iterator( node_pointer node, const_node_pointer sentinel )
 	: _node( node )
 	, _sentinel( sentinel )
 {
 	return ;
 }
 
-template< typename T >
-rbtree_iterator< T >::rbtree_iterator( const rbtree_iterator& other )
+template< typename T, bool Const >
+rbtree_iterator< T, Const >::rbtree_iterator( const rbtree_iterator& other )
 {
 	*this = other;
 	return ;
@@ -50,8 +48,8 @@ rbtree_iterator< T >::rbtree_iterator( const rbtree_iterator& other )
 	Destructor.
 ==============================================================================*/
 
-template< typename T >
-rbtree_iterator< T >::~rbtree_iterator( void )
+template< typename T, bool Const >
+rbtree_iterator< T, Const >::~rbtree_iterator( void )
 {
 	return ;
 }
@@ -63,17 +61,8 @@ rbtree_iterator< T >::~rbtree_iterator( void )
 /*
 Get base.
 */
-template< typename T >
-typename rbtree_iterator< T >::node_pointer	rbtree_iterator< T >::base( void )
-{
-	return ( _node );
-}
-
-/*
-Get base const.
-*/
-template< typename T >
-typename rbtree_iterator< T >::const_node_pointer	rbtree_iterator< T >::base( void ) const
+template< typename T, bool Const >
+typename rbtree_iterator< T, Const >::node_pointer	rbtree_iterator< T, Const >::base( void ) const
 {
 	return ( _node );
 }
@@ -82,8 +71,8 @@ typename rbtree_iterator< T >::const_node_pointer	rbtree_iterator< T >::base( vo
 	Assignation operator.
 ==============================================================================*/
 
-template< typename T >
-rbtree_iterator< T >&	rbtree_iterator< T >::operator=( const rbtree_iterator< T >& other )
+template< typename T, bool Const >
+rbtree_iterator< T, Const >&	rbtree_iterator< T, Const >::operator=( const rbtree_iterator< T, Const >& other )
 {
 	if ( this != &other )
 	{
@@ -97,18 +86,20 @@ rbtree_iterator< T >&	rbtree_iterator< T >::operator=( const rbtree_iterator< T 
 	Reference and dereference operators.
 ==============================================================================*/
 
-template< typename T >
-typename rbtree_iterator< T >::reference	rbtree_iterator< T >::operator*( void ) const
+/*
+Reference operator.
+*/
+template< typename T, bool Const >
+typename rbtree_iterator< T, Const >::reference	rbtree_iterator< T, Const >::operator*( void ) const
 {
 	return ( _node->content );
 }
 
-/*==============================================================================
-	Assignation operator.
-==============================================================================*/
-
-template< typename T >
-typename rbtree_iterator< T >::pointer	rbtree_iterator< T >::operator->( void )
+/*
+Dereferencement operator.
+*/
+template< typename T, bool Const >
+typename rbtree_iterator< T, Const >::pointer	rbtree_iterator< T, Const >::operator->( void ) const
 {
 	return ( &( _node->content ) );
 }
@@ -117,33 +108,33 @@ typename rbtree_iterator< T >::pointer	rbtree_iterator< T >::operator->( void )
 	Increment & decrement operators.
 ==============================================================================*/
 
-template< typename T >
-rbtree_iterator< T >&	rbtree_iterator< T >::operator++( void )
+template< typename T, bool Const >
+rbtree_iterator< T, Const >&	rbtree_iterator< T, Const >::operator++( void )
 {
 	_node = _node->successor( _sentinel );
 	return ( *this );
 }
 
-template< typename T > 
-rbtree_iterator< T >	rbtree_iterator< T >::operator++( int )
+template< typename T , bool Const> 
+rbtree_iterator< T, Const >	rbtree_iterator< T, Const >::operator++( int )
 {
-	rbtree_iterator< T >	tmp( *this );
+	rbtree_iterator< T, Const >	tmp( *this );
 
 	_node = _node->successor( _sentinel );
 	return (tmp);
 }
 
-template< typename T >
-rbtree_iterator< T >&	rbtree_iterator< T >::operator--( void )
+template< typename T, bool Const >
+rbtree_iterator< T, Const >&	rbtree_iterator< T, Const >::operator--( void )
 {
 	_node = _node->predecessor( _sentinel );
 	return ( *this );
 }
 
-template< typename T > 
-rbtree_iterator< T >	rbtree_iterator< T >::operator--( int )
+template< typename T , bool Const> 
+rbtree_iterator< T, Const >	rbtree_iterator< T, Const >::operator--( int )
 {
-	rbtree_iterator< T >	tmp( *this );
+	rbtree_iterator< T, Const >	tmp( *this );
 
 	_node = _node->predecessor( _sentinel );
 	return (tmp);
@@ -153,10 +144,10 @@ rbtree_iterator< T >	rbtree_iterator< T >::operator--( int )
 	Conversion operators.
 ==============================================================================*/
 
-template< typename T >
-rbtree_iterator< T >::operator	rbtree_iterator< const T >( void )
+template< typename T, bool Const >
+rbtree_iterator< T, Const >::operator	rbtree_iterator< const T, true >( void )
 {
-	return ( rbtree_iterator< const T >( _node, _sentinel ) );
+	return ( rbtree_iterator< const T, true >( _node, _sentinel ) );
 }
 
 /*==============================================================================
@@ -169,14 +160,14 @@ rbtree_iterator< T >::operator	rbtree_iterator< const T >( void )
 	Comparison operators.
 ==============================================================================*/
 
-template< typename T, typename U >
-bool	operator==( const rbtree_iterator< T >& it1, const rbtree_iterator< U >& it2 )
+template< typename T, typename U, bool B1, bool B2 >
+bool	operator==( const rbtree_iterator< T, B1 >& it1, const rbtree_iterator< U, B2 >& it2 )
 {
 	return ( it1.base() == it2.base() );
 }
 
-template< typename T, typename U >
-bool	operator!=( const rbtree_iterator< T >& it1, const rbtree_iterator< U >& it2 )
+template< typename T, typename U, bool B1, bool B2 >
+bool	operator!=( const rbtree_iterator< T, B1 >& it1, const rbtree_iterator< U, B2 >& it2 )
 {
 	return ( !( it1 == it2 ) );
 }

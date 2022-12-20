@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_map.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 15:07:15 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/15 16:48:23 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/20 19:19:47 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,19 @@ typedef struct s
 	long int	l3;
 }	t_s;
 
+void	print_map( ft::map< int, int >	my_map )
+{
+	ft::map< int, int >::iterator	it;
+
+	it = my_map.begin();
+	while ( it != my_map.end() )
+	{
+		std::cout << "\t" << (*it).first << ", " << (*it).second << std::endl;
+		it++;
+	}
+	return ;
+}
+
 void	constructors()
 {
 	{
@@ -36,8 +49,8 @@ void	constructors()
 		std::cout << "ft::map< int >	my_map;" << std::endl;
 		ft::map< int, int >	my_map2( ft::less< int > );
 		std::cout << "ft::map< int >	my_map2( ft::less< int > );" << std::endl;
-		ft::map< int, int >	other_map( my_map );
 		std::cout << "ft::map< int >	other_map( my_map );" << std::endl;
+		ft::map< int, int >	other_map( my_map );
 	}
 	{
 		std::vector< ft::pair< int, int > >	my_vector( 5, ft::make_pair( 3, 3 ) );
@@ -138,7 +151,6 @@ void	iterators()
 		std::cout << it->first << ", " << it->second << std::endl;
 		it++;
 	}
-	
 	ft::map< int, int >::reverse_iterator		itr = my_map.rbegin();
 	ft::map< int, int >::const_reverse_iterator	itre = my_map.rend();
 
@@ -151,6 +163,93 @@ void	iterators()
 
 void	accessors()
 {
+	{
+		ft::map< int, int >	my_map;
+		my_map.insert( ft::make_pair( 1, 1 ) );
+		my_map.insert( ft::make_pair( 2, 2 ) );
+		my_map.insert( ft::make_pair( 3, 3 ) );
+		
+		std::cout << "my_map[1]: " << my_map[1] << std::endl;
+		std::cout << "my_map[2]: " << my_map[2] << std::endl;
+		std::cout << "my_map[3]: " << my_map[3] << std::endl;
+		
+		std::cout << "my_map[4] = 4;" << std::endl;
+		my_map[4] = 4;
+		std::cout << "my_map.at(4): " << my_map.at( 4 ) << std::endl;
+		try
+		{
+			std::cout << my_map.at( 5 ) << std::endl;
+		}
+		catch ( std::exception& e )
+		{
+			std::cout << e.what() << std::endl;
+		}
+	}
+	{
+		std::vector< ft::pair< int, int > >	my_vector( 4, ft::make_pair( 2, 2 ) );
+		const ft::map< int, int >	const_map( my_vector.begin(), my_vector.end() );
+		
+		// std::cout << "const_map[1]: " << const_map[1] << std::endl; // COMPILE ERROR
+		std::cout << "const_map.at( 2 ): " << const_map.at( 2 ) << std::endl;
+		// const_map[3] = 3; // COMPILE ERROR
+	}
+	return ;
+}
+
+void	modifiers2( void )
+{
+	{
+		std::vector< ft::pair< int, int > >	my_vector( 5, ft::make_pair( 42, 42 ) );
+		ft::map< int, int >	my_map;
+		ft::map< int, int >::iterator	it;
+		
+		my_map.insert( my_vector.begin(), my_vector.end() );
+		it = my_map.begin();
+		while ( it != my_map.end() )
+		{
+			std::cout << (*it).first << ", " << (*it).second << std::endl;
+			it++;
+		}
+	}
+	{
+		ft::map< int, int >				my_map;
+		ft::map< int, int >::iterator	it;
+		
+		my_map[1] = 1;
+		my_map[2] = 2;
+		my_map[3] = 3;
+		my_map[4] = 4;
+		my_map[5] = 5;
+		
+		std::cout << "my_map with 5 elements." << std::endl;
+		print_map( my_map );
+
+		my_map.insert( my_map.begin(), ft::make_pair( 6, 6 ) );
+		std::cout << "my_map.insert( my_map.begin(), ft::make_pair( 6, 6 ) );" << std::endl;
+		print_map( my_map );
+		
+		it = my_map.begin()++;
+		my_map.erase( it, my_map.end() );
+		std::cout << "my_map.erase( it, my_map.last() );" << std::endl;
+		print_map( my_map );
+
+		my_map.erase( my_map.begin() );
+		std::cout << "my_map.erase( my_map.begin() );" << std::endl;
+		std::cout << "empty map: " << ( my_map.empty() ? "yes" : "no" ) << std::endl;
+	}
+	{
+		ft::map< int, int >	my_map;
+		ft::map< int, int >	my_map2;
+		
+		my_map[1] = 1;
+		my_map[2] = 2;
+		my_map[3] = 3;
+		my_map[4] = 4;
+		my_map[5] = 5;
+		my_map.swap( my_map2 );
+		std::cout << "my_map empty?" << ( my_map.empty() ? "yes" : "no" ) << std::endl;
+		print_map( my_map2 );
+	}
 	return ;
 }
 
@@ -174,7 +273,10 @@ int	main()
 	std::cout << "--------------------Iterators------------------" << std::endl;
 	iterators();
 	std::cout << "-----------------------------------------------" << std::endl;
-	// std::cout << "-------------------Accessors-------------------" << std::endl;
-	// accessors();
-	// std::cout << "-----------------------------------------------" << std::endl;
+	std::cout << "-------------------Accessors-------------------" << std::endl;
+	accessors();
+	std::cout << "-----------------------------------------------" << std::endl;
+	std::cout << "-------------------Modifiers2------------------" << std::endl;
+	modifiers2();
+	std::cout << "-----------------------------------------------" << std::endl;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBNode.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:19:28 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/15 17:25:20 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/19 10:24:22 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,13 @@ namespace ft
 	struct RBNode
 	{
 		//Typedefs
+		typedef RBNode< T >	self;
+		typedef	self*		node_pointer;
+		typedef const self*	const_node_pointer;
 		typedef	T			value_type;
 		typedef T&			reference;
 		typedef T*			pointer;
+		typedef const T*	const_pointer;
 		typedef const T&	const_reference;
 		
 		//	Attributes.
@@ -40,7 +44,7 @@ namespace ft
 		value_type	content;
 		
 		//	Constructors
-		RBNode( value_type content = value_type(), bool color = BLACK );
+		RBNode( value_type content = value_type(), bool color = RED );
 		RBNode( const RBNode< T >& other );
 		
 		//	Destructor
@@ -59,15 +63,19 @@ namespace ft
 		const_reference	operator*( void ) const;
 		
 		//	Root of node's tree.
-		const RBNode< T >*	_root( const RBNode< T >* sentinel ) const;
+		const_node_pointer	_root( const_node_pointer sentinel ) const;
 		//	minimum and maximum in node's sub-tree.
-		const RBNode< T >*	_minimum( const RBNode< T >* sentinel ) const;
-		const RBNode< T >*	_maximum( const RBNode< T >* sentinel ) const;
+		RBNode< T >*		_minimum( const_node_pointer sentinel );
+		const_node_pointer	_minimum( const_node_pointer sentinel ) const;
+		RBNode< T >*		_maximum( const_node_pointer sentinel );
+		const_node_pointer	_maximum( const_node_pointer sentinel ) const;
 
 	public:
 		//	Successors and Predecessors.
-		const RBNode< T >*		successor( const RBNode< T >* sentinel ) const;
-		const RBNode< T >*		predecessor( const RBNode< T >* sentinel ) const;
+		RBNode< T >*		successor( const_node_pointer sentinel );
+		const_node_pointer	successor( const_node_pointer sentinel ) const;
+		RBNode< T >*		predecessor( const_node_pointer sentinel );
+		const_node_pointer	predecessor( const_node_pointer sentinel ) const;
 	};
 
 	//	Non-member functions

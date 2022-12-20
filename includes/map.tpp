@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.tpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:25:44 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/15 17:00:20 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/20 14:45:49 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ Copy constructor.
 */
 template< typename Key, typename T, typename Compare, typename Allocator >
 SELF::map( const self& other )
-	:	_tree( other._tree )
+	: _tree( other._tree )
 {
 	*this = other;
 	return ;
@@ -135,6 +135,8 @@ SELF&	SELF::operator=( const self& other )
 	{
 		_allocator = other._allocator;
 		_key_compare = other._key_compare;
+		_tree.clear();
+		_tree.deallocate_node( _tree.get_sentinel() );
 		_tree = other._tree;
 		_size = other._size;
 	}
@@ -154,10 +156,10 @@ If no node with key is found, throw exception.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::mapped_type&	SELF::at( const Key& key )
 {
-	typename tree_type::node_pointer	node = _tree.find( key );
+	typename tree_type::node_pointer	node = _tree.find( ft::make_pair( key, mapped_type() ) );
 	
 	if ( node == _tree.get_sentinel() )
-		throw ( std::out_of_range( "OOps change message." ) );
+		throw ( std::out_of_range( "map::at, no element with given key." ) );
 	return ( node->content.second );
 }
 
@@ -168,10 +170,10 @@ See above.
 template< typename Key, typename T, typename Compare, typename Allocator >
 const typename SELF::mapped_type&	SELF::at( const Key& key ) const
 {
-	typename tree_type::node_pointer	node = _tree.find( key );
+	typename tree_type::node_pointer	node = _tree.find( ft::make_pair( key, mapped_type() ) );
 	
 	if ( node == _tree.get_sentinel() )
-		throw ( std::out_of_range( "OOps change message." ) );
+		throw ( std::out_of_range( "map::at, no element with given key." ) );
 	return ( node->content.second );
 }
 
@@ -184,11 +186,17 @@ If no node with key is found, create value initialized value_type and insert it.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::mapped_type&	SELF::operator[]( const Key& key )
 {
-	typename tree_type::node_pointer	node = _tree.find( key );
+	typename tree_type::node_pointer	node = _tree.find( ft::make_pair( key, mapped_type() ) );
 
 	if ( node == _tree.get_sentinel() )
 		return ( insert(ft::make_pair( key, mapped_type() ) ).first->second );
 	return ( node->content.second );
+}
+
+template< typename Key, typename T, typename Compare, typename Allocator >
+const typename SELF::tree_type&	SELF::get_tree( void ) const
+{
+	return ( _tree );
 }
 
 /*==============================================================================

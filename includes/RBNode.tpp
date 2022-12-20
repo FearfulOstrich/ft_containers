@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBNode.tpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:34:03 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/15 17:25:40 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/17 09:44:14 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,17 @@ const RBNode< T >*	RBNode< T >::_root( const RBNode< T >* sentinel ) const
 Minimum in node's subtree.
 */
 template< typename T >
+RBNode< T >*	RBNode< T >::_minimum( const RBNode< T >* sentinel )
+{
+	if ( left == sentinel )
+		return ( this );
+	return ( left->_minimum( sentinel ) );
+}
+
+/*
+Minimum in node's subtree const.
+*/
+template< typename T >
 const RBNode< T >*	RBNode< T >::_minimum( const RBNode< T >* sentinel ) const
 {
 	if ( left == sentinel )
@@ -134,6 +145,17 @@ const RBNode< T >*	RBNode< T >::_minimum( const RBNode< T >* sentinel ) const
 
 /*
 Maximum in node's subtree.
+*/
+template< typename T >
+RBNode< T >*	RBNode< T >::_maximum( const RBNode< T >* sentinel )
+{
+	if ( right == sentinel )
+		return ( this );
+	return ( right->_maximum( sentinel ) );
+}
+
+/*
+Maximum in node's subtree const.
 */
 template< typename T >
 const RBNode< T >*	RBNode< T >::_maximum( const RBNode< T >* sentinel ) const
@@ -147,6 +169,27 @@ const RBNode< T >*	RBNode< T >::_maximum( const RBNode< T >* sentinel ) const
 Successor of node.
 */
 template< typename T >
+RBNode< T >*	RBNode< T >::successor( const RBNode< T >* sentinel )
+{
+	RBNode< T >*	parent_node;
+	RBNode< T >*	node;
+	
+	if ( right != sentinel )
+		return ( right->_minimum( sentinel ) );
+	parent_node = parent;
+	node = this;
+	while ( ( parent_node != sentinel ) && ( node == parent_node->right ) )
+	{
+		node = parent_node;
+		parent_node = node->parent;
+	}
+	return ( parent_node );
+}
+
+/*
+Successor of node const.
+*/
+template< typename T >
 const RBNode< T >*	RBNode< T >::successor( const RBNode< T >* sentinel ) const
 {
 	const RBNode< T >*	parent_node;
@@ -155,7 +198,7 @@ const RBNode< T >*	RBNode< T >::successor( const RBNode< T >* sentinel ) const
 	if ( right != sentinel )
 		return ( right->_minimum( sentinel ) );
 	parent_node = parent;
-	node = const_cast< RBNode< T >* >( this );
+	node = this;
 	while ( ( parent_node != sentinel ) && ( node == parent_node->right ) )
 	{
 		node = parent_node;
@@ -168,7 +211,7 @@ const RBNode< T >*	RBNode< T >::successor( const RBNode< T >* sentinel ) const
 Predecessor of node.
 */
 template< typename T >
-const RBNode< T >*	RBNode< T >::predecessor( const RBNode< T >* sentinel ) const
+RBNode< T >*	RBNode< T >::predecessor( const RBNode< T >* sentinel )
 {
 	RBNode< T >*	parent_node;
 	RBNode< T >*	node;
@@ -176,7 +219,28 @@ const RBNode< T >*	RBNode< T >::predecessor( const RBNode< T >* sentinel ) const
 	if ( left != sentinel )
 		return ( left->_maximum( sentinel ) );
 	parent_node = parent;
-	node = const_cast< RBNode< T >* >( this );
+	node = this;
+	while ( ( parent_node != sentinel ) && ( node == parent_node->left ) )
+	{
+		node = parent_node;
+		parent_node = node->parent;
+	}
+	return ( parent_node );
+}
+
+/*
+Predecessor of node const.
+*/
+template< typename T >
+const RBNode< T >*	RBNode< T >::predecessor( const RBNode< T >* sentinel ) const
+{
+	const RBNode< T >*	parent_node;
+	const RBNode< T >*	node;
+	
+	if ( left != sentinel )
+		return ( left->_maximum( sentinel ) );
+	parent_node = parent;
+	node = this;
 	while ( ( parent_node != sentinel ) && ( node == parent_node->left ) )
 	{
 		node = parent_node;

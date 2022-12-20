@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enable_if.hpp                                      :+:      :+:    :+:   */
+/*   conditional.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/14 12:05:31 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/18 10:20:18 by antoine          ###   ########.fr       */
+/*   Created: 2022/12/18 10:17:56 by antoine           #+#    #+#             */
+/*   Updated: 2022/12/18 10:21:27 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENABLE_IF
-# define ENABLE_IF
+#ifndef CONDITIONAL_HPP
+# define CONDITIONAL_HPP
 
 namespace ft
 {
-	template< bool B, typename T >
-	struct enable_if { };
-
-	template < typename T >
-	struct enable_if< true, T >
+	template< bool B, class T, class F >
+	struct conditional
 	{
-		// Typedefs
+		//	Typedefs
 		typedef T	type;
+	};
+	
+	template< class T, class F >
+	struct conditional< false, T, F >
+	{
+		//	Typedefs
+		typedef F	type;
 	};
 }
 

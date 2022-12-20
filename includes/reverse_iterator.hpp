@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse_iterator.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 11:55:14 by aalleon           #+#    #+#             */
-/*   Updated: 2022/11/16 14:35:30 by aalleon          ###   ########.fr       */
+/*   Updated: 2022/12/19 12:40:24 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ namespace ft
 
 	protected:
 		// iterator
-		iterator_type	current;
+		iterator_type	_current;
 	};
 
 	//	Non-member functions
