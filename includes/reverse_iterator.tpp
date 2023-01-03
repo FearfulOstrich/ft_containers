@@ -75,7 +75,7 @@ template< typename Iter >
 typename reverse_iterator< Iter >::reference	reverse_iterator< Iter >::operator*( void ) const
 {
 	iterator_type	tmp = _current;
-	return ( *( tmp-- ) );
+	return ( *( --tmp ) );
 }
 
 template< typename Iter >
@@ -91,7 +91,7 @@ typename reverse_iterator< Iter >::pointer	reverse_iterator< Iter >::operator->(
 template< typename Iter >
 typename reverse_iterator< Iter >::reference	reverse_iterator< Iter >::operator[]( difference_type n ) const
 {
-	return ( *( _current - n - 1 ) );
+	return ( *( *this + n ) );
 }
 
 /*==============================================================================
@@ -101,14 +101,14 @@ typename reverse_iterator< Iter >::reference	reverse_iterator< Iter >::operator[
 template< typename Iter >
 reverse_iterator< Iter >&	reverse_iterator< Iter >::operator++( void )
 {
-	_current--;
+	--_current;
 	return ( *this );
 }
 
 template< typename Iter >
 reverse_iterator< Iter >&	reverse_iterator< Iter >::operator--( void )
 {
-	_current++;
+	++_current;
 	return ( *this );
 }
 
@@ -116,7 +116,7 @@ template< typename Iter >
 reverse_iterator< Iter >	reverse_iterator< Iter >::operator++( int )
 {
 	reverse_iterator< Iter >	tmp( *this );
-	_current--;
+	--_current;
 	return ( tmp );
 }
 
@@ -124,7 +124,7 @@ template< typename Iter >
 reverse_iterator< Iter >	reverse_iterator< Iter >::operator--( int )
 {
 	reverse_iterator< Iter >	tmp( *this );
-	_current++;
+	++_current;
 	return ( tmp );
 }
 

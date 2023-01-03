@@ -13,6 +13,8 @@
 #ifndef PAIR_HPP
 # define PAIR_HPP
 
+# include <iostream>
+
 namespace ft
 {
 	template< typename T1, typename T2 >
@@ -64,6 +66,10 @@ namespace ft
 	template< typename T1, typename T2 >
 	void	swap( pair< T1, T2 >& lhs, pair< T1, T2 >& rhs );
 	
+	//	OutputStream for ft::pairs
+	template< typename T1, typename T2 >
+	std::ostream&	operator<<( std::ostream& os, ft::pair< T1, T2 > pair );
+
 	# include "pair.tpp"
 
 }

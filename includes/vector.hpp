@@ -78,7 +78,7 @@ namespace ft
 		//	Destructor
 		virtual ~vector( void );
 
-		//	Assignation functions
+		//	Assignation functions 
 		//		assignation operator =
 		vector&	operator=( const vector& other );
 		//		1. assign count elements by value.

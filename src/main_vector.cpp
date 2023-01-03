@@ -90,7 +90,6 @@ void	constructors( void )
 	std::cout << "seventh capacity: " << forth.capacity() << std::endl;
 	std::cout << "seventh size: " << seventh.size() << std::endl;
 
-	
 	std::cout << "===============================================" << std::endl;
 	return ;
 }
@@ -124,6 +123,13 @@ void	assignment( void )
 	std::cout << "forth.assign( 5, 9 );" << std::endl;
 	std::cout << "forth capacity: " << forth.capacity() << std::endl;
 	std::cout << "forth size: " << forth.size() << std::endl;
+
+
+	ft::vector< int >	fifth;
+	std::cout << "fifth = forth;" << std::endl;
+	fifth = forth;
+	std::cout << "fifth.capacity: " << fifth.capacity() << std::endl;
+	std::cout << "fifth.size: " << fifth.size() << std::endl;
 
 	std::cout << "===============================================" << std::endl;
 	return ;
@@ -186,7 +192,7 @@ void	capacity( void )
 	ft::vector< S >			third( 7, S( 63, 63 ) );
 	const ft::vector< S >	forth( 4, S ( 64, 64 ) );
 
-	std::cout << "ft::vector< int >	first( 3, S( 63, 63 ) );" << std::endl;
+	std::cout << "ft::vector< S >	first( 3, S( 63, 63 ) );" << std::endl;
 	std::cout << "first.empty(): " << ( first.empty() ? "true" : "false" ) << std::endl;
 	std::cout << "first.size(): " << first.size() << std::endl;
 	std::cout << "first.max_size(): " << first.max_size() << std::endl;
@@ -196,11 +202,11 @@ void	capacity( void )
 	std::cout << "first.size(): " << first.size() << std::endl;
 	std::cout << "first.capacity(): " << first.capacity() << std::endl;
 	
-	std::cout << "ft::vector< int >	second;" << std::endl;
+	std::cout << "ft::vector< S >	second;" << std::endl;
 	std::cout << "second.empty(): " << ( second.empty() ? "true" : "false" ) << std::endl;
 	std::cout << "second.size(): " << second.size() << std::endl;
 	
-	std::cout << "ft::vector< int >	third( 7, S( 63, 63 ) );" << std::endl;
+	std::cout << "ft::vector< S >	third( 7, S( 63, 63 ) );" << std::endl;
 	third = first;
 	std::cout << "third = first;" << std::endl;
 	std::cout << "third.empty(): " << ( third.empty() ? "true" : "false" ) << std::endl;
@@ -291,6 +297,19 @@ void	iterator_functions( void )
 		ft::vector< int >::const_iterator	it = v.begin();
 
 		std::cout << "*it: " << *it << std::endl;
+	}
+	std::cout << "===============================================" << std::endl;
+	{
+		std::cout << "ft::vector< int >	v( 4, 42 );" << std::endl;
+		ft::vector< int >	v( 4, 42 );
+
+		std::cout << "v[4] = 42; -> Does not compile" << std::endl;
+		// v[4] = 42; // Does not compile
+
+		ft::vector< int >::reverse_iterator	rit = v.rbegin();
+		std::cout << "v: " << std::endl;
+		while ( rit != v.rend() )
+			std::cout << "\t" << *rit++ << std::endl;
 	}
 	std::cout << "===============================================" << std::endl;
 	return ;

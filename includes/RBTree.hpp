@@ -18,6 +18,7 @@
 # include "rbtree_iterator.hpp"
 # include <iostream>
 # include <memory>
+# include <unistd.h>
 
 namespace ft
 {
@@ -27,15 +28,17 @@ namespace ft
 	{
 	public:
 		//	Typedefs
-		typedef T							value_type;
-		typedef RBNode< T >					node_type;
-		typedef const RBNode< T >			const_node;
-		typedef node_type*					node_pointer;
-		typedef const_node*					const_node_pointer;
-		typedef node_type&					node_reference;
-		typedef const_node&					const_node_reference;
-		typedef std::allocator< node_type >	node_allocator;
-		typedef typename Alloc::size_type	size_type;
+		typedef T										value_type;
+		typedef RBNode< value_type >					node_type;
+		typedef const RBNode< value_type >				const_node;
+		typedef node_type*								node_pointer;
+		typedef const_node*								const_node_pointer;
+		typedef node_type&								node_reference;
+		typedef const_node&								const_node_reference;
+		typedef std::allocator< node_type >				node_allocator;
+		typedef typename Alloc::size_type				size_type;
+		typedef ft::rbtree_iterator< node_type >		iterator;
+		typedef ft::rbtree_iterator< const_node, true >	const_iterator;
 
 	private:
 		//	Attibutes
@@ -127,7 +130,7 @@ namespace ft
 		//		Insert binary node, without rotation.
 		void				_insert_fixup( node_pointer node );
 		//		Fixup tree after node has been removed.
-		void				_remove_fixup( node_pointer node, node_pointer parent );
+		void				_remove_fixup( node_pointer node );
 	};
 
 	# include "RBTree.tpp"

@@ -307,7 +307,7 @@ Begin
 template< typename T, typename Alloc >
 typename vector< T, Alloc >::iterator	vector< T, Alloc >::begin( void )
 {
-	return ( iterator( &this->front() ) );
+	return ( iterator( &front() ) );
 }
 
 /*
@@ -316,7 +316,7 @@ Const begin
 template< typename T, typename Alloc >
 typename vector< T, Alloc >::const_iterator	vector< T, Alloc >::begin( void ) const
 {
-	return ( const_iterator( &this->front() ) );
+	return ( const_iterator( &front() ) );
 }
 
 /*
@@ -325,7 +325,7 @@ End
 template< typename T, typename Alloc >
 typename vector< T, Alloc >::iterator	vector< T, Alloc >::end( void )
 {
-	return ( iterator( ( &this->back() ) + 1 ) );
+	return ( iterator( ( &back() ) + 1 ) );
 }
 
 /*
@@ -334,7 +334,7 @@ Const end
 template< typename T, typename Alloc >
 typename vector< T, Alloc >::const_iterator	vector< T, Alloc >::end( void ) const
 {
-	return ( const_iterator( ( &this->back() ) + 1 ) );
+	return ( const_iterator( &back() + 1 ) );
 }
 
 /*
@@ -343,7 +343,7 @@ Reverse begin
 template< typename T, typename Alloc >
 typename vector< T, Alloc >::reverse_iterator	vector< T, Alloc >::rbegin( void )
 {
-	return ( reverse_iterator( this->end() ) );
+	return ( reverse_iterator( iterator( &back() + 1 ) ) );
 }
 
 /*
@@ -352,7 +352,7 @@ Reverse const begin
 template< typename T, typename Alloc >
 typename vector< T, Alloc >::const_reverse_iterator	vector< T, Alloc >::rbegin( void ) const
 {
-	return ( reverse_iterator( this->end() ) );
+	return ( reverse_iterator( const_iterator( &back() + 1 ) ) );
 }
 
 /*
@@ -361,7 +361,7 @@ Reverse end
 template< typename T, typename Alloc >
 typename vector< T, Alloc >::reverse_iterator	vector< T, Alloc >::rend( void )
 {
-	return ( reverse_iterator( this->begin() ) );
+	return ( reverse_iterator( begin() ) );
 }
 
 /*
@@ -370,7 +370,7 @@ Reverse const end
 template< typename T, typename Alloc >
 typename vector< T, Alloc >::const_reverse_iterator	vector< T, Alloc >::rend( void ) const
 {
-	return ( reverse_iterator( this->begin() ) );
+	return ( reverse_iterator( begin() ) );
 }
 
 

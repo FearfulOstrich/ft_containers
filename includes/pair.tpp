@@ -138,4 +138,14 @@ void	swap( pair< T1, T2 >& lhs, pair< T1, T2 >& rhs )
 	return ;
 }
 
+/*
+Output pair to stream.
+*/
+template< typename T1, typename T2 >
+std::ostream&	operator<<( std::ostream& os, ft::pair< T1, T2 > pair )
+{
+	os << "( " << pair.first << ", " << pair.second << " )";
+	return ( os );
+}
+
 #endif

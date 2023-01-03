@@ -29,9 +29,9 @@ typedef struct s
 	long int	l3;
 }	t_s;
 
-void	print_map( ft::map< int, int >	my_map )
+void	print_map( const ft::map< int, int >&	my_map )
 {
-	ft::map< int, int >::iterator	it;
+	ft::map< int, int >::const_iterator	it;
 
 	it = my_map.begin();
 	while ( it != my_map.end() )
@@ -107,12 +107,12 @@ void	capacity()
 		std::cout << "is map empty ? " << (my_map.empty() ? "yes" : "no" ) << std::endl;
 		std::cout << "map max size: " << my_map.max_size() << std::endl;
 	}
-	{
-		ft::map< int, t_s >	my_map;
+	// {
+	// 	ft::map< int, t_s >	my_map;
 
-		std::cout << "ft::map< int, t_s >	my_map;" << std::endl;
-		std::cout << "map max size: " << my_map.max_size() << std::endl;
-	}
+	// 	std::cout << "ft::map< int, t_s >	my_map;" << std::endl;
+	// 	std::cout << "map max size: " << my_map.max_size() << std::endl;
+	// }
 	return ;
 }
 
@@ -199,10 +199,15 @@ void	accessors()
 void	modifiers2( void )
 {
 	{
-		std::vector< ft::pair< int, int > >	my_vector( 5, ft::make_pair( 42, 42 ) );
-		ft::map< int, int >	my_map;
-		ft::map< int, int >::iterator	it;
+		std::vector< ft::pair< int, int > >	my_vector;
+		ft::map< int, int >					my_map;
+		ft::map< int, int >::iterator		it;
 		
+		my_vector.insert( my_vector.begin(), ft::make_pair( 42, 42 ) );
+		my_vector.insert( my_vector.begin(), ft::make_pair( 43, 43 ) );
+		my_vector.insert( my_vector.begin(), ft::make_pair( 44, 44 ) );
+		my_vector.insert( my_vector.begin(), ft::make_pair( 45, 45 ) );
+		my_vector.insert( my_vector.begin(), ft::make_pair( 46, 46 ) );
 		my_map.insert( my_vector.begin(), my_vector.end() );
 		it = my_map.begin();
 		while ( it != my_map.end() )
@@ -224,13 +229,14 @@ void	modifiers2( void )
 		std::cout << "my_map with 5 elements." << std::endl;
 		print_map( my_map );
 
-		my_map.insert( my_map.begin(), ft::make_pair( 6, 6 ) );
-		std::cout << "my_map.insert( my_map.begin(), ft::make_pair( 6, 6 ) );" << std::endl;
+		it = my_map.insert( my_map.begin(), ft::make_pair( 6, 6 ) );
+		std::cout << "it = my_map.insert( my_map.begin(), ft::make_pair( 6, 6 ) );" << std::endl;
+		std::cout << "it : " << it->first << ", " << it->second << std::endl;
 		print_map( my_map );
 		
-		it = my_map.begin()++;
+		++( it = my_map.begin() );
 		my_map.erase( it, my_map.end() );
-		std::cout << "my_map.erase( it, my_map.last() );" << std::endl;
+		std::cout << "my_map.erase( my_map.begin() + 1, my_map.last() );" << std::endl;
 		print_map( my_map );
 
 		my_map.erase( my_map.begin() );
@@ -244,11 +250,153 @@ void	modifiers2( void )
 		my_map[1] = 1;
 		my_map[2] = 2;
 		my_map[3] = 3;
-		my_map[4] = 4;
-		my_map[5] = 5;
-		my_map.swap( my_map2 );
-		std::cout << "my_map empty?" << ( my_map.empty() ? "yes" : "no" ) << std::endl;
+		my_map2[4] = 4;
+		my_map2[5] = 5;
+		
+		std::cout << "map1: " << std::endl;
+		print_map( my_map );
+		std::cout << "map2: " << std::endl;
 		print_map( my_map2 );
+		my_map.swap( my_map2 );
+		// std::cout << "my_map empty?" << ( my_map.empty() ? "yes" : "no" ) << std::endl;
+		std::cout << "map1: " << std::endl;
+		print_map( my_map );
+		std::cout << "map2: " << std::endl;
+		print_map( my_map2 );
+	}
+	return ;
+}
+
+void	lookup( void )
+{
+	{
+		ft::map< int, int >				my_map;
+		ft::map< int, int >::iterator	range_start;
+		ft::map< int, int >::iterator	range_end;
+		ft::map< int, int >::iterator	bound;
+
+		my_map[1] = 1;
+		my_map[2] = 2;
+		my_map[3] = 3;
+		my_map[4] = 4;
+
+		print_map( my_map );
+		std::cout << "No of 1 element: " << my_map.count( 1 ) << std::endl;
+		std::cout << "No of 6 element: " << my_map.count( 6 ) << std::endl;
+
+		std::cout << "element 1: " << ( *my_map.find( 1 ) ).second << std::endl;
+		std::cout << "equal_range( 2 ): " << std::endl;
+		range_start = my_map.equal_range( 2 ).first;
+		range_end = my_map.equal_range( 2 ).second;
+		std::cout << "\tstart: " << range_start->first << std::endl;
+		std::cout << "\tend: " << range_end->first << std::endl;
+		std::cout << "equal_range( -3 ): " << std::endl;
+		range_start = my_map.equal_range( -3 ).first;
+		range_end = my_map.equal_range( -3 ).second;
+		std::cout << "\tstart: " << range_start->first << std::endl;
+		std::cout << "\tend: " << range_end->first << std::endl;
+		std::cout << "equal_range( 9 ): " << std::endl;
+		range_start = my_map.equal_range( 9 ).first;
+		range_end = my_map.equal_range( 9 ).second;
+		std::cout << "\tstart: " << range_start->first << std::endl;
+		std::cout << "\tend: " << range_end->first << std::endl;
+		std::cout << std::endl;
+		bound = my_map.lower_bound( 2 );
+		std::cout << "lower_bound( 2 ): " << bound->first << std::endl;
+		bound = my_map.lower_bound( -3 );
+		std::cout << "lower_bound( -3 ): " << bound->first << std::endl;
+		bound = my_map.lower_bound( 9 );
+		std::cout << "lower_bound( 9 ): " << bound->first << std::endl;
+		bound = my_map.upper_bound( 2 );
+		std::cout << "upper_bound( 2 ): " << bound->first << std::endl;
+		bound = my_map.upper_bound( -3 );
+		std::cout << "upper_bound( -3 ): " << bound->first << std::endl;
+		bound = my_map.upper_bound( 9 );
+		std::cout << "upper_bound( 9 ): " << bound->first << std::endl;
+	}
+	{
+		ft::map< int, int >	my_map;
+
+		my_map[1] = 1;
+		my_map[2] = 2;
+		my_map[3] = 3;
+		my_map[4] = 4;
+
+		const ft::map< int, int >			const_map( my_map );
+		ft::map< int, int >::const_iterator	range_start;
+		ft::map< int, int >::const_iterator	range_end;
+		ft::map< int, int >::const_iterator	bound;
+
+		print_map( const_map );
+		std::cout << "No of 1 element: " << const_map.count( 1 ) << std::endl;
+		std::cout << "No of 6 element: " << const_map.count( 6 ) << std::endl;
+
+		std::cout << "element 1: " << ( *const_map.find( 1 ) ).second << std::endl;
+		std::cout << "equal_range( 2 ): " << std::endl;
+		range_start = const_map.equal_range( 2 ).first;
+		range_end = const_map.equal_range( 2 ).second;
+		std::cout << "\tstart: " << range_start->first << std::endl;
+		std::cout << "\tend: " << range_end->first << std::endl;
+		std::cout << "equal_range( -3 ): " << std::endl;
+		range_start = const_map.equal_range( -3 ).first;
+		range_end = const_map.equal_range( -3 ).second;
+		std::cout << "\tstart: " << range_start->first << std::endl;
+		std::cout << "\tend: " << range_end->first << std::endl;
+		std::cout << "equal_range( 9 ): " << std::endl;
+		range_start = const_map.equal_range( 9 ).first;
+		range_end = const_map.equal_range( 9 ).second;
+		std::cout << "\tstart: " << range_start->first << std::endl;
+		std::cout << "\tend: " << range_end->first << std::endl;
+		std::cout << std::endl;
+		bound = const_map.lower_bound( 2 );
+		std::cout << "lower_bound( 2 ): " << bound->first << std::endl;
+		bound = const_map.lower_bound( -3 );
+		std::cout << "lower_bound( -3 ): " << bound->first << std::endl;
+		bound = const_map.lower_bound( 9 );
+		std::cout << "lower_bound( 9 ): " << bound->first << std::endl;
+		bound = const_map.upper_bound( 2 );
+		std::cout << "upper_bound( 2 ): " << bound->first << std::endl;
+		bound = const_map.upper_bound( -3 );
+		std::cout << "upper_bound( -3 ): " << bound->first << std::endl;
+		bound = const_map.upper_bound( 9 );
+		std::cout << "upper_bound( 9 ): " << bound->first << std::endl;
+	}
+	return ;
+}
+
+void	comparison( void )
+{
+	{
+		ft::map< int, int >	map1;
+		ft::map< int, int >	map2;
+
+		map1[1] = 1;
+		map2[1] = 1;
+		map1[2] = 2;
+		map2[2] = 2;
+		std::cout << "map1 == map2 : " << ( map1 == map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 != map2 : " << ( map1 != map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 < map2 : " << ( map1 < map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 > map2 : " << ( map1 > map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 <= map2 : " << ( map1 <= map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 >= map2 : " << ( map1 >= map2 ? "yes" : "no" ) << std::endl;
+		std::cout << std::endl;
+		map1[3] = 3;
+		map2[3] = 4;
+		std::cout << "map1 == map2 : " << ( map1 == map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 != map2 : " << ( map1 != map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 < map2 : " << ( map1 < map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 > map2 : " << ( map1 > map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 <= map2 : " << ( map1 <= map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 >= map2 : " << ( map1 >= map2 ? "yes" : "no" ) << std::endl;
+		std::cout << std::endl;
+		map2.erase( 3 );
+		std::cout << "map1 == map2 : " << ( map1 == map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 != map2 : " << ( map1 != map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 < map2 : " << ( map1 < map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 > map2 : " << ( map1 > map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 <= map2 : " << ( map1 <= map2 ? "yes" : "no" ) << std::endl;
+		std::cout << "map1 >= map2 : " << ( map1 >= map2 ? "yes" : "no" ) << std::endl;
 	}
 	return ;
 }
@@ -278,5 +426,11 @@ int	main()
 	std::cout << "-----------------------------------------------" << std::endl;
 	std::cout << "-------------------Modifiers2------------------" << std::endl;
 	modifiers2();
+	std::cout << "-----------------------------------------------" << std::endl;
+	std::cout << "---------------------Lookup--------------------" << std::endl;
+	lookup();
+	std::cout << "-----------------------------------------------" << std::endl;
+	std::cout << "---------------------Lookup--------------------" << std::endl;
+	comparison();
 	std::cout << "-----------------------------------------------" << std::endl;
 }

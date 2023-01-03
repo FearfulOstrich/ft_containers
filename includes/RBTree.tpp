@@ -93,22 +93,19 @@ Deep copy.
 template< typename T, typename Comp, typename Alloc >
 RBTree< T, Comp, Alloc >&	RBTree< T, Comp, Alloc >::operator=( const RBTree< T, Comp, Alloc >& other )
 {
-	const_node_pointer	node = other.minimum();
+	const_iterator	it( other.minimum(), other.get_sentinel() );
 
 	if ( this != &other )
 	{
 		_node_allocator = other._node_allocator;
 		_allocator = other._allocator;
 		_compare = other._compare;
-		
 		_sentinel = _node_allocator.allocate( 1 );
 		_allocator.construct( &_sentinel->content, T() );
 		_sentinel->color = BLACK;
 		_root = _sentinel;
-		while ( node != other._sentinel )
-			insert( node->content );
-		_sentinel->left = maximum();
-		_sentinel->right = minimum();
+		while ( it.base() != other.get_sentinel() )
+			insert( *it++ );
 	}
 	return ( *this );
 }
@@ -235,31 +232,63 @@ Remove element node.
 template< typename T, typename Comp, typename Alloc >
 void	RBTree< T, Comp, Alloc >::remove( node_pointer node )
 {
-	node_pointer	child;
-	node_pointer	parent;
-	
+	node_pointer	to_delete;
+	node_pointer	replacement;
+
 	if ( node == _sentinel )
 		return ;
-	if ( node->left == _sentinel )
-		child = node->right;
-	else if ( node->right == _sentinel )
-		child = node->left;
+	//	Determine node to remove (can be other than given node).
+	if ( node->left == _sentinel || node->right == _sentinel )
+		to_delete = node;
 	else
+		to_delete = node->successor( _sentinel );
+	//	Determine replacement node.
+	if ( to_delete->left != _sentinel )
+		replacement = to_delete->left;
+	else
+		replacement = to_delete->right;
+	//	Replace to_delete by replacement.
+	if ( replacement != _sentinel )
+		replacement->parent = to_delete->parent;	
+	if ( to_delete->parent != _sentinel )
 	{
-		node = _successor( node );
-		child = node->right;
+		if ( to_delete == to_delete->parent->left )
+			to_delete->parent->left = replacement;
+		else
+			to_delete->parent->right = replacement;
 	}
-	parent = node->parent;
-	if ( child != _sentinel )
-		child->parent = parent;
-	if ( parent == _sentinel )
-		_root = child;
-	else if ( parent->left == node )
-		parent->left = child;
 	else
-		parent->right = child;
-	if ( node->color == BLACK )
-		_remove_fixup( child, parent );
+		_root = replacement;
+	//	Exchange to_delete if not input node (then succesor of node).
+	if ( to_delete != node )
+	{
+		//	change node links and color.
+		to_delete->parent = node->parent;
+		to_delete->left = node->left;
+		to_delete->right = node->right;
+		std::swap( to_delete->color, node->color );
+		//	Update child of parent.
+		if ( node->parent != _sentinel )
+		{
+			if ( node == node->parent->left )
+				node->parent->left = to_delete;
+			else
+				node->parent->right = to_delete;
+		}
+		else
+			_root = to_delete;
+		//	Update the parent of the swapped children.
+		if ( node->left )
+			node->left->parent = node;
+		if ( node->right )
+			node->right->parent = node;
+		if ( to_delete->left )
+			to_delete->left->parent = to_delete;
+		if ( to_delete->right )
+			to_delete->right->parent = to_delete;
+	}
+	if ( ( node->color == BLACK ) && ( replacement != _sentinel ) )
+		_remove_fixup( replacement );
 	deallocate_node( node );
 	_sentinel->left = maximum();
 	_sentinel->right = minimum();
@@ -524,7 +553,7 @@ typename RBTree< T, Comp, Alloc >::node_pointer	RBTree< T, Comp, Alloc >::_find(
 {
 	if ( node == _sentinel )
 		return ( node );
-	if ( _compare( value, node->content ) )
+	else if ( _compare( value, node->content ) )
 		return ( _find( value, node->left ) );
 	else if ( _compare( node->content, value ) )
 		return ( _find( value, node->right ) );
@@ -666,8 +695,9 @@ void	RBTree< T, Comp, Alloc >::_insert_fixup( node_pointer node )
 Fixup RBTree properties after deletion of element.
 */
 template< typename T, typename Comp, typename Alloc >
-void	RBTree< T, Comp, Alloc >::_remove_fixup( node_pointer node, node_pointer parent )
+void	RBTree< T, Comp, Alloc >::_remove_fixup( node_pointer node )
 {
+	node_pointer	parent = node->parent;
 	node_pointer	sibling;
 
 	while ( ( node->color == BLACK ) && ( node != _root ) )
