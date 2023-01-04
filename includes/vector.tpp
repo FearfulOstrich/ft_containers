@@ -182,7 +182,8 @@ void	vector< T, Alloc >::assign( size_type count, const T& value )
 	_tmp = _array_copy( count );
 	for ( size_type i = 0; i < count; i++ )
 	{
-		_allocator.destroy( &_tmp[i] );
+		if ( i < _size )
+			_allocator.destroy( &_tmp[i] );
 		_allocator.construct( &_tmp[i], value );
 	}
 	std::swap( _tmp, _array );
@@ -196,10 +197,11 @@ void	vector< T, Alloc >::assign( size_type count, const T& value )
 
 template< typename T, typename Alloc >
 template< typename InputIt >
-void	vector< T, Alloc >::assign( InputIt count, InputIt value,
-								typename ft::enable_if< !ft::is_integral< InputIt >::value, InputIt >::type* )
+void	vector< T, Alloc >::assign( InputIt first, InputIt last,
+				typename ft::enable_if< !ft::is_integral< InputIt >::value, InputIt >::type* )
 {
-	pointer	_tmp;
+	pointer		_tmp;
+	size_type	count = ft::difference( first, last );
 	
 	if ( count > max_size() )
 		throw ( std::length_error( "cannot create ft::vector larger than max_size()" ) );
@@ -207,7 +209,7 @@ void	vector< T, Alloc >::assign( InputIt count, InputIt value,
 	for ( size_type i = 0; i < count; i++ )
 	{
 		_allocator.destroy( &_tmp[i] );
-		_allocator.construct( &_tmp[i], value );
+		_allocator.construct( &_tmp[i], *first++ );
 	}
 	std::swap( _tmp, _array );
 	for ( size_type i = 0; i < _size; i++ )
@@ -435,8 +437,7 @@ void	vector< T, Alloc >::clear( void )
 
 template< typename T, typename Alloc >
 typename vector< T, Alloc >::
-	iterator	vector< T, Alloc >::insert(const_iterator pos,
-											const T& value )
+	iterator	vector< T, Alloc >::insert(const_iterator pos, const T& value )
 {
 	size_type		_new_cap = _next_cap( _size + 1 );
 	size_type		i = 0;
@@ -461,10 +462,7 @@ typename vector< T, Alloc >::
 }
 
 template< typename T, typename Alloc >
-typename vector< T, Alloc >::
-	iterator	vector< T, Alloc >::insert(const_iterator pos,
-											size_type count,
-											const T& value )
+typename vector< T, Alloc >::iterator	vector< T, Alloc >::insert(const_iterator pos, size_type count, const T& value )
 {
 	size_type		_new_cap = _next_cap( _size + count );
 	size_type		i = 0;
@@ -493,10 +491,7 @@ typename vector< T, Alloc >::
 
 template< typename T, typename Alloc >
 template< typename InputIt >
-typename vector< T, Alloc >::
-	iterator	vector< T, Alloc >::insert( const_iterator pos,
-											InputIt first,
-											InputIt last,
+typename vector< T, Alloc >::iterator	vector< T, Alloc >::insert( const_iterator pos, InputIt first, InputIt last,
 											typename ft::enable_if< !ft::is_integral< InputIt >::value, InputIt >::type* )
 {
 	size_type		count = difference( first, last );
@@ -526,10 +521,9 @@ typename vector< T, Alloc >::
 }
 
 template< typename T, typename Alloc >
-typename vector< T, Alloc >::
-	iterator	vector< T, Alloc >::erase( iterator pos )
+typename vector< T, Alloc >::iterator	vector< T, Alloc >::erase( iterator pos )
 {
-	size_type i = distance( begin(), pos );
+	size_type i = ft::difference( begin(), pos );
 
 	for ( size_type j = i + 1; j < _size; j++ )
 		_array[j - 1] = _array[j];
@@ -539,11 +533,10 @@ typename vector< T, Alloc >::
 }
 
 template< typename T, typename Alloc >
-typename vector< T, Alloc >::
-	iterator	vector< T, Alloc >::erase( iterator first, iterator last )
+typename vector< T, Alloc >::iterator	vector< T, Alloc >::erase( iterator first, iterator last )
 {
-	size_type i = first - begin();
-	difference_type	count = distance( first, last );
+	size_type 		i = first - begin();
+	difference_type	count = ft::difference( first, last );
 
 	if ( count == 0 )
 		return ( last );
@@ -582,22 +575,24 @@ void		vector< T, Alloc >::pop_back( void )
 template< typename T, typename Alloc >
 void		vector< T, Alloc >::resize( size_type n, const_reference value )
 {
+	pointer		_copy;
+	size_type	_old_cap = _capacity;
+
 	if ( n < _size )
 	{
 		while ( _size > n )
 			pop_back();
 		return ;
 	}
-	pointer	_copy;
 	_copy = _array_copy( n );
 	for ( size_type i = _size; i < n; i++ )
-		_allocator.construct( _copy[i], value );
+		_allocator.construct( &_copy[i], value );
 	std::swap( _copy, _array );
 	_capacity = n;
 	_size = n;
 	for ( size_type i = 0; i < _size; i++ )
-		_allocator.destroy( _copy[i] );
-	_allocator.deallocate( _copy );
+		_allocator.destroy( &_copy[i] );
+	_allocator.deallocate( _copy, _old_cap );
 	return ;
 }
 
@@ -653,7 +648,7 @@ Equal comparison.
 template< typename T, typename Alloc >
 bool	operator==( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs )
 {
-	return ( equal( lhs.begin(), lhs.end(), rhs.begin() ) );
+	return ( ft::equal( lhs.begin(), lhs.end(), rhs.begin() ) );
 }
 
 /*
@@ -705,7 +700,7 @@ bool	operator>=( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs )
 Swap two vectors.
 */
 template< typename T, typename Alloc >
-void	swap( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs )
+void	swap( vector< T, Alloc >& lhs, vector< T, Alloc >& rhs )
 {
 	lhs.swap( rhs );
 }

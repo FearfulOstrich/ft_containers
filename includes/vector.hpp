@@ -26,6 +26,7 @@
 # include "difference.hpp"
 # include "lexicographical_compare.hpp"
 # include "comp.hpp"
+# include "equal.hpp"
 # include "enable_if.hpp"
 
 namespace ft
