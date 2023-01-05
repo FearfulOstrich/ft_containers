@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:45:00 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/12 17:08:26 by aalleon          ###   ########.fr       */
+/*   Updated: 2023/01/05 16:18:50 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,66 +145,5 @@ void	stack< T, Container >::pop( void )
 	c.pop_back();
 	return ;
 }
-
-/*==============================================================================
-							*************************
-							* NON-MEMBER FUNCTIONS. *
-							*************************
-==============================================================================*/
-
-/*
-Equal comparison.
-*/
-template< typename T, typename Alloc >
-bool	operator==( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs )
-{
-	return ( lhs.c == rhs.c );
-}
-
-/*
-Different comparison
-*/
-template< typename T, typename Alloc >
-bool	operator!=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs )
-{
-	return ( !( lhs == rhs ) );
-}
-
-/*
-Greater than comparison
-*/
-template< typename T, typename Alloc >
-bool	operator>( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs )
-{
-	return ( lhs.c > rhs.c );
-}
-
-/*
-Greater than or equal to comparison
-*/
-template< typename T, typename Alloc >
-bool	operator>=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs )
-{
-	return ( !( lhs < rhs ) );
-}
-
-/*
-Less than comparison
-*/
-template< typename T, typename Alloc >
-bool	operator<( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs )
-{
-	return ( lhs.c < rhs.c );
-}
-
-/*
-Less than or equal to comparison
-*/
-template< typename T, typename Alloc >
-bool	operator<=( const stack< T, Alloc >& lhs, const stack< T, Alloc >& rhs )
-{
-	return ( !( lhs > rhs ) );
-}
-
 
 #endif

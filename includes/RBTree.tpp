@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBTree.tpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 12:03:19 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/20 09:13:27 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/05 16:46:07 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,6 +292,18 @@ void	RBTree< T, Comp, Alloc >::remove( node_pointer node )
 	deallocate_node( node );
 	_sentinel->left = maximum();
 	_sentinel->right = minimum();
+	return ;
+}
+
+/*
+Swap two trees.
+Swaps _root and _sentinel pointers.
+*/
+template< typename T, typename Comp, typename Alloc >
+void	RBTree< T, Comp, Alloc >::swap( RBTree< T, Comp, Alloc >& other )
+{
+	std::swap( _sentinel, other._sentinel );
+	std::swap( _root, other._root );
 	return ;
 }
 

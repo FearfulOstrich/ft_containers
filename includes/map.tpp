@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.tpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:25:44 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/20 14:45:49 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/05 16:43:22 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ Reverse begin iterator.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::reverse_iterator	SELF::rbegin( void )
 {
-	return ( reverse_iterator( iterator( _tree.maximum(), _tree.get_sentinel() ) ) );
+	return ( reverse_iterator( iterator( _tree.get_sentinel(), _tree.get_sentinel() ) ) );
 }
 
 /*
@@ -254,7 +254,7 @@ Reverse begin iterator const.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::const_reverse_iterator	SELF::rbegin( void ) const
 {
-	return ( const_reverse_iterator( const_iterator( _tree.maximum(), _tree.get_sentinel() ) ) );
+	return ( const_reverse_iterator( const_iterator( _tree.get_sentinel(), _tree.get_sentinel() ) ) );
 }
 
 /*
@@ -263,7 +263,7 @@ Reverse end iterator.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::reverse_iterator	SELF::rend( void )
 {
-	return ( reverse_iterator( iterator( _tree.get_sentinel(), _tree.get_sentinel() ) ) );
+	return ( reverse_iterator( iterator( _tree.minimum(), _tree.get_sentinel() ) ) );
 }
 
 /*
@@ -272,7 +272,7 @@ Reverse end iterator cont.
 template< typename Key, typename T, typename Compare, typename Allocator >
 typename SELF::const_reverse_iterator	SELF::rend( void ) const
 {
-	return ( const_reverse_iterator( const_iterator( _tree.get_sentinel(), _tree.get_sentinel() ) ) );
+	return ( const_reverse_iterator( const_iterator( _tree.minimum(), _tree.get_sentinel() ) ) );
 }
 
 /*==============================================================================
@@ -417,10 +417,8 @@ Swap two map objects.
 template< typename Key, typename T, typename Compare, typename Allocator >
 void	SELF::swap( map& other )
 {
-	map< Key, T, Compare, Allocator >	tmp( other );
-	
-	other = *this;
-	*this = tmp;
+	std::swap( _size, other._size );
+	_tree.swap( other._tree );
 	return ;
 }
 

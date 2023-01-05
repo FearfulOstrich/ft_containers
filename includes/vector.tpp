@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:59:11 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/12 16:58:34 by aalleon          ###   ########.fr       */
+/*   Updated: 2023/01/05 16:26:14 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ vector< T, Alloc >::vector(	typename vector< T, Alloc >::size_type count,
 						const allocator_type& alloc )
 	: _allocator( alloc )
 	, _capacity( count )
-	, _size( count )
+	, _size( 0 )
 	, _array( NULL )
 {
 	if ( count > max_size() )
@@ -113,7 +113,7 @@ template< typename T, typename Alloc >
 vector< T, Alloc >::vector( const vector< T, Alloc >& other )
 	: _allocator( other._allocator )
 	, _capacity( other._capacity )
-	, _size( other._size )
+	, _size( 0 )
 	, _array( _allocator.allocate( _capacity ) )
 {
 	*this = other;
@@ -155,7 +155,8 @@ vector< T, Alloc >&	vector< T, Alloc >::operator=( const vector< T, Alloc >& oth
 	_tmp = _array_copy( other._capacity );
 	for ( size_type i = 0; i < other._size; i++ )
 	{
-		_allocator.destroy( &_tmp[i] );
+		if ( i < _size )
+			_allocator.destroy( &_tmp[i] );
 		_allocator.construct( &_tmp[i], other[i] );
 	}
 	std::swap( _tmp, _array );
@@ -203,12 +204,15 @@ void	vector< T, Alloc >::assign( InputIt first, InputIt last,
 	pointer		_tmp;
 	size_type	count = ft::difference( first, last );
 	
+	if ( count == 0 )
+		return ;
 	if ( count > max_size() )
 		throw ( std::length_error( "cannot create ft::vector larger than max_size()" ) );
 	_tmp = _array_copy( count );
 	for ( size_type i = 0; i < count; i++ )
 	{
-		_allocator.destroy( &_tmp[i] );
+		if ( i < _size )
+			_allocator.destroy( &_tmp[i] );
 		_allocator.construct( &_tmp[i], *first++ );
 	}
 	std::swap( _tmp, _array );
@@ -405,6 +409,8 @@ void	vector< T, Alloc >::reserve( size_type new_cap )
 	
 	if ( new_cap <= _capacity )
 		return ;
+	if ( new_cap > max_size() )
+		throw ( std::length_error( "vector::reserve" ) );
 	_tmp = _allocator.allocate( new_cap );
 	for ( size_type i = 0; i < _size; i++)
 		_allocator.construct( &_tmp[i], _array[i] );
@@ -557,10 +563,10 @@ void		vector< T, Alloc >::push_back( const_reference value )
 
 	_allocator.construct( &_copy[_size], value );
 	std::swap( _copy, _array );
-	_capacity = _new_cap;
-	_size++;
 	for ( size_type i = 0; i < _size; i++ )
 		_allocator.destroy( &_copy[i] );
+	_size++;
+	_capacity = _new_cap;
 	_allocator.deallocate( _copy, _old_cap );
 	return ;
 }
@@ -577,6 +583,7 @@ void		vector< T, Alloc >::resize( size_type n, const_reference value )
 {
 	pointer		_copy;
 	size_type	_old_cap = _capacity;
+	size_type	_new_cap = _next_cap( n );
 
 	if ( n < _size )
 	{
@@ -584,14 +591,14 @@ void		vector< T, Alloc >::resize( size_type n, const_reference value )
 			pop_back();
 		return ;
 	}
-	_copy = _array_copy( n );
+	_copy = _array_copy( _new_cap );
 	for ( size_type i = _size; i < n; i++ )
 		_allocator.construct( &_copy[i], value );
 	std::swap( _copy, _array );
-	_capacity = n;
-	_size = n;
 	for ( size_type i = 0; i < _size; i++ )
 		_allocator.destroy( &_copy[i] );
+	_capacity = _new_cap;
+	_size = n;
 	_allocator.deallocate( _copy, _old_cap );
 	return ;
 }
@@ -599,11 +606,9 @@ void		vector< T, Alloc >::resize( size_type n, const_reference value )
 template< typename T, typename Alloc >
 void	vector< T, Alloc >::swap( vector< T, Alloc >& other )
 {
-	vector< T, Alloc >	_tmp;
-
-	_tmp = other;
-	other = *this;
-	*this = _tmp;
+	std::swap( other._capacity, _capacity );
+	std::swap( other._size, _size );
+	std::swap( other._array, _array );
 	return ;
 }
 
@@ -648,7 +653,7 @@ Equal comparison.
 template< typename T, typename Alloc >
 bool	operator==( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs )
 {
-	return ( ft::equal( lhs.begin(), lhs.end(), rhs.begin() ) );
+	return ( ( lhs.size() == rhs.size() ) && ( ft::equal( lhs.begin(), lhs.end(), rhs.begin() ) ) );
 }
 
 /*
@@ -666,7 +671,7 @@ Less than comparison
 template< typename T, typename Alloc >
 bool	operator<( const vector< T, Alloc >& lhs, const vector< T, Alloc >& rhs )
 {
-	return ( lexicographical_compare( rhs.begin(), rhs.end(), lhs.begin(), lhs.end() ) );
+	return ( lexicographical_compare( lhs.begin(), lhs.end(), rhs.begin(), rhs.end() ) );
 }
 
 /*

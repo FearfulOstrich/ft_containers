@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 14:57:48 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/12 16:42:17 by aalleon          ###   ########.fr       */
+/*   Updated: 2023/01/05 16:19:48 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,38 +66,18 @@ namespace ft
 
 		//	Comparison operator non-member functions
 		//		equal
-		friend bool	operator==( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
+		friend bool	operator==( const stack< T, Container >& lhs, const stack< T, Container >& rhs ) { return lhs.c == rhs.c; }
 		//		Different
-		friend bool	operator!=( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
+		friend bool	operator!=( const stack< T, Container >& lhs, const stack< T, Container >& rhs ) { return lhs.c != rhs.c; }
 		//		Greater
-		friend bool	operator>( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
+		friend bool	operator>( const stack< T, Container >& lhs, const stack< T, Container >& rhs ) { return lhs.c > rhs.c; }
 		//		Greater or equal
-		friend bool	operator>=( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
+		friend bool	operator>=( const stack< T, Container >& lhs, const stack< T, Container >& rhs ) { return lhs.c >= rhs.c; }
 		//		Less
-		friend bool	operator<( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
+		friend bool	operator<( const stack< T, Container >& lhs, const stack< T, Container >& rhs ) { return lhs.c < rhs.c; }
 		//		Less or equal
-		friend bool	operator<=( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
+		friend bool	operator<=( const stack< T, Container >& lhs, const stack< T, Container >& rhs ) { return lhs.c <= rhs.c; }
 	};
-
-	//	Comparison operator non-member functions
-	//		equal
-	template< typename T, typename Container >
-	bool	operator==( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
-	//		Different
-	template< typename T, typename Container >
-	bool	operator!=( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
-	//		Greater
-	template< typename T, typename Container >
-	bool	operator>( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
-	//		Greater or equal
-	template< typename T, typename Container >
-	bool	operator>=( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
-	//		Less
-	template< typename T, typename Container >
-	bool	operator<( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
-	//		Less or equal
-	template< typename T, typename Container >
-	bool	operator<=( const stack< T, Container >& lhs, const stack< T, Container >& rhs );
 
 	# include "stack.tpp"
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBTree.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:14:46 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/20 09:13:32 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/05 16:43:56 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ namespace ft
 		const_node_pointer	minimum( void ) const;
 		//		Fetch maximum of tree const.
 		const_node_pointer	maximum( void ) const;
+
+		//	Swap method
+		void	swap( RBTree& other );
 
 	private:
 		//	Private functions

@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 10:57:27 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/12 16:36:13 by aalleon          ###   ########.fr       */
+/*   Updated: 2023/01/05 14:01:06 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ namespace ft
 				const allocator_type& alloc = Alloc( ) );
 		//		5. Construct from content of range.
 		template< class InputIt >
-		vector( InputIt first, InputIt last, const allocator_type& alloc, typename ft::enable_if< !ft::is_integral< InputIt >::value, InputIt >::type* = NULL );
+		vector( InputIt first, InputIt last, const allocator_type& alloc = Alloc(),
+			typename ft::enable_if< !ft::is_integral< InputIt >::value, InputIt >::type* = NULL );
 		//		6. Copy constructor.
 		vector( const vector& other );
 		
