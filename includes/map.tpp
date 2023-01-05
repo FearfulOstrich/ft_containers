@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:25:44 by aalleon           #+#    #+#             */
-/*   Updated: 2023/01/05 16:43:22 by aalleon          ###   ########.fr       */
+/*   Updated: 2023/01/05 17:01:50 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -488,7 +488,7 @@ typename SELF::iterator	SELF::lower_bound( const Key& key )
 			return ( it );
 		it++;
 	}
-	return ( iterator( _tree.maximum(), _tree.get_sentinel() ) );
+	return ( end() );
 }
 
 /*
@@ -506,7 +506,7 @@ typename SELF::const_iterator	SELF::lower_bound( const Key& key ) const
 			return ( it );
 		it++;
 	}
-	return ( const_iterator( _tree.maximum(), _tree.get_sentinel() ) );
+	return ( end() );
 }
 
 /*
@@ -524,7 +524,7 @@ typename SELF::iterator	SELF::upper_bound( const Key& key )
 			return ( it );
 		it++;
 	}
-	return ( iterator( _tree.maximum(), _tree.get_sentinel() ) );
+	return ( end() );
 }
 
 /*
@@ -542,7 +542,7 @@ typename SELF::const_iterator	SELF::upper_bound( const Key& key ) const
 			return ( it );
 		it++;
 	}
-	return ( const_iterator( _tree.maximum(), _tree.get_sentinel() ) );
+	return ( end() );
 }
 
 /*==============================================================================
