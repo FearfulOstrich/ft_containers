@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.hpp                                            :+:      :+:    :+:   */
+/*   set.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/23 13:31:11 by aalleon           #+#    #+#             */
-/*   Updated: 2023/01/05 18:47:45 by antoine          ###   ########.fr       */
+/*   Created: 2023/01/05 18:23:25 by antoine           #+#    #+#             */
+/*   Updated: 2023/01/05 18:53:39 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_HPP
-# define MAP_HPP
+#ifndef SET_HPP
+# define SET_HPP
 
-# include "binary_function.hpp"
 # include "comp.hpp"
 # include "RBTree.hpp"
 # include "reverse_iterator.hpp"
@@ -22,20 +21,18 @@
 
 namespace ft
 {
-	template< typename Key, typename T,
-			typename Compare = ft::less< Key >,
-			typename Allocator = std::allocator< ft::pair< const Key, T > > >
-	class map
+	template< typename Key, typename Compare = ft::less< Key >, typename Allocator = std::allocator< Key > >
+	class set
 	{
 	public:
 		//	Typedefs
-		typedef map< Key, T, Compare, Allocator >							self;
+		typedef set< Key, Compare, Allocator >								self;
 		typedef Key															key_type;
-		typedef T															mapped_type;
-		typedef ft::pair< const Key, T >									value_type;
+		typedef Key															value_type;
 		typedef typename Allocator::size_type								size_type;
 		typedef typename Allocator::difference_type							difference_type;
 		typedef Compare														key_compare;
+		typedef Compare														value_compare;
 		typedef Allocator													allocator_type;
 		typedef value_type&													reference;
 		typedef const value_type&											const_reference;
@@ -45,17 +42,6 @@ namespace ft
 		typedef ft::rbtree_iterator< const ft::RBNode< value_type >, true >	const_iterator;
 		typedef typename ft::reverse_iterator< iterator >					reverse_iterator;
 		typedef typename ft::reverse_iterator< const_iterator >				const_reverse_iterator;
-
-		//	value_compare class.
-		class value_compare: public ft::binary_function< value_type, value_type, bool >
-		{
-			friend class map;
-		protected:
-			Compare	comp;
-			value_compare( Compare c );
-		public:
-			bool	operator()( const value_type& lhs, const value_type& rhs ) const;
-		};
 
 	private:
 		//	Typedefs.
@@ -69,33 +55,23 @@ namespace ft
 	public:
 		//	Constructors
 		//		Default constructor
-		map( void );
+		set( void );
 		//		Constructor with custom comparator and Allocator.
-		map( const Compare& comp, const Allocator& alloc = Allocator() );
+		set( const Compare& comp, const Allocator& alloc = Allocator() );
 		//		Constructor from Input Iterators
 		template< typename InputIt >
-		map( InputIt first, InputIt second,
-				const Compare& comp = Compare(),
-				const Allocator& alloc = Allocator() );
+		set( InputIt first, InputIt second, const Compare& comp = Compare(), const Allocator& alloc = Allocator() );
 		//		Copy constructor
-		map( const map& other );
+		set( const set& other );
 		
 		//	Destructor
-		~map( void );
+		~set( void );
 
 		//	Assignation operator
-		map&	operator=( const map& other );
+		set&	operator=( const set& other );
 		
 		//	Getter for allocator
 		allocator_type	get_allocator( void ) const;
-
-		//	Element Access
-		//		Element access at given key.
-		mapped_type&		at( const Key& key );
-		//		Element access at given key const.
-		const mapped_type&	at( const Key& key ) const;
-		//		Element access with given key. Create element if key unexisting.
-		mapped_type&			operator[]( const Key& key );
 
 		//	Iterators
 		//		Begin iterator
@@ -140,7 +116,7 @@ namespace ft
 		//		Erase given key.
 		size_type					erase( const Key& key );
 		//		Swap two maps.
-		void						swap( map& other );
+		void						swap( set& other );
 
 		//	Lookup functions
 		//		Count number of element with given key.
@@ -171,30 +147,30 @@ namespace ft
 
 	//	Comparison operator non-member functions
 	//		equal
-	template< typename Key, typename T, typename Compare, typename Alloc >
-	bool	operator==( const map< Key, T, Compare, Alloc >& lhs, const map< Key, T, Compare, Alloc >& rhs );
+	template< typename Key, typename Compare, typename Alloc >
+	bool	operator==( const set< Key, Compare, Alloc >& lhs, const set< Key, Compare, Alloc >& rhs );
 	//		Different
-	template< typename Key, typename T, typename Compare, typename Alloc >
-	bool	operator!=( const map< Key, T, Compare, Alloc >& lhs, const map< Key, T, Compare, Alloc >& rhs );
+	template< typename Key, typename Compare, typename Alloc >
+	bool	operator!=( const set< Key, Compare, Alloc >& lhs, const set< Key, Compare, Alloc >& rhs );
 	//		Greater
-	template< typename Key, typename T, typename Compare, typename Alloc >
-	bool	operator>( const map< Key, T, Compare, Alloc >& lhs, const map< Key, T, Compare, Alloc >& rhs );
+	template< typename Key, typename Compare, typename Alloc >
+	bool	operator>( const set< Key, Compare, Alloc >& lhs, const set< Key, Compare, Alloc >& rhs );
 	//		Greater or equal
-	template< typename Key, typename T, typename Compare, typename Alloc >
-	bool	operator>=( const map< Key, T, Compare, Alloc >& lhs, const map< Key, T, Compare, Alloc >& rhs );
+	template< typename Key, typename Compare, typename Alloc >
+	bool	operator>=( const set< Key, Compare, Alloc >& lhs, const set< Key, Compare, Alloc >& rhs );
 	//		Less
-	template< typename Key, typename T, typename Compare, typename Alloc >
-	bool	operator<( const map< Key, T, Compare, Alloc >& lhs, const map< Key, T, Compare, Alloc >& rhs );
+	template< typename Key, typename Compare, typename Alloc >
+	bool	operator<( const set< Key, Compare, Alloc >& lhs, const set< Key, Compare, Alloc >& rhs );
 	//		Less or equal
-	template< typename Key, typename T, typename Compare, typename Alloc >
-	bool	operator<=( const map< Key, T, Compare, Alloc >& lhs, const map< Key, T, Compare, Alloc >& rhs );
+	template< typename Key, typename Compare, typename Alloc >
+	bool	operator<=( const set< Key, Compare, Alloc >& lhs, const set< Key, Compare, Alloc >& rhs );
 
 	//	Swap non-member function
-	template< typename Key, typename T, typename Compare, typename Alloc >
-	void	swap( map< Key, T, Compare, Alloc >& lhs, map< Key, T, Compare, Alloc >& rhs );
+	template< typename Key, typename Compare, typename Alloc >
+	void	swap( set< Key, Compare, Alloc >& lhs, set< Key, Compare, Alloc >& rhs );
 	
 
-	# include "map.tpp"
+	# include "set.tpp"
 }
 
 #endif
