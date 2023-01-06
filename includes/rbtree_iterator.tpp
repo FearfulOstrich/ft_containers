@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rbtree_iterator.tpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 12:05:39 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/19 12:29:22 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/06 12:57:30 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ rbtree_iterator< T, Const >	rbtree_iterator< T, Const >::operator--( int )
 ==============================================================================*/
 
 template< typename T, bool Const >
-rbtree_iterator< T, Const >::operator	rbtree_iterator< const T, true >( void )
+rbtree_iterator< T, Const >::operator	rbtree_iterator< const T, true >( void ) const
 {
 	return ( rbtree_iterator< const T, true >( _node, _sentinel ) );
 }

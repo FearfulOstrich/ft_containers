@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:59:11 by aalleon           #+#    #+#             */
-/*   Updated: 2023/01/05 16:26:14 by aalleon          ###   ########.fr       */
+/*   Updated: 2023/01/06 13:18:44 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -514,7 +514,7 @@ typename vector< T, Alloc >::iterator	vector< T, Alloc >::insert( const_iterator
 	for ( ; it != pos; ++it, ++i )
 		_allocator.construct( &_copy[i], _array[i] );
 	for ( size_type j = 0; j < count; j++ )
-		_allocator.construct( &_copy[i + j], first[j] );
+		_allocator.construct( &_copy[i + j], *first++ );
 	for (size_type j = i; j < _size; j++ )
 		_allocator.construct( &_copy[j + count], _array[j] );
 	std::swap( _copy, _array );

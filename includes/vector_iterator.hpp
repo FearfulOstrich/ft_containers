@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:33:09 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/23 14:57:50 by aalleon          ###   ########.fr       */
+/*   Updated: 2023/01/06 13:32:23 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ namespace ft
 		vector_iterator&	operator-=( const difference_type n );
 		vector_iterator		operator+( const difference_type n ) const;
 		vector_iterator		operator-( const difference_type n ) const;
-		difference_type		operator-( const vector_iterator& other ) const;
+		template< typename U >
+		difference_type		operator-( const vector_iterator< U >& other ) const;
 		//		reference operator
 		reference	operator[]( const difference_type n) const;
 	};

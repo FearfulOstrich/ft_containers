@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set.tpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 18:54:57 by antoine           #+#    #+#             */
-/*   Updated: 2023/01/05 21:10:11 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/06 14:08:17 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -422,7 +422,7 @@ typename SELF::const_iterator	SELF::lower_bound( const Key& key ) const
 
 	while ( it != ite )
 	{
-		if ( _key_compare( *it, key ) )
+		if ( !_key_compare( *it, key ) )
 			return ( it );
 		it++;
 	}
@@ -501,7 +501,7 @@ typename SELF::value_compare	SELF::value_comp( void ) const
 template< typename Key, typename Compare, typename Alloc >
 bool	operator==( const set< Key, Compare, Alloc >& lhs, const set< Key, Compare, Alloc >& rhs )
 {
-	return ( ft::equal( lhs.begin(), lhs.end(), rhs.begin() ) );
+	return ( ( lhs.size() == rhs.size() ) && ft::equal( lhs.begin(), lhs.end(), rhs.begin() ) );
 }
 
 //	Different

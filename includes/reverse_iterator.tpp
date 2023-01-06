@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse_iterator.tpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 17:16:54 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/19 12:43:18 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/06 13:28:58 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,9 +211,9 @@ reverse_iterator< Iter >	operator+( typename reverse_iterator< Iter >::differenc
 	return ( reverse_iterator< Iter >( it.base() - n ) );
 }
 
-template< class Iter >
+template< typename Iter, typename Iter2 >
 typename reverse_iterator< Iter >::difference_type	operator-( const reverse_iterator< Iter >& lhs,
-																const reverse_iterator< Iter >& rhs )
+																const reverse_iterator< Iter2 >& rhs )
 {
 	return ( rhs.base() - lhs.base() );
 }

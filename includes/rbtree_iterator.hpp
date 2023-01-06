@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rbtree_iterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:41:46 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/19 12:16:04 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/06 12:56:56 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ namespace ft
 		rbtree_iterator&	operator--( void );
 		rbtree_iterator		operator--( int );
 		//		Conversion to const
-							operator rbtree_iterator< const T, true >( void );
+							operator rbtree_iterator< const T, true >( void ) const;
 	};
 
 	//	Non-member functions

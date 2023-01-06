@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 20:33:09 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/07 13:52:25 by aalleon          ###   ########.fr       */
+/*   Updated: 2023/01/06 13:33:17 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,10 +187,10 @@ vector_iterator< T >	vector_iterator< T >::operator-( const difference_type n ) 
 }
 
 template< typename T >
-typename vector_iterator< T >::difference_type	vector_iterator< T >::\
-		operator-( const vector_iterator& other ) const
+template< typename U >
+typename vector_iterator< T >::difference_type	vector_iterator< T >::operator-( const vector_iterator< U >& other ) const
 {
-	return ( _elem - other._elem );
+	return ( base() - other.base() );
 }
 
 /*==============================================================================
