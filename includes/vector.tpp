@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 11:59:11 by aalleon           #+#    #+#             */
-/*   Updated: 2023/01/06 13:18:44 by aalleon          ###   ########.fr       */
+/*   Updated: 2023/01/06 15:19:34 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -554,13 +554,19 @@ typename vector< T, Alloc >::iterator	vector< T, Alloc >::erase( iterator first,
 	return ( iterator( &_array[i] ) );
 }
 
- template< typename T, typename Alloc >
+template< typename T, typename Alloc >
 void		vector< T, Alloc >::push_back( const_reference value )
 {
 	size_type	_old_cap = _capacity;
 	size_type	_new_cap = _next_cap( _size + 1 );
-	pointer		_copy = _array_copy( _new_cap );
+	pointer		_copy;
 
+	if ( _size + 1 <= _capacity )
+	{
+		_allocator.construct( &_array[_size++], value );
+		return ;
+	}
+	_copy = _array_copy( _new_cap );
 	_allocator.construct( &_copy[_size], value );
 	std::swap( _copy, _array );
 	for ( size_type i = 0; i < _size; i++ )
