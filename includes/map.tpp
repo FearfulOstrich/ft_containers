@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 14:25:44 by aalleon           #+#    #+#             */
-/*   Updated: 2023/01/06 14:03:44 by aalleon          ###   ########.fr       */
+/*   Updated: 2023/01/09 13:19:03 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -500,7 +500,7 @@ typename SELF::const_iterator	SELF::lower_bound( const Key& key ) const
 			return ( it );
 		it++;
 	}
-	return ( end() );
+	return ( ite );
 }
 
 /*
@@ -536,7 +536,7 @@ typename SELF::const_iterator	SELF::upper_bound( const Key& key ) const
 			return ( it );
 		it++;
 	}
-	return ( end() );
+	return ( ite );
 }
 
 /*==============================================================================

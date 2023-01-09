@@ -6,7 +6,7 @@
 /*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:30:05 by aalleon           #+#    #+#             */
-/*   Updated: 2023/01/06 17:16:36 by aalleon          ###   ########.fr       */
+/*   Updated: 2023/01/09 13:22:11 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,31 +246,31 @@ void	lookup( void )
 		std::cout << "equal_range( 2 ): " << std::endl;
 		range_start = my_set.equal_range( 2 ).first;
 		range_end = my_set.equal_range( 2 ).second;
-		std::cout << "\tstart: " << *range_start << std::endl;
-		std::cout << "\tend: " << *range_end << std::endl;
+		std::cout << "\tstart: " << ( range_start == my_set.end() ? 99999 : *range_start) << std::endl;
+		std::cout << "\tend: " << ( range_end == my_set.end() ? 99999 : *range_end) << std::endl;
 		std::cout << "equal_range( -3 ): " << std::endl;
 		range_start = my_set.equal_range( -3 ).first;
 		range_end = my_set.equal_range( -3 ).second;
-		std::cout << "\tstart: " << *range_start << std::endl;
-		std::cout << "\tend: " << *range_end << std::endl;
+		std::cout << "\tstart: " << ( range_start == my_set.end() ? 99999 : *range_start) << std::endl;
+		std::cout << "\tend: " << ( range_end == my_set.end() ? 99999 : *range_end) << std::endl;
 		std::cout << "equal_range( 9 ): " << std::endl;
 		range_start = my_set.equal_range( 9 ).first;
 		range_end = my_set.equal_range( 9 ).second;
-		std::cout << "\tstart: " << *range_start << std::endl;
-		std::cout << "\tend: " << *range_end << std::endl;
+		std::cout << "\tstart: " << ( range_start == my_set.end() ? 99999 : *range_start) << std::endl;
+		std::cout << "\tend: " << ( range_end == my_set.end() ? 99999 : *range_end) << std::endl;
 		std::cout << std::endl;
 		bound = my_set.lower_bound( 2 );
-		std::cout << "lower_bound( 2 ): " << *bound << std::endl;
+		std::cout << "lower_bound( 2 ): " << ( bound == my_set.end() ? 99999 : *bound) << std::endl;
 		bound = my_set.lower_bound( -3 );
-		std::cout << "lower_bound( -3 ): " << *bound << std::endl;
+		std::cout << "lower_bound( -3 ): " << ( bound == my_set.end() ? 99999 : *bound) << std::endl;
 		bound = my_set.lower_bound( 9 );
-		std::cout << "lower_bound( 9 ): " << *bound << std::endl;
+		std::cout << "lower_bound( 9 ): " << ( bound == my_set.end() ? 99999 : *bound) << std::endl;
 		bound = my_set.upper_bound( 2 );
-		std::cout << "upper_bound( 2 ): " << *bound << std::endl;
+		std::cout << "upper_bound( 2 ): " << ( bound == my_set.end() ? 99999 : *bound) << std::endl;
 		bound = my_set.upper_bound( -3 );
-		std::cout << "upper_bound( -3 ): " << *bound << std::endl;
+		std::cout << "upper_bound( -3 ): " << ( bound == my_set.end() ? 99999 : *bound) << std::endl;
 		bound = my_set.upper_bound( 9 );
-		std::cout << "upper_bound( 9 ): " << *bound << std::endl;
+		std::cout << "upper_bound( 9 ): " << ( bound == my_set.end() ? 99999 : *bound) << std::endl;
 	}
 	{
 		ft::set< int >	my_set;
@@ -293,31 +293,31 @@ void	lookup( void )
 		std::cout << "equal_range( 2 ): " << std::endl;
 		range_start = const_set.equal_range( 2 ).first;
 		range_end = const_set.equal_range( 2 ).second;
-		std::cout << "\tstart: " << *range_start << std::endl;
-		std::cout << "\tend: " << *range_end << std::endl;
+		std::cout << "\tstart: " << ( range_start == const_set.end() ? 9999 : *range_start ) << std::endl;
+		std::cout << "\tend: " << ( range_end == const_set.end() ? 9999 : *range_end ) << std::endl;
 		std::cout << "equal_range( -3 ): " << std::endl;
 		range_start = const_set.equal_range( -3 ).first;
 		range_end = const_set.equal_range( -3 ).second;
-		std::cout << "\tstart: " << *range_start << std::endl;
-		std::cout << "\tend: " << *range_end << std::endl;
+		std::cout << "\tstart: " << ( range_start == const_set.end() ? 9999 : *range_start ) << std::endl;
+		std::cout << "\tend: " << ( range_end == const_set.end() ? 9999 : *range_end ) << std::endl;
 		std::cout << "equal_range( 9 ): " << std::endl;
 		range_start = const_set.equal_range( 9 ).first;
 		range_end = const_set.equal_range( 9 ).second;
-		std::cout << "\tstart: " << *range_start << std::endl;
-		std::cout << "\tend: " << *range_end << std::endl;
+		std::cout << "\tstart: " << ( range_start == const_set.end() ? 9999 : *range_start ) << std::endl;
+		std::cout << "\tend: " << ( range_end == const_set.end() ? 9999 : *range_end ) << std::endl;
 		std::cout << std::endl;
 		bound = const_set.lower_bound( 2 );
-		std::cout << "lower_bound( 2 ): " << *bound << std::endl;
+		std::cout << "lower_bound( 2 ): " << ( bound == const_set.end() ? 9999 : *bound ) << std::endl;
 		bound = const_set.lower_bound( -3 );
-		std::cout << "lower_bound( -3 ): " << *bound << std::endl;
+		std::cout << "lower_bound( -3 ): " << ( bound == const_set.end() ? 9999 : *bound ) << std::endl;
 		bound = const_set.lower_bound( 9 );
-		std::cout << "lower_bound( 9 ): " << *bound << std::endl;
+		std::cout << "lower_bound( 9 ): " << ( bound == const_set.end() ? 9999 : *bound ) << std::endl;
 		bound = const_set.upper_bound( 2 );
-		std::cout << "upper_bound( 2 ): " << *bound << std::endl;
+		std::cout << "upper_bound( 2 ): " << ( bound == const_set.end() ? 9999 : *bound ) << std::endl;
 		bound = const_set.upper_bound( -3 );
-		std::cout << "upper_bound( -3 ): " << *bound << std::endl;
+		std::cout << "upper_bound( -3 ): " << ( bound == const_set.end() ? 9999 : *bound ) << std::endl;
 		bound = const_set.upper_bound( 9 );
-		std::cout << "upper_bound( 9 ): " << *bound << std::endl;
+		std::cout << "upper_bound( 9 ): " << ( bound == const_set.end() ? 9999 : *bound ) << std::endl;
 	}
 	return ;
 }

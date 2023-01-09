@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_map.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aalleon <aalleon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 15:07:15 by aalleon           #+#    #+#             */
-/*   Updated: 2023/01/07 13:19:45 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/09 13:18:20 by aalleon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,30 +289,30 @@ void	lookup( void )
 		range_start = my_map.equal_range( 2 ).first;
 		range_end = my_map.equal_range( 2 ).second;
 		std::cout << "\tstart: " << ( range_start == my_map.end() ? -999999 : range_start->first ) << std::endl;
-		std::cout << "\tend: " << range_end->first << std::endl;
+		std::cout << "\tend: " << ( range_end == my_map.end() ? -999999 : range_end->first ) << std::endl;
 		std::cout << "equal_range( -3 ): " << std::endl;
 		range_start = my_map.equal_range( -3 ).first;
 		range_end = my_map.equal_range( -3 ).second;
 		std::cout << "\tstart: " << ( range_start == my_map.end() ? -999999 : range_start->first ) << std::endl;
-		std::cout << "\tend: " << range_end->first << std::endl;
+		std::cout << "\tend: " << ( range_end == my_map.end() ? -999999 : range_end->first ) << std::endl;
 		std::cout << "equal_range( 9 ): " << std::endl;
 		range_start = my_map.equal_range( 9 ).first;
 		range_end = my_map.equal_range( 9 ).second;
 		std::cout << "\tstart: " << ( range_start == my_map.end() ? -999999 : range_start->first ) << std::endl;
-		std::cout << "\tend: " << range_end->first << std::endl;
+		std::cout << "\tend: " << ( range_end == my_map.end() ? -999999 : range_end->first ) << std::endl;
 		std::cout << std::endl;
 		bound = my_map.lower_bound( 2 );
-		std::cout << "lower_bound( 2 ): " << bound->first << std::endl;
+		std::cout << "lower_bound( 2 ): " << ( bound == my_map.end() ? -999999 : bound->first ) << std::endl;
 		bound = my_map.lower_bound( -3 );
-		std::cout << "lower_bound( -3 ): " << bound->first << std::endl;
+		std::cout << "lower_bound( -3 ): " << ( bound == my_map.end() ? -999999 : bound->first ) << std::endl;
 		bound = my_map.lower_bound( 9 );
-		std::cout << "lower_bound( 9 ): " << bound->first << std::endl;
+		std::cout << "lower_bound( 9 ): " << ( bound == my_map.end() ? -999999 : bound->first ) << std::endl;
 		bound = my_map.upper_bound( 2 );
-		std::cout << "upper_bound( 2 ): " << bound->first << std::endl;
+		std::cout << "upper_bound( 2 ): " << ( bound == my_map.end() ? -999999 : bound->first ) << std::endl;
 		bound = my_map.upper_bound( -3 );
-		std::cout << "upper_bound( -3 ): " << bound->first << std::endl;
+		std::cout << "upper_bound( -3 ): " << ( bound == my_map.end() ? -999999 : bound->first ) << std::endl;
 		bound = my_map.upper_bound( 9 );
-		std::cout << "upper_bound( 9 ): " << bound->first << std::endl;
+		std::cout << "upper_bound( 9 ): " << ( bound == my_map.end() ? -999999 : bound->first ) << std::endl;
 	}
 	{
 		ft::map< int, int >	my_map;
@@ -336,30 +336,30 @@ void	lookup( void )
 		range_start = const_map.equal_range( 2 ).first;
 		range_end = const_map.equal_range( 2 ).second;
 		std::cout << "\tstart: " << ( range_start == const_map.end() ? -999999 : range_start->first ) << std::endl;
-		std::cout << "\tend: " << range_end->first << std::endl;
+		std::cout << "\tend: " << ( range_end == const_map.end() ? -999999 : range_end->first ) << std::endl;
 		std::cout << "equal_range( -3 ): " << std::endl;
 		range_start = const_map.equal_range( -3 ).first;
 		range_end = const_map.equal_range( -3 ).second;
 		std::cout << "\tstart: " << ( range_start == const_map.end() ? -999999 : range_start->first ) << std::endl;
-		std::cout << "\tend: " << range_end->first << std::endl;
+		std::cout << "\tend: " << ( range_end == const_map.end() ? -999999 : range_end->first ) << std::endl;
 		std::cout << "equal_range( 9 ): " << std::endl;
 		range_start = const_map.equal_range( 9 ).first;
 		range_end = const_map.equal_range( 9 ).second;
 		std::cout << "\tstart: " << ( range_start == const_map.end() ? -999999 : range_start->first ) << std::endl;
-		std::cout << "\tend: " << range_end->first << std::endl;
+		std::cout << "\tend: " << ( range_end == const_map.end() ? -999999 : range_end->first ) << std::endl;
 		std::cout << std::endl;
 		bound = const_map.lower_bound( 2 );
-		std::cout << "lower_bound( 2 ): " << bound->first << std::endl;
+		std::cout << "lower_bound( 2 ): " << ( bound == const_map.end() ? -999999 : bound->first ) << std::endl;
 		bound = const_map.lower_bound( -3 );
-		std::cout << "lower_bound( -3 ): " << bound->first << std::endl;
+		std::cout << "lower_bound( -3 ): " << ( bound == const_map.end() ? -999999 : bound->first ) << std::endl;
 		bound = const_map.lower_bound( 9 );
-		std::cout << "lower_bound( 9 ): " << bound->first << std::endl;
+		std::cout << "lower_bound( 9 ): " << ( bound == const_map.end() ? -999999 : bound->first ) << std::endl;
 		bound = const_map.upper_bound( 2 );
-		std::cout << "upper_bound( 2 ): " << bound->first << std::endl;
+		std::cout << "upper_bound( 2 ): " << ( bound == const_map.end() ? -999999 : bound->first ) << std::endl;
 		bound = const_map.upper_bound( -3 );
-		std::cout << "upper_bound( -3 ): " << bound->first << std::endl;
+		std::cout << "upper_bound( -3 ): " << ( bound == const_map.end() ? -999999 : bound->first ) << std::endl;
 		bound = const_map.upper_bound( 9 );
-		std::cout << "upper_bound( 9 ): " << bound->first << std::endl;
+		std::cout << "upper_bound( 9 ): " << ( bound == const_map.end() ? -999999 : bound->first ) << std::endl;
 	}
 	return ;
 }
