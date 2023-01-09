@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 15:07:15 by aalleon           #+#    #+#             */
-/*   Updated: 2022/12/20 19:19:47 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/07 13:19:45 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,17 +288,17 @@ void	lookup( void )
 		std::cout << "equal_range( 2 ): " << std::endl;
 		range_start = my_map.equal_range( 2 ).first;
 		range_end = my_map.equal_range( 2 ).second;
-		std::cout << "\tstart: " << range_start->first << std::endl;
+		std::cout << "\tstart: " << ( range_start == my_map.end() ? -999999 : range_start->first ) << std::endl;
 		std::cout << "\tend: " << range_end->first << std::endl;
 		std::cout << "equal_range( -3 ): " << std::endl;
 		range_start = my_map.equal_range( -3 ).first;
 		range_end = my_map.equal_range( -3 ).second;
-		std::cout << "\tstart: " << range_start->first << std::endl;
+		std::cout << "\tstart: " << ( range_start == my_map.end() ? -999999 : range_start->first ) << std::endl;
 		std::cout << "\tend: " << range_end->first << std::endl;
 		std::cout << "equal_range( 9 ): " << std::endl;
 		range_start = my_map.equal_range( 9 ).first;
 		range_end = my_map.equal_range( 9 ).second;
-		std::cout << "\tstart: " << range_start->first << std::endl;
+		std::cout << "\tstart: " << ( range_start == my_map.end() ? -999999 : range_start->first ) << std::endl;
 		std::cout << "\tend: " << range_end->first << std::endl;
 		std::cout << std::endl;
 		bound = my_map.lower_bound( 2 );
@@ -335,17 +335,17 @@ void	lookup( void )
 		std::cout << "equal_range( 2 ): " << std::endl;
 		range_start = const_map.equal_range( 2 ).first;
 		range_end = const_map.equal_range( 2 ).second;
-		std::cout << "\tstart: " << range_start->first << std::endl;
+		std::cout << "\tstart: " << ( range_start == const_map.end() ? -999999 : range_start->first ) << std::endl;
 		std::cout << "\tend: " << range_end->first << std::endl;
 		std::cout << "equal_range( -3 ): " << std::endl;
 		range_start = const_map.equal_range( -3 ).first;
 		range_end = const_map.equal_range( -3 ).second;
-		std::cout << "\tstart: " << range_start->first << std::endl;
+		std::cout << "\tstart: " << ( range_start == const_map.end() ? -999999 : range_start->first ) << std::endl;
 		std::cout << "\tend: " << range_end->first << std::endl;
 		std::cout << "equal_range( 9 ): " << std::endl;
 		range_start = const_map.equal_range( 9 ).first;
 		range_end = const_map.equal_range( 9 ).second;
-		std::cout << "\tstart: " << range_start->first << std::endl;
+		std::cout << "\tstart: " << ( range_start == const_map.end() ? -999999 : range_start->first ) << std::endl;
 		std::cout << "\tend: " << range_end->first << std::endl;
 		std::cout << std::endl;
 		bound = const_map.lower_bound( 2 );
